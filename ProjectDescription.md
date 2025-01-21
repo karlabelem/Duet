@@ -11,14 +11,15 @@ The major features should constitute a minimal viable product (MVP).
 2. Use cases (functional requirements) (30%)
 Each team member must come up with and describe at least one use case of your product, following this template:
 
-Goal
-Actors
-Triggers
-Preconditions
-Postconditions (success scenario)
-List of steps (success scenario)
-Extensions/variations of the success scenario
-Exceptions: failure conditions and scenarios
+* Goal
+* Actors
+* Triggers
+* Preconditions
+* Postconditions (success scenario)
+* List of steps (success scenario)
+* Extensions/variations of the success scenario
+* Exceptions: failure conditions and scenarios
+
 Use cases should capture the unique features of your product. Do not focus on features common to products, such as logging into a service, or downloading a result file.
 
 Identify which student was the original creator of each use case(s). Team members should review each others use cases for accuracy and quality.
