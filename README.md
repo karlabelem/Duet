@@ -1,2 +1,2 @@
-# Duet
+# DUET
 hi
