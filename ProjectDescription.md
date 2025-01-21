@@ -1,6 +1,6 @@
 # Duet: connecting out-of-state undergrads through music.
 
-1. Product description (20%)
+## Product description (20%)
 Use your project proposal as a starting point. Revise it based on feedback you received so far and the input of your whole team. It is very typical that your project plan at this point will have evolved from the project pitch last week. Additionally, add the following to this section:
 
 
@@ -8,7 +8,7 @@ Use your project proposal as a starting point. Revise it based on feedback you r
 2+ stretch goals you hope to implement (P2s).
 The major features should constitute a minimal viable product (MVP).
 
-2. Use cases (functional requirements) (30%)
+## Use cases (functional requirements) (30%)
 Each team member must come up with and describe at least one use case of your product, following this template:
 
 * Goal
@@ -24,10 +24,10 @@ Use cases should capture the unique features of your product. Do not focus on fe
 
 Identify which student was the original creator of each use case(s). Team members should review each others use cases for accuracy and quality.
 
-3. Non-functional requirements (10%)
+## Non-functional requirements (10%)
 Describe at least three non-functional requirements of your product, e.g., related to scalability, usability, security and privacy, etc.
 
-4. External requirements (10%)
+## External requirements (10%)
 In addition to the requirements stated above, the course staff imposes the following requirements on your product:
 
 The product must be robust against errors that can reasonably be expected to occur, such as invalid user input.
@@ -36,13 +36,14 @@ The software (all parts, including clients and servers) should be buildable from
 The scope of the project must match the resources (number of team members) assigned.
 Make sure that these requirements, if applicable to your product, are specialized to your project and included in your document—do not copy and paste the above requirements verbatim. You may leave this as a separate section or fold its items into the other requirements sections.
 
-5. Team info (10%)
+## Team info (10%)
 Provide a concise summary of the project team and project artifacts. Specifically:
 
 Identify each team member and high level role.
 Link to each project relevant artifact such as your git repo.
 List communication channels/tools, expectations, and meeting plans that will keep your team in sync.
-6. Team process description (20%)
+
+## Team process description (20%)
 Describe your quarter-long development process.
 
 Specify and justify the software toolset you will use.
