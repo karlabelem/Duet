@@ -1,0 +1,52 @@
+0. Product name
+`Duet`: connecting out-of-state undergrads through music.
+
+1. Product description (20%)
+Use your project proposal as a starting point. Revise it based on feedback you received so far and the input of your whole team. It is very typical that your project plan at this point will have evolved from the project pitch last week. Additionally, add the following to this section:
+
+4+ major features you will implement (P0 and P1s).
+2+ stretch goals you hope to implement (P2s).
+The major features should constitute a minimal viable product (MVP).
+
+2. Use cases (functional requirements) (30%)
+Each team member must come up with and describe at least one use case of your product, following this template:
+
+Goal
+Actors
+Triggers
+Preconditions
+Postconditions (success scenario)
+List of steps (success scenario)
+Extensions/variations of the success scenario
+Exceptions: failure conditions and scenarios
+Use cases should capture the unique features of your product. Do not focus on features common to products, such as logging into a service, or downloading a result file.
+
+Identify which student was the original creator of each use case(s). Team members should review each others use cases for accuracy and quality.
+
+3. Non-functional requirements (10%)
+Describe at least three non-functional requirements of your product, e.g., related to scalability, usability, security and privacy, etc.
+
+4. External requirements (10%)
+In addition to the requirements stated above, the course staff imposes the following requirements on your product:
+
+The product must be robust against errors that can reasonably be expected to occur, such as invalid user input.
+The product must be installable by a user, or if the product is a web-based service, the server must have a public URL that others can use to access it. If the product is a stand-alone application, you are expected to provide a reasonable means for others to easily download, install, and run it.
+The software (all parts, including clients and servers) should be buildable from source by others. If your project is a web-based server, you will need to provide instructions for someone else setting up a new server. Your system should be well documented to enable new developers to make enhancements.
+The scope of the project must match the resources (number of team members) assigned.
+Make sure that these requirements, if applicable to your product, are specialized to your project and included in your document—do not copy and paste the above requirements verbatim. You may leave this as a separate section or fold its items into the other requirements sections.
+
+5. Team info (10%)
+Provide a concise summary of the project team and project artifacts. Specifically:
+
+Identify each team member and high level role.
+Link to each project relevant artifact such as your git repo.
+List communication channels/tools, expectations, and meeting plans that will keep your team in sync.
+6. Team process description (20%)
+Describe your quarter-long development process.
+
+Specify and justify the software toolset you will use.
+Define and justify each team member’s current role: why does your team need this role filled, and why is a specific team member suited for this role? (We understand that roles may/will change over time.)
+Provide a preliminary schedule for your project with at least four concrete milestones and deadlines for the quarter. Consider a plan for each major area, and when they’ll integrate. While we expect you to work in an agile fashion, given our short quarter, identifying some milestones (including the features that they’ll light up) is a good way to make sure you’re on track for your delivery.
+Specify and explain at least three major risks that could prevent you from completing your project, and what is your mitigation plan.
+Describe at what point in your process external feedback (i.e., feedback from customers outside your project team, including the project manager) will be most useful and how you will get that feedback.
+Export a PDF snapshot of your document named [project name]_m2.pdf and submit it to Canvas.
