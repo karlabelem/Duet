@@ -1,0 +1,1 @@
+Interesting idea and solid proposal! You have clearly given thought to your technology toolchain and system architecture! Your "impact" section is missing in your proposal document. I also would have liked to hear how you will mitigate your risk regarding Spotify data failing to represent a user's true music taste.
