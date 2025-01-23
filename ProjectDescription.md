@@ -11,19 +11,25 @@ Priorities:
 In order to accomplish this, we'll start with a Webapp and port it to a mobile app. Using `flutter` can allow us to develop for both.
 
 Our users need to
-* Link their Spotify Account, give API access (expand to Apple Music, Soundcloud if have time / need more predictive signal).
-* Feed of profiles (every user has a profile), shown by compatibility. Swipe L/R with other users, comments on user profiles, or another first interaction. This leads into direct messaging.
-* Show the two user group size; show them *why* they were connected (overlap in music listening)
-* Concert feature, go as a group, users that go to a concert are placed to group chat to coordinate before/after (attend/not going as a FB event)
+#### P0
+* Link their Spotify Account, give API access
+* Feed of profiles (every user has a profile), shown by compatibility. Be able to mark profiles as positive, neutral, negative. This leads into direct messaging after mutual interaction.
 * Must have user profile; main page with profiles; matching, DM; concerts near me
 * Matching algorithm: music distribution, total songs listened to, algo work
+* Must have a personalizable bio on profile
+* Conversations page, same as any messaging app
+* reporting, blocking feature
+
+#### P1
+* Show the two user group size; show them *why* they were connected (overlap in music listening)
 * Users could also create taste profile if not much spotify data: list their top 10 current favorite songs, genre (todo, this changes often for some people?). Sometimes listen to a meditation before bed, but do not want to inform my profile. Emphasize this is for fun, not commited one way door.
 * L/R swipe for "what are you in the mood for right now?", reprompt every now and then "what are you listening to --> what do you want to represent you". Goes through top k (15) weighted songs, user swipes to decide what informs their profile.
 * Icebreakers, "a song I would play at X" prompts; both users have those shown in profiles. Start convo by **replying** to those prompts, starts the conversation.
-* Conversations page, same as any messaging app
 * Let users decide what they want to look for: similar music, different music, preferred/minimum filters, location, timezone/message reply history; user-led filtering
-* reporting, blocking feature
-* DM unlocked with a mutual profile interaction ("star/link")
+
+#### P2
+* expand to Apple Music, Soundcloud if have time / need more predictive signal
+* Concert feature, go as a group, users that go to a concert are placed to group chat to coordinate before/after (attend/not going as a FB event)
 * concert groups, divided to ensure small enough size? coordinate by location/preference/other
 
 Use your project proposal as a starting point. Revise it based on feedback you received so far and the input of your whole team. It is very typical that your project plan at this point will have evolved from the project pitch last week. Additionally, add the following to this section:
