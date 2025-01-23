@@ -32,13 +32,6 @@ Our users need to
 * Concert feature, go as a group, users that go to a concert are placed to group chat to coordinate before/after (attend/not going as a FB event)
 * concert groups, divided to ensure small enough size? coordinate by location/preference/other
 
-Use your project proposal as a starting point. Revise it based on feedback you received so far and the input of your whole team. It is very typical that your project plan at this point will have evolved from the project pitch last week. Additionally, add the following to this section:
-
-
-4+ major features you will implement (P0 and P1s).
-2+ stretch goals you hope to implement (P2s).
-The major features should constitute a minimal viable product (MVP).
-
 ## Use cases (functional requirements) (30%)
 Each team member must come up with and describe at least one use case of your product, following this template:
 
