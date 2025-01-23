@@ -14,6 +14,8 @@ Our users need to
 * Matching algorithm: music distribution, total songs listened to, algo work
 * Users could also create taste profile if not much spotify data: list their top 10 current favorite songs, genre (todo, this changes often for some people?). Sometimes listen to a meditation before bed, but do not want to inform my profile. Emphasize this is for fun, not commited one way door.
 * L/R swipe for "what are you in the mood for right now?", reprompt every now and then "what are you listening to --> what do you want to represent you". Goes through top k (15) weighted songs, user swipes to decide what informs their profile.
+* Icebreakers, "a song I would play at X" prompts; both users have those shown in profiles. Start convo by **replying** to those prompts, starts the conversation.
+* Conversations page, same as any messaging app
 
 Use your project proposal as a starting point. Revise it based on feedback you received so far and the input of your whole team. It is very typical that your project plan at this point will have evolved from the project pitch last week. Additionally, add the following to this section:
 
