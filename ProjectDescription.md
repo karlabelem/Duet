@@ -3,6 +3,11 @@
 ## Product description (20%)
 People need to make connections, meet others through music tastes.
 
+Priorities:
+1. See music others enjoy
+2. Protect private information until both opt in to share it (DM lock, private info, location)
+3. Propose matches immediately, and give better matches over time (with usage)
+
 In order to accomplish this, we'll start with a Webapp and port it to a mobile app. Using `flutter` can allow us to develop for both.
 
 Our users need to
