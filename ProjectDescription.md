@@ -17,6 +17,9 @@ Our users need to
 * Icebreakers, "a song I would play at X" prompts; both users have those shown in profiles. Start convo by **replying** to those prompts, starts the conversation.
 * Conversations page, same as any messaging app
 * Let users decide what they want to look for: similar music, different music, preferred/minimum filters, location, timezone/message reply history; user-led filtering
+* reporting, blocking feature
+* DM unlocked with a mutual profile interaction ("star/link")
+* concert groups, divided to ensure small enough size? coordinate by location/preference/other
 
 Use your project proposal as a starting point. Revise it based on feedback you received so far and the input of your whole team. It is very typical that your project plan at this point will have evolved from the project pitch last week. Additionally, add the following to this section:
 
