@@ -1,6 +1,10 @@
 # Duet: connecting out-of-state undergrads through music.
 
 ## Product description (20%)
+People need to make connections, meet others through music tastes.
+
+In order to accomplish this, we'll start with a Webapp and port it to a mobile app.
+
 Use your project proposal as a starting point. Revise it based on feedback you received so far and the input of your whole team. It is very typical that your project plan at this point will have evolved from the project pitch last week. Additionally, add the following to this section:
 
 
