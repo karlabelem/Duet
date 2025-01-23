@@ -3,7 +3,14 @@
 ## Product description (20%)
 People need to make connections, meet others through music tastes.
 
-In order to accomplish this, we'll start with a Webapp and port it to a mobile app.
+In order to accomplish this, we'll start with a Webapp and port it to a mobile app. Using `flutter` can allow us to develop for both.
+
+Our users need to
+* Link their Spotify Account, give API access (expand to Apple Music, Soundcloud if have time / need more predictive signal).
+* Feed of profiles (every user has a profile), shown by compatibility. Swipe L/R with other users, comments on user profiles, or another first interaction. This leads into direct messaging.
+* Show the two user group size; show them *why* they were connected (overlap in music listening)
+* Concert feature, go as a group, users that go to a concert are placed to group chat to coordinate before/after (attend/not going as a FB event)
+* Must have user profile; main page with profiles; matching, DM; concerts near me
 
 Use your project proposal as a starting point. Revise it based on feedback you received so far and the input of your whole team. It is very typical that your project plan at this point will have evolved from the project pitch last week. Additionally, add the following to this section:
 
