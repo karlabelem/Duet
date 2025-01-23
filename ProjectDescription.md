@@ -48,6 +48,17 @@ Use cases should capture the unique features of your product. Do not focus on fe
 
 Identify which student was the original creator of each use case(s). Team members should review each others use cases for accuracy and quality.
 
+### Eclectic Tastes
+Andrey Risukhin
+* Goal: match with people who also enjoy the Portal 2 OST, Minecraft OST, and instrumental accordion music
+* Actors:
+* Triggers:
+* Preconditions:
+* Postconditions:
+* Steps
+* Variations
+* Exceptions
+
 ## Non-functional requirements (10%)
 Describe at least three non-functional requirements of your product, e.g., related to scalability, usability, security and privacy, etc.
 
