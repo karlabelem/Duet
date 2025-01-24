@@ -85,10 +85,14 @@ Describe at least three non-functional requirements of your product, e.g., relat
 In addition to the requirements stated above, the course staff imposes the following requirements on your product:
 
 * The product must be robust against errors that can reasonably be expected to occur, such as invalid user input.
+*   disallow repeat usernames
+*   flagging offensive stuff
 * The product must be installable by a user, or if the product is a web-based service, the server must have a public URL that others can use to access it. If the product is a stand-alone application, you are expected to provide a reasonable means for others to easily download, install, and run it.
+*   Flutter handles public URL, 
 * The software (all parts, including clients and servers) should be buildable from source by others. If your project is a web-based server, you will need to provide instructions for someone else setting up a new server. Your system should be well documented to enable new developers to make enhancements.
+*   Documentation
 * The scope of the project must match the resources (number of team members) assigned.
-* Make sure that these requirements, if applicable to your product, are specialized to your project and included in your document—do not copy and paste the above requirements verbatim. You may leave this as a separate section or fold its items into the other requirements sections.
+*   We get frequent feedback from TAs on this, use scrum to track feasibility
 
 ## Team info (10%)
 Provide a concise summary of the project team and project artifacts. Specifically:
