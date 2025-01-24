@@ -74,6 +74,13 @@ Andrey Risukhin
 ## Non-functional requirements (10%)
 Describe at least three non-functional requirements of your product, e.g., related to scalability, usability, security and privacy, etc.
 
+* Login/authentication system
+* secure messaging APIs, ex: Signal protocol
+* Terms of Service (don't get sued)
+* Scalability (YouTube music, Soundcloud, Apple Music), 1k UW students (subreddit, snapchat, other social media, post on EdBoard) for good UW experience (incentives to share installs, usage, rewards later (tiebreaker of referrals in match priority))
+* Safety (blocking, reporting profiles)
+* Usability (crash avoid 9.99% for 1000 ms) = track user sessions; easy to navigate (few buttons), low friction to use
+
 ## External requirements (10%)
 In addition to the requirements stated above, the course staff imposes the following requirements on your product:
 
@@ -97,7 +104,7 @@ Provide a concise summary of the project team and project artifacts. Specificall
 * Andrey - Data, Algorithms, probably Spotify API; begs for resources
 * Keegan - Frontend
 * Jacob - Backend
-* Ramon - Messaging, DMs; scrum manager
+* Ramon - Messaging, DMs, notifications; scrum manager
 
 
 ### Link to each project relevant artifact such as your git repo.
