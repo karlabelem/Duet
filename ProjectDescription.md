@@ -51,12 +51,12 @@ Identify which student was the original creator of each use case(s). Team member
 ### Eclectic Tastes
 Andrey Risukhin
 * Goal: match with people who also enjoy the Portal 2 OST, Minecraft OST, and instrumental accordion music
-* Actors: Seeker, system, matchee
-* Triggers: 
+* Actors: Seeker, system, matchee.
+* Triggers: Seeker installs the app, opens it for the first time.
 * Preconditions: Matchee exists in the system database.
 * Postconditions: 
 * Steps
-  1. Seeker creates their profile, selecting the songs (which may not be auto-suggested) that they want to seek for.
+  1. Seeker creates their profile, selecting the songs (which **may not be auto-suggested**) that they want to seek for.
   2. System takes their preferences, returns matched candidates shown one at a time.
   3. Seeker annotates the profiles shown as (+), (0), (-): want to connect, maybe next time, never want to see again.
   4. System alerts each profile with (+) that they have been (+)'d be Seeker.
