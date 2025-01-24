@@ -71,6 +71,62 @@ Andrey Risukhin
   5.3.2 System never shows this profile again
 * Exceptions
 
+### Concert Meetup
+Jacob He
+* Goal: Coordinate attending a concert together with other users with similar music tastes
+* Actors:
+  - Primary Actor: User A (initiates the meetup by expressing interest in a concert).
+  - Secondary Actors: Users B, C, and D (potential concert-goers with overlapping music tastes).
+* Triggers: User A sees a notification about an upcoming concert featuring an artist they like and selects the option to “Find Concert Buddies.”
+* Preconditions:
+  - User A has linked their Spotify account, and the app knows their favorite artists.
+  - The concert feature is enabled, with event details for the user's area.
+  - Users B, C, and D have also expressed interest in the same artist or genre.
+* Postconditions (Success Scenario):
+  - A group of compatible users (Users A, B, C, and D) is formed.
+  - The group coordinates logistics (e.g., transportation, meetup location) in a group chat.
+  - The attendees enjoy the concert together and optionally share their experience in the app.
+* List of Steps (Success Scenario):
+  - Discovering the Concert:
+    - User A logs into the app and sees a banner for an upcoming concert by one of their favorite artists.
+    - User A selects the “Find Concert Buddies” option.
+  - Group Formation:
+    - The app scans other users with overlapping music preferences who have expressed interest in the same artist or concert.
+    - The app proposes a group of Users A, B, C, and D, along with compatibility highlights (e.g., “You all listen to 80% of the same songs by this artist!”).
+    - User A approves the group formation.
+  - Icebreakers and Planning:
+    - A group chat is created for Users A, B, C, and D, with conversation starters like:
+    - “What’s your favorite track from this artist?”
+    - “What’s your go-to pre-concert hype song?”
+    - Group members coordinate logistics (e.g., “Who’s driving?” “Let’s meet at [location] before the show.”).
+  - Concert Meetup:
+    - The group meets at the concert, having already broken the ice through the app.
+    - They enjoy the concert and share live photos or highlights in the group chat.
+  - Post-Concert Engagement:
+    - After the concert, the app prompts Users A, B, C, and D to rate their experience together.
+    - Users can continue chatting, share playlists, or plan future meetups through the app.
+* Extensions/Variations of the Success Scenario:
+  - Customizing the Group Size:
+    - If User A prefers smaller groups, the app proposes a subset of 2-3 users instead of a larger group.
+  - Post-Concert Playlist Creation:
+    - The app automatically generates a playlist combining the group’s favorite songs by the artist and similar tracks.
+  - Shared Interests Beyond Music:
+    - The group discovers shared interests (e.g., favorite food spots) through their profiles, enhancing the meetup experience.
+  - Event-Specific Badges:
+    - Users who attend the concert together earn a special badge for their profiles (e.g., “[Artist] 2025 Tour Attendee”).
+* Exceptions (Failure Conditions and Scenarios):
+  - No Interested Users Nearby:
+    - The app fails to find enough users interested in the concert within a reasonable distance.
+  - Resolution: The app suggests alternative concerts or virtual watch parties for live-streamed events.
+
+  - Incompatible Group Dynamics:
+    - Users in the group don’t engage in the chat or drop out of the meetup.
+  - Resolution: The app allows User A to disband the group and retry with new matches.
+    
+  - Safety Concerns or Inappropriate Behavior:
+    - A group member exhibits inappropriate behavior in the chat or at the concert.
+  - Resolution: The app enables reporting, and the user is removed from the group and reviewed for potential account action.
+
 ## Non-functional requirements (10%)
 Describe at least three non-functional requirements of your product, e.g., related to scalability, usability, security and privacy, etc.
 
