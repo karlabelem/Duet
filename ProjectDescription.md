@@ -94,10 +94,10 @@ Provide a concise summary of the project team and project artifacts. Specificall
 #### Roles!
 * Belem - Frontend
 * Selim - Backend
-* Andrey - Data, Algorithms, probably Spotify API
+* Andrey - Data, Algorithms, probably Spotify API; begs for resources
 * Keegan - Frontend
 * Jacob - Backend
-* Ramon - Messaging, DMs
+* Ramon - Messaging, DMs; scrum manager
 
 
 ### Link to each project relevant artifact such as your git repo.
@@ -117,3 +117,30 @@ Provide a preliminary schedule for your project with at least four concrete mile
 Specify and explain at least three major risks that could prevent you from completing your project, and what is your mitigation plan.
 Describe at what point in your process external feedback (i.e., feedback from customers outside your project team, including the project manager) will be most useful and how you will get that feedback.
 Export a PDF snapshot of your document named [project name]_m2.pdf and submit it to Canvas.
+
+Schedule
+* Week 4 (P0) - profile creation, store profiles, save/load profiles, link user account, store their spotify data in DB.
+* Week 5 (P0) - roughly finalized conversations page, mostly done profile feed/recommendations UI and Algorithm. Login screen for frontend. Block profiles. Try with friends.
+* Week 6 (P1) - icebreakers, top k songs, reasoning for matches shown to users (interpretability). Filtering preferences for searching.
+* Week 7 (P1) - rest of P1. Try with friends. 
+* Week 8 (P2) - 
+* Week 9 (P2) - 
+
+Major Risks
+1. Single point of failure / tribal knowledge, someone gets sick etc. Mitigate by documenting code, high level plan, keeping track of work in sprints. Pull Requests required, review by 1 other (check comments are clear etc). 
+2. Cost of resources, PR (Andrey) ask for credits and resources from companies
+3. Misestimation of work to be done - flexible schedule, we have P1 weeks, P2 weeks that can be extended with P0 as needed.
+
+External Feedback
+* Weeks 5, 7 (end of P0, P1 weeks) user feedback; stakeholder feedback each Thursday with Connor (make him use it)
+
+Modules
+* Data: Python, some analytics service (Amplitude?), telemetry (alerter)
+* Frontend: Flutter (web/app easy, VS Code extension). Typescript.
+* Backend: Firebase (db platform through Google, like Azure) 
+
+Process
+* Agile, Scrum
+* Client meetings on Thursday
+* Two weekly standups - use Discord for urgent issues
+* Ramon as the Scrum Manager (has experience before)
