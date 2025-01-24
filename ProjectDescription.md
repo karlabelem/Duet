@@ -87,9 +87,18 @@ In addition to the requirements stated above, the course staff imposes the follo
 Provide a concise summary of the project team and project artifacts. Specifically:
 
 ### Identify each team member and high level role.
-Jobs to be done:
+#### Jobs to be done:
 * Store data from Spotify API, other sources. Create matches between profiles using that data. Collect usage data per-user. Use that to inform algorithm feedback.
-* 
+* User DMs
+
+#### Roles!
+* Belem - Frontend
+* Selim - Backend
+* Andrey - Data, Algorithms, probably Spotify API
+* Keegan - Frontend
+* Jacob - Backend
+* Ramon - Messaging, DMs
+
 
 ### Link to each project relevant artifact such as your git repo.
 * All artifacts on our git repository: ```https://github.com/karlabelem/DUET```
