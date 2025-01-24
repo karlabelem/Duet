@@ -53,8 +53,8 @@ Andrey Risukhin
 * Goal: match with people who also enjoy the Portal 2 OST, Minecraft OST, and instrumental accordion music
 * Actors: Seeker, system, matchee
 * Triggers: 
-* Preconditions:
-* Postconditions:
+* Preconditions: Matchee exists in the system database.
+* Postconditions: 
 * Steps
   1. Seeker creates their profile, selecting the songs (which may not be auto-suggested) that they want to seek for.
   2. System takes their preferences, returns matched candidates shown one at a time.
@@ -77,18 +77,27 @@ Describe at least three non-functional requirements of your product, e.g., relat
 ## External requirements (10%)
 In addition to the requirements stated above, the course staff imposes the following requirements on your product:
 
-The product must be robust against errors that can reasonably be expected to occur, such as invalid user input.
-The product must be installable by a user, or if the product is a web-based service, the server must have a public URL that others can use to access it. If the product is a stand-alone application, you are expected to provide a reasonable means for others to easily download, install, and run it.
-The software (all parts, including clients and servers) should be buildable from source by others. If your project is a web-based server, you will need to provide instructions for someone else setting up a new server. Your system should be well documented to enable new developers to make enhancements.
-The scope of the project must match the resources (number of team members) assigned.
-Make sure that these requirements, if applicable to your product, are specialized to your project and included in your document—do not copy and paste the above requirements verbatim. You may leave this as a separate section or fold its items into the other requirements sections.
+* The product must be robust against errors that can reasonably be expected to occur, such as invalid user input.
+* The product must be installable by a user, or if the product is a web-based service, the server must have a public URL that others can use to access it. If the product is a stand-alone application, you are expected to provide a reasonable means for others to easily download, install, and run it.
+* The software (all parts, including clients and servers) should be buildable from source by others. If your project is a web-based server, you will need to provide instructions for someone else setting up a new server. Your system should be well documented to enable new developers to make enhancements.
+* The scope of the project must match the resources (number of team members) assigned.
+* Make sure that these requirements, if applicable to your product, are specialized to your project and included in your document—do not copy and paste the above requirements verbatim. You may leave this as a separate section or fold its items into the other requirements sections.
 
 ## Team info (10%)
 Provide a concise summary of the project team and project artifacts. Specifically:
 
-Identify each team member and high level role.
-Link to each project relevant artifact such as your git repo.
-List communication channels/tools, expectations, and meeting plans that will keep your team in sync.
+### Identify each team member and high level role.
+Jobs to be done:
+* Store data from Spotify API, other sources. Create matches between profiles using that data. Collect usage data per-user. Use that to inform algorithm feedback.
+* 
+
+### Link to each project relevant artifact such as your git repo.
+* All artifacts on our git repository: ```https://github.com/karlabelem/DUET```
+
+### List communication channels/tools, expectations, and meeting plans that will keep your team in sync.
+* Communicate via Discord
+* If need response, ping. If pinged, respond within 24 hours (sooner better! :)
+* Two synchronous meeting slots per week: Tuesday class, Friday 2:30pm - 3:30pm
 
 ## Team process description (20%)
 Describe your quarter-long development process.
