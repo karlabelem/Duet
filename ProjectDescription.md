@@ -79,7 +79,7 @@ Describe at least three non-functional requirements of your product, e.g., relat
 * Terms of Service (don't get sued)
 * Scalability (YouTube music, Soundcloud, Apple Music), 1k UW students (subreddit, snapchat, other social media, post on EdBoard) for good UW experience (incentives to share installs, usage, rewards later (tiebreaker of referrals in match priority))
 * Safety (blocking, reporting profiles)
-* Usability (crash avoid 9.99% for 1000 ms) = track user sessions; easy to navigate (few buttons), low friction to use
+* Usability (crash avoid 9.99% for 1000 ms) = track user sessions; easy to navigate (few buttons), low friction to use. Webapp looks good on mobile and desktop!
 
 ## External requirements (10%)
 In addition to the requirements stated above, the course staff imposes the following requirements on your product:
