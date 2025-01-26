@@ -193,21 +193,21 @@ Ramon Costa-Patel
 * Goal: Making a representative top k favorite songs on the user profile
 * Actor: User
 * Triggers:
- - User creates profile 
- - User selects "redo top k songs" in profile page
+  - User creates profile 
+  - User selects "redo top k songs" in profile page
 * Preconditions: 
- - System has access to Spotify data
- - User has a username and password
+  - System has access to Spotify data
+  - User has a username and password
 * Postcondition: User has a representative list of top k favorite songs 
 * Success case:
-  - User accesses "choosing top k songs" screen
-  - System shows most listened song by user on spotify
-  - User swipes the song right 
-  - System adds song to list of top k favorite songs, then shows the next most listened song
-  - Repeat steps iii and iv until a list of size k is done
+  1. User accesses "choosing top k songs" screen
+  2. System shows most listened song by user on spotify
+  3. User swipes the song right 
+  4. System adds song to list of top k favorite songs, then shows the next most listened song
+  5. Repeat steps iii and iv until a list of size k is done
 * Variation: starting at step iii 
- - User swipes song left
- - System doesn't add song to list of top k favorite songs, then shows next most listened song
+  3. User swipes song left
+  4. System doesn't add song to list of top k favorite songs, then shows next most listened song
 Continue as in success case
 * Exceptions: user spotify data couldn't be retrieved
 
