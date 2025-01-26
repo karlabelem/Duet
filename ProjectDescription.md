@@ -152,6 +152,29 @@ Selim Saridede
 * Exceptions: failure conditions and scenarios:
   - No Recommendations Found: If the system cannot generate recommendations due to insufficient data, it may ask the user to provide music preferences or suggest popular music to get started.
 
+### Select Top k Songs
+Ramon Costa-Patel
+* Goal: Making a representative top k favorite songs on the user profile
+* Actor: User
+* Triggers:
+ - User creates profile 
+ - User selects "redo top k songs" in profile page
+* Preconditions: 
+ - System has access to Spotify data
+ - User has a username and password
+* Postcondition: User has a representative list of top k favorite songs 
+* Success case:
+ - User accesses "choosing top k songs" screen
+ - System shows most listened song by user on spotify
+ - User swipes the song right 
+ - System adds song to list of top k favorite songs, then shows the next most listened song
+ - Repeat steps iii and iv until a list of size k is done
+* Variation: starting at step iii 
+ - User swipes song left
+ - System doesn't add song to list of top k favorite songs, then shows next most listened song
+Continue as in success case
+* Exceptions: user spotify data couldn't be retrieved
+
 
 ## Non-functional requirements (10%)
 Describe at least three non-functional requirements of your product, e.g., related to scalability, usability, security and privacy, etc.
