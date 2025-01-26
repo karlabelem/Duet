@@ -152,6 +152,42 @@ Selim Saridede
 * Exceptions: failure conditions and scenarios:
   - No Recommendations Found: If the system cannot generate recommendations due to insufficient data, it may ask the user to provide music preferences or suggest popular music to get started.
 
+### Icebreaker Conversations Based on Shared Song Prompts
+Belem Barrientos-Guevara
+
+* Goal: Allow users to start conversations by responding to shared, music-related prompts visible on their profiles.
+* Actors:
+  * Primary Actor: User initiating the conversation.
+  * Secondary Actor: User with a profile containing answered prompts.
+  * System: Displays prompts and promotes messaging.
+* Triggers:
+  * A user views another user’s profile and notices an interesting song prompt.
+  * The user sends a DM to start a conversation related to it.
+* Preconditions:
+  * Both users have active accounts.
+  * The profile owner has answered at least one icebreaker prompt.
+  * The viewer has access to the profile (ex: not blocked).
+* Postconditions (Success Scenario):
+  * A conversation is initiated directly tied to the icebreaker prompt, creating a new friendship :)
+* List of Steps (Success Scenario)
+  * The user views another user’s profile.
+  * The system displays answered prompts on the profile (ex: “A song I’d play in a high speed chase”).
+  * The user selects a specific prompt that piques their interest.
+  * The system displays a chat window appears with the option to start a conversation.
+  * The user sends their message tied to the selected prompt.
+  * The system notifies the profile owner of the new message (“[User] sent you a DM!”).
+  * Both users can continue the conversation within the app.
+* Extensions/Variations of the Success Scenario:
+  * Seasonal prompts, like “Your favorite vacation song,” can be featured for a limited time.
+  * Users can answer prompts with a short voice message, creating more personal connections.
+  * Users can favorite certain prompts to revisit and engage with later.
+* Exceptions: Failure Conditions and Scenarios:
+  * Exception 1: The profile owner hasn’t answered any prompts.
+    * System Response: Display a message encouraging the user to complete their profile or suggest another profile with answered prompts.
+  * Exception 2: A user repeatedly ignores icebreaker messages.
+    * System Response: Allow the system to deprioritize the uninterested user in future interactions.
+
+
 ### Select Top k Songs
 Ramon Costa-Patel
 * Goal: Making a representative top k favorite songs on the user profile
@@ -174,6 +210,39 @@ Ramon Costa-Patel
  - System doesn't add song to list of top k favorite songs, then shows next most listened song
 Continue as in success case
 * Exceptions: user spotify data couldn't be retrieved
+
+=======
+* Goal: Allow users to start conversations by responding to shared, music-related prompts visible on their profiles.
+* Actors: 
+  * Primary Actor: User initiating the conversation.
+  * Secondary Actor: User with a profile containing answered prompts.
+  * System: Displays prompts and promotes messaging.
+* Triggers: 
+  * A user views another user’s profile and notices an interesting song prompt.
+  * The user sends a DM to start a conversation related to it.
+* Preconditions:
+  * Both users have active accounts.
+  * The profile owner has answered at least one icebreaker prompt.
+  * The viewer has access to the profile (ex: not blocked).
+* Postconditions (Success Scenario):
+  * A conversation is initiated directly tied to the icebreaker prompt, creating a new friendship :)
+* List of Steps (Success Scenario)
+  * The user views another user’s profile.
+  * The system displays answered prompts on the profile (ex: “A song I’d play in a high speed chase”).
+  * The user selects a specific prompt that piques their interest.
+  * The system displays a chat window appears with the option to start a conversation.
+  * The user sends their message tied to the selected prompt.
+  * The system notifies the profile owner of the new message (“[User] sent you a DM!”).
+  * Both users can continue the conversation within the app.
+* Extensions/Variations of the Success Scenario:
+  * Seasonal prompts, like “Your favorite vacation song,” can be featured for a limited time.
+  * Users can answer prompts with a short voice message, creating more personal connections.
+  * Users can favorite certain prompts to revisit and engage with later.
+* Exceptions: Failure Conditions and Scenarios:
+  * Exception 1: The profile owner hasn’t answered any prompts.
+    * System Response: Display a message encouraging the user to complete their profile or suggest another profile with answered prompts.
+  * Exception 2: A user repeatedly ignores icebreaker messages.
+    * System Response: Allow the system to deprioritize the uninterested user in future interactions.
 
 
 ## Non-functional requirements (10%)
