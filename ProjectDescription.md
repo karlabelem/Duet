@@ -127,6 +127,32 @@ Jacob He
     - A group member exhibits inappropriate behavior in the chat or at the concert.
   - Resolution: The app enables reporting, and the user is removed from the group and reviewed for potential account action.
 
+### Discover new Music and Artist
+Selim Saridede
+* Goal: Allow users to discover new music and artists based on their preferences and listening habits.
+* Actors: User, system
+* Triggers:
+  - User opens the app and navigates to the "Discover" section.
+  - User listens to a new song or artist, and the system recommends similar music.
+  - User matches with a new person and checks their favorites
+* Preconditions:
+  - User is logged into their account.
+  - The system has access to the user’s listening history or preferences.
+  - The system has a recommendation algorithm based on user preferences.
+* Postconditions (success scenario):
+  - The user discovers new music or artists they enjoy.
+* List of steps (success scenario):
+  - User opens the app and navigates to the "Discover" or "Recommended" section.
+  - The system displays a list of music recommendations based on the user’s preferences.
+  - User scrolls through the recommendations and clicks on a song or artist they find interesting.
+  - If the user likes the music, they can save it to their favorites and people can see their new music taste.
+  - User matches with other people who also liked similar genre/music.
+* Extensions/variations of the success scenario:
+  - The user can share music or artists they discover with friends through the app’s social features, expanding the discovery experience.
+* Exceptions: failure conditions and scenarios:
+  - No Recommendations Found: If the system cannot generate recommendations due to insufficient data, it may ask the user to provide music preferences or suggest popular music to get started.
+
+
 ## Non-functional requirements (10%)
 Describe at least three non-functional requirements of your product, e.g., related to scalability, usability, security and privacy, etc.
 
