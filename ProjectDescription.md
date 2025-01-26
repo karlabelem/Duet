@@ -164,11 +164,11 @@ Ramon Costa-Patel
  - User has a username and password
 * Postcondition: User has a representative list of top k favorite songs 
 * Success case:
- - User accesses "choosing top k songs" screen
- - System shows most listened song by user on spotify
- - User swipes the song right 
- - System adds song to list of top k favorite songs, then shows the next most listened song
- - Repeat steps iii and iv until a list of size k is done
+  - User accesses "choosing top k songs" screen
+  - System shows most listened song by user on spotify
+  - User swipes the song right 
+  - System adds song to list of top k favorite songs, then shows the next most listened song
+  - Repeat steps iii and iv until a list of size k is done
 * Variation: starting at step iii 
  - User swipes song left
  - System doesn't add song to list of top k favorite songs, then shows next most listened song
