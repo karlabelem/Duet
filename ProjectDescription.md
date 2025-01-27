@@ -211,6 +211,59 @@ Ramon Costa-Patel
 Continue as in success case
 * Exceptions: user spotify data couldn't be retrieved
 
+### Music Taste Tracking System
+Keegan Tran
+* Goal: Allow the app to track a user’s listening history, identify changes in their music taste, and prompt them to update their top k songs to better reflect their current preferences.
+
+* Actors
+- **Primary Actor**: User (who owns the profile).
+- **System**: Tracks listening history and provides notifications/prompts.
+
+* Triggers
+- The system detects a significant shift in the user’s listening habits over a set period (e.g., increased frequency of listening to a new genre or artist).
+- The user manually opts to update their top k songs via the profile settings.
+
+* Preconditions
+- The user’s Spotify account is linked, and the app has access to their listening history.
+- The system tracks and analyzes the user’s listening habits continuously.
+
+* Postconditions (Success Scenario)
+- The user updates their top k songs to reflect their current listening preferences.
+- The updated list is visible on their profile, and the matching algorithm incorporates the changes.
+
+* List of Steps (Success Scenario)
+1. The system analyzes the user’s Spotify listening history over the past month (or configurable period).
+2. The system identifies a significant deviation in the user’s most listened-to genres, artists, or songs.
+3. The system notifies the user with a message: **“Your music taste has evolved! Would you like to update your top k songs?”**
+4. The user clicks the notification and is directed to the **Top k Songs Update** interface.
+5. The system displays a ranked list of the user’s most listened-to songs during the period.
+6. The user reviews the list and swipes right on songs they wish to add to their updated top k list or left to skip songs they don’t feel represent their taste.
+7. Steps 5 and 6 repeat until the user selects k songs.
+8. The system saves the new top k list, updates the user’s profile, and adjusts the matching algorithm accordingly.
+9. The system displays a confirmation message: **“Your top k songs have been updated! Check out profiles of people with similar tastes.”**
+
+* Extensions/Variations of the Success Scenario
+* User Declines the Update Notification
+- *System Response*: The system waits until the next significant taste shift to prompt the user again.
+* User Adds Fewer Than k Songs
+- *System Response*: The system saves the partial list and prompts the user later to complete it.
+
+* User Customizes the Period of Analysis
+- *System Response*: The system allows the user to select a custom time frame (e.g., “last week,” “last 3 months”) for identifying taste changes.
+
+* Playlist Integration
+- *System Response*: The system suggests creating a new playlist from the updated top k songs.
+
+* Exceptions: Failure Conditions and Scenarios
+* Insufficient Spotify Data
+- *System Response*: N/A as no taste change could be detected.
+
+* Technical Error During the Update Process
+- *System Response*: Save the user’s progress and retry automatically after resolving the issue.
+
+* User Ignores or Dismisses Multiple Prompts
+- *System Response*: Gradually reduce the frequency of prompts and only notify after major shifts in taste.
+
 ## Non-functional requirements (10%)
 Describe at least three non-functional requirements of your product, e.g., related to scalability, usability, security and privacy, etc.
 
