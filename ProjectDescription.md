@@ -247,10 +247,8 @@ Keegan Tran
     - *System Response*: The system waits until the next significant taste shift to prompt the user again.
   * User Adds Fewer Than k Songs
     - *System Response*: The system saves the partial list and prompts the user later to complete it.
-
 * User Customizes the Period of Analysis
   - *System Response*: The system allows the user to select a custom time frame (e.g., “last week,” “last 3 months”) for identifying taste changes.
-
 * Playlist Integration
   - *System Response*: The system suggests creating a new playlist from the updated top k songs.
 
