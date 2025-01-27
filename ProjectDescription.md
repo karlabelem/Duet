@@ -261,8 +261,8 @@ Keegan Tran
   * Technical Error During the Update Process
     - *System Response*: Save the user’s progress and retry automatically after resolving the issue.
 
-    * User Ignores or Dismisses Multiple Prompts
-      - *System Response*: Gradually reduce the frequency of prompts and only notify after major shifts in taste.
+  * User Ignores or Dismisses Multiple Prompts
+    - *System Response*: Gradually reduce the frequency of prompts and only notify after major shifts in taste.
 
 ## Non-functional requirements (10%)
 Describe at least three non-functional requirements of your product, e.g., related to scalability, usability, security and privacy, etc.
