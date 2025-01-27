@@ -255,10 +255,8 @@ Keegan Tran
 * Exceptions: Failure Conditions and Scenarios
   * Insufficient Spotify Data
     - *System Response*: N/A as no taste change could be detected.
-
   * Technical Error During the Update Process
     - *System Response*: Save the user’s progress and retry automatically after resolving the issue.
-
   * User Ignores or Dismisses Multiple Prompts
     - *System Response*: Gradually reduce the frequency of prompts and only notify after major shifts in taste.
 
