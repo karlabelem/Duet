@@ -54,7 +54,7 @@ Andrey Risukhin
 * Actors: Seeker, system, matchee.
 * Triggers: Seeker installs the app, opens it for the first time.
 * Preconditions: Matchee exists in the system database.
-* Postconditions: 
+* Postconditions: Seeker and Matchee both exist in the system, and they have opened a DM. 
 * Steps
   1. Seeker creates their profile, selecting the songs (which **may not be auto-suggested**) that they want to seek for.
   2. System takes their preferences, returns matched candidates shown one at a time.
@@ -70,6 +70,7 @@ Andrey Risukhin
   5.3.1 Matchee marks Seeker as (-)
   5.3.2 System never shows this profile again
 * Exceptions
+  * The match fails to be displayed, as if marked (-) and if no other profiles are shown (undefined behavior). Resolution: a "no users to match with remain" message is displayed, perhaps allow users to reconsider their (-) marked profiles. 
 
 ### Concert Meetup
 Jacob He
