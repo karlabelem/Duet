@@ -33,20 +33,6 @@ Our users need to
 * concert groups, divided to ensure small enough size? coordinate by location/preference/other
 
 ## Use cases (functional requirements) (30%)
-Each team member must come up with and describe at least one use case of your product, following this template:
-
-* Goal
-* Actors
-* Triggers
-* Preconditions
-* Postconditions (success scenario)
-* List of steps (success scenario)
-* Extensions/variations of the success scenario
-* Exceptions: failure conditions and scenarios
-
-Use cases should capture the unique features of your product. Do not focus on features common to products, such as logging into a service, or downloading a result file.
-
-Identify which student was the original creator of each use case(s). Team members should review each others use cases for accuracy and quality.
 
 ### Eclectic Tastes
 Andrey Risukhin
@@ -310,20 +296,12 @@ Provide a concise summary of the project team and project artifacts. Specificall
 * Two synchronous meeting slots per week: Tuesday class, Friday 2:30pm - 3:30pm
 
 ## Team process description (20%)
-Describe your quarter-long development process.
-
-Specify and justify the software toolset you will use.
-Define and justify each team member’s current role: why does your team need this role filled, and why is a specific team member suited for this role? (We understand that roles may/will change over time.)
-Provide a preliminary schedule for your project with at least four concrete milestones and deadlines for the quarter. Consider a plan for each major area, and when they’ll integrate. While we expect you to work in an agile fashion, given our short quarter, identifying some milestones (including the features that they’ll light up) is a good way to make sure you’re on track for your delivery.
-Specify and explain at least three major risks that could prevent you from completing your project, and what is your mitigation plan.
-Describe at what point in your process external feedback (i.e., feedback from customers outside your project team, including the project manager) will be most useful and how you will get that feedback.
-Export a PDF snapshot of your document named [project name]_m2.pdf and submit it to Canvas.
 
 Schedule
 * Week 4 (P0) - profile creation, store profiles, save/load profiles, link user account, store their spotify data in DB.
-* Week 5 (P0) - roughly finalized conversations page, mostly done profile feed/recommendations UI and Algorithm. Login screen for frontend. Block profiles. Try with friends.
+* Week 5 (P0) - roughly finalized conversations page, mostly done profile feed/recommendations UI and Algorithm. Login screen for frontend. Block profiles. Feedback on P0: Try with friends.
 * Week 6 (P1) - icebreakers, top k songs, reasoning for matches shown to users (interpretability). Filtering preferences for searching.
-* Week 7 (P1) - rest of P1. Try with friends. 
+* Week 7 (P1) - rest of P1. Feedback on P1: Try with friends. 
 * Week 8 (P2) - 
 * Week 9 (P2) - 
 
