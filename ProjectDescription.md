@@ -297,7 +297,7 @@ Provide a concise summary of the project team and project artifacts. Specificall
 
 ## Team process description (20%)
 
-Schedule
+### Schedule
 * Week 4 (P0) - profile creation, store profiles, save/load profiles, link user account, store their spotify data in DB.
 * Week 5 (P0) - roughly finalized conversations page, mostly done profile feed/recommendations UI and Algorithm. Login screen for frontend. Block profiles. Feedback on P0: Try with friends.
 * Week 6 (P1) - icebreakers, top k songs, reasoning for matches shown to users (interpretability). Filtering preferences for searching.
@@ -305,20 +305,20 @@ Schedule
 * Week 8 (P2) - 
 * Week 9 (P2) - 
 
-Major Risks
+### Major Risks
 1. Single point of failure / tribal knowledge, someone gets sick etc. Mitigate by documenting code, high level plan, keeping track of work in sprints. Pull Requests required, review by 1 other (check comments are clear etc). 
 2. Cost of resources, PR (Andrey) ask for credits and resources from companies
 3. Misestimation of work to be done - flexible schedule, we have P1 weeks, P2 weeks that can be extended with P0 as needed.
 
-External Feedback
+### External Feedback
 * Weeks 5, 7 (end of P0, P1 weeks) user feedback; stakeholder feedback each Thursday with Connor (make him use it)
 
-Modules
+### Modules
 * Data: Python, some analytics service (Amplitude?), telemetry (alerter)
 * Frontend: Flutter (web/app easy, VS Code extension). Typescript.
 * Backend: Firebase (db platform through Google, like Azure) 
 
-Process
+### Process
 * Agile, Scrum
 * Client meetings on Thursday
 * Two weekly standups - use Discord for urgent issues
