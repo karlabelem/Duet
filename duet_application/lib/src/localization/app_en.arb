@@ -1,0 +1,6 @@
+{
+  "appTitle": "duet_application",
+  "@appTitle": {
+    "description": "The title of the application"
+  }
+}
