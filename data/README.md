@@ -13,6 +13,16 @@ User Index Mapping (changes rarely, query every time)
   "campus": { "type": "keyword" },
   "avg_response_time": { "type": "float" }
 }
+"judgements": {
+  # TODO adjacency list style, sparse
+  "positive": {
+
+  },
+  "negative" : {
+
+  }
+  # Assume neutral if uuid not rated
+}
 ```
 
 Music Index Mapping (changes often, query most every time)
@@ -33,15 +43,18 @@ src: https://www.hellointerview.com/learn/system-design/deep-dives/elasticsearch
 // GET /users/_search
 {
   "sort": [
-    { "price": "asc" },
     { "avg_response_time": "desc" }
   ],
   "query": {
     "bool": {
       "must": [
         { "match": { "campus": "UW" } }
+        # Maybe also reject (-) and (+) rated?
       ]
     }
   }
 }
 ```
+Query notes
+* From/Size Pagination is enough; we don't expect a single user to require deep pagination (10k swipes in one session)
+* The ideal queries are ones that can be answered without ever touching the source documents, sometimes by pulling the relevant data into the index via included fields.
