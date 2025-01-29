@@ -11,15 +11,15 @@ User Index Mapping (changes rarely, query every time)
 "uuid": { "type": "string" },
 "properties" : {
   "campus": { "type": "keyword" },
-  "avg_response_time": { "type": "float" }
+  "avg_response_time": { "type": "float" },
+  "last_login": { "type": "something like a datetime" }
 }
 "judgements": {
-  # TODO adjacency list style, sparse
   "positive": {
-
+  
   },
   "negative" : {
-
+    # Something adj-list like, with versioning (how many times this has appeared; display negative rated once before negative rated twice
   }
   # Assume neutral if uuid not rated
 }
@@ -35,7 +35,9 @@ Music Index Mapping (changes often, query most every time)
 src: https://www.hellointerview.com/learn/system-design/deep-dives/elasticsearch 
 * The mapping is crucial because it tells Elasticsearch how to interpret the data you're storing. 
 * Mappings also have some important implications on the performance of your cluster: if you include a lot of fields in your mapping that aren't actually used in search, this increases the memory overhead of each index. This can lead to performance issues and increased costs. Say you have a User object with 10 fields, but you only allow searching by 2 of them. If you map the entire object, you're wasting memory on the 8 fields that you're not using. This is notable because a lot of the control that you will exert over query performance depends on adjustments to the mapping and various cluster parameters. We'll touch on that later.
-* If reviews are infrequently updated and frequently queried, it may be more efficient to nest them within the book documents. 
+* If reviews are infrequently updated and frequently queried, it may be more efficient to nest them within the book documents.
+* Note here that updates actually have worse performance than insertions because we need to handle the bookkeeping of soft deletions. This is part of why Elasticsearch isn't a great fit for data that is rapidly updating.
+* Inverted index for matching on music distributions
 
 ### Query
 
@@ -49,7 +51,7 @@ src: https://www.hellointerview.com/learn/system-design/deep-dives/elasticsearch
     "bool": {
       "must": [
         { "match": { "campus": "UW" } }
-        # Maybe also reject (-) and (+) rated?
+        # Not yet in the user's rated list
       ]
     }
   }
