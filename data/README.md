@@ -7,6 +7,14 @@ ElasticSearch
 JSON-like
 
 ```
-"uuid": { "type": "text" }, 
+"properties" : {
+  "uuid": { "type": "text" },
+  "campus": { "type": "text" },
+  "music": {
+    "Spotify": {
+      
+    }
+  }
+}
 
 ```
