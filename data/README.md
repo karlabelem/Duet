@@ -8,8 +8,7 @@ JSON-like
 
 ```
 "properties" : {
-  "uuid": { "type": "text" },
-  "campus": { "type": "text" },
+  "campus": { "type": "keyword" },
   "music": {
     "Spotify": {
       
@@ -18,3 +17,7 @@ JSON-like
 }
 
 ```
+src: https://www.hellointerview.com/learn/system-design/deep-dives/elasticsearch 
+The mapping is crucial because it tells Elasticsearch how to interpret the data you're storing. 
+Mappings also have some important implications on the performance of your cluster: if you include a lot of fields in your mapping that aren't actually used in search, this increases the memory overhead of each index. This can lead to performance issues and increased costs. Say you have a User object with 10 fields, but you only allow searching by 2 of them. If you map the entire object, you're wasting memory on the 8 fields that you're not using. This is notable because a lot of the control that you will exert over query performance depends on adjustments to the mapping and various cluster parameters. We'll touch on that later.
+
