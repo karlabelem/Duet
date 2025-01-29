@@ -37,6 +37,7 @@ src: https://www.hellointerview.com/learn/system-design/deep-dives/elasticsearch
 * Mappings also have some important implications on the performance of your cluster: if you include a lot of fields in your mapping that aren't actually used in search, this increases the memory overhead of each index. This can lead to performance issues and increased costs. Say you have a User object with 10 fields, but you only allow searching by 2 of them. If you map the entire object, you're wasting memory on the 8 fields that you're not using. This is notable because a lot of the control that you will exert over query performance depends on adjustments to the mapping and various cluster parameters. We'll touch on that later.
 * If reviews are infrequently updated and frequently queried, it may be more efficient to nest them within the book documents.
 * Note here that updates actually have worse performance than insertions because we need to handle the bookkeeping of soft deletions. This is part of why Elasticsearch isn't a great fit for data that is rapidly updating.
+* Inverted index for matching on music distributions
 
 ### Query
 
