@@ -11,15 +11,15 @@ User Index Mapping (changes rarely, query every time)
 "uuid": { "type": "string" },
 "properties" : {
   "campus": { "type": "keyword" },
-  "avg_response_time": { "type": "float" }
+  "avg_response_time": { "type": "float" },
+  "last_login": { "type": "something like a datetime" }
 }
 "judgements": {
-  # TODO adjacency list style, sparse
   "positive": {
-
+  
   },
   "negative" : {
-
+    # Something adj-list like, with versioning (how many times this has appeared; display negative rated once before negative rated twice
   }
   # Assume neutral if uuid not rated
 }
@@ -49,7 +49,7 @@ src: https://www.hellointerview.com/learn/system-design/deep-dives/elasticsearch
     "bool": {
       "must": [
         { "match": { "campus": "UW" } }
-        # Maybe also reject (-) and (+) rated?
+        # Not yet in the user's rated list
       ]
     }
   }
