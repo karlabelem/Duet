@@ -6,16 +6,21 @@ ElasticSearch
 ### Mapping
 JSON-like
 
+User Index Mapping (changes rarely)
 ```
+"uuid": { "type": "string" },
 "properties" : {
   "campus": { "type": "keyword" },
-  "music": {
-    "Spotify": {
-      
-    }
   }
 }
+```
 
+User Music Mapping (changes often)
+```
+"music": {
+  "Spotify": {
+    
+  }
 ```
 src: https://www.hellointerview.com/learn/system-design/deep-dives/elasticsearch 
 The mapping is crucial because it tells Elasticsearch how to interpret the data you're storing. 
