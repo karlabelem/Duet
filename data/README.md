@@ -1,7 +1,7 @@
 # Duet Data Design
 
 ## Tech
-ElasticSearch
+ElasticSearch seems reasonable, free to self-host: https://www.elastic.co/downloads
 
 ### Mapping
 JSON-like
