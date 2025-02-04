@@ -6,3 +6,5 @@ This project aims to connect people through shared musical interests, creating f
 ### Layout
 * Status Reports: weekly status reports of the project
 * proposal: original project proposal and feedback
+* duet_application: application source code with flutter layout
+* data: 
