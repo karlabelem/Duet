@@ -325,6 +325,7 @@ Provide a concise summary of the project team and project artifacts. Specificall
 * Ramon as the Scrum Manager (has experience before)
 
 ## Software Architecture
+![software architecture](/images/architecture%20design.png "Software Architecture")
 We will be using a client-server architecture. 
 ### Assumptions:
 Centralized server is available, not down. It enforces security, access control. 
@@ -448,6 +449,7 @@ Algorithm API: Given a uuid, return a ranked list of best matching k uuids.
 * Must: Query database for valid profiles (location restriction).
 * Product-responsibilities: Algorithm modules for A/B testing, such as TF/IDF-style matching of music song lists (reward high overlap in high % of each uuid’s song list).
 * Admin-responsibilities: modules to inspect user behavior for irregularities/implicit feedback (e.g. proactively discover if user used to match but now swipes negative). Treat behavior data as user feedback.
+![software design](/images/software%20design.png "Software Design")
 
 ## Coding Guidelines
 We will be using Dart as one of the programming languages. The coding style guideline we will follow is the official Dart style guide: https://dart.dev/effective-dart/style 
