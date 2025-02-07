@@ -509,6 +509,12 @@ Interfaces
 * Testing the connections between client and server side
 * Testing transitions and communication between separate front-end pages
 * Testing communication and cohesion between data in the server
+ 
+#### Continous Integration / Continuous Deployment
+
+##### Pros/Cons 
+todo Andrey R
+
 ### Documentation Plan
 1. User Documentation
 * In-App Help & FAQs – Tooltips, pop ups, and a web-based FAQ for common issues.
