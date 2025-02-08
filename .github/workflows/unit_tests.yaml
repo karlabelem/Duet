@@ -1,0 +1,26 @@
+name: Unit Tests Check
+
+on:
+  push: 
+    branches: [ "main" ]
+  pull request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    name: Unit Testing
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone branch
+      uses: actions/checkout@v4
+
+    - name: Set Up Flutter
+      uses: subosito/flutter-action@v2
+      with: 
+        channel: stable
+        flutter-version: ./duet_application/pubspec.yaml
+        cache: true
+      run: flutter --version
+    
+    - name: Run Unit Tests
+      run: flutter test

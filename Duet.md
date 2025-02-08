@@ -512,6 +512,12 @@ Interfaces
  
 ## Continous Integration / Continuous Deployment
 
+### Workflow
+##### What to test
+We will run unit tests and build the web-app to ensure tests pass and builds are successful. 
+##### When to test
+Tests will be run when a push or pull request is done on the "main" branch. 
+
 ### Pros/Cons 
 Here’s a detailed comparison of three popular CI/CD services for integrating with GitHub: **GitHub Actions, GitLab CI/CD, and CircleCI**.  
 
