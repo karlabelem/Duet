@@ -585,8 +585,6 @@ Here’s a detailed comparison of three popular CI/CD services for integrating w
 - **If you are already using GitLab or want strong Docker support:** **GitLab CI/CD** is a great option.  
 - **If you prioritize speed and advanced CI/CD workflows for a larger team:** **CircleCI** is worth considering.  
 
-Would you like help setting up workflows for any of these? 🚀
-
 
 
 ### Documentation Plan
