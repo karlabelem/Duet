@@ -512,6 +512,15 @@ Interfaces
  
 ## Continous Integration / Continuous Deployment
 
+### A brief justification for why you chose that CI service.
+We chose GitHub as our CI service because it integrates well with GitHub, making it easy to automate our 
+workflow. It's straightforward to set up, has strong community support, and works well with Flutter. It also allows us 
+to automate builds, run tests, and deploy our application without needing additional tools.
+
+For our test infrastructure, we selected Flutter’s built-in testing framework because it supports unit, widget, 
+and integration testing. Since we're using Flutter for development, its testing tools are a natural choice, helping 
+us make sure our app works correctly while keeping everything in one ecosystem.
+
 ### Workflow
 ##### What to test
 We will run unit tests and build the web-app to ensure tests pass and builds are successful. 
@@ -605,3 +614,4 @@ Here’s a detailed comparison of three popular CI/CD services for integrating w
 * Admin Guide – User management, system monitoring, and security policies.
 * Deployment Docs – CI/CD setup, rollback procedures, and Firebase configuration.
 * Security & Privacy Docs – Data policies and compliance strategies.
+
