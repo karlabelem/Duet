@@ -1,15 +1,22 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
+/// Widget that displays teh conversation between two users
 class MessagingPage extends StatefulWidget {
   MessagingPage(
       {super.key, required this.senderId, required this.receiverId, this.messages});
 
   final String senderId;
   final String receiverId;
+
+  /// temprorary implementation until backend is fully set up
   late List<Message> ?messages;
+
 
   @override
   State<MessagingPage> createState() => _MessaginPageState();
+
 }
 
 class _MessaginPageState extends State<MessagingPage> {
@@ -31,6 +38,10 @@ class _MessaginPageState extends State<MessagingPage> {
   }
 
   void sendMessage(String text) {
+    if(typed.text == "") {
+      return;
+    }
+    typed.clear();
     List<Message> newMessages = widget.messages!.sublist(0);
     newMessages.add(Message(widget.senderId, widget.receiverId, text));
     setState(() {
@@ -40,7 +51,8 @@ class _MessaginPageState extends State<MessagingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+      home: Scaffold(
       appBar: AppBar(title: Text(widget.receiverId)),
       body: ListView.builder(
           scrollDirection: Axis.vertical,
@@ -50,21 +62,24 @@ class _MessaginPageState extends State<MessagingPage> {
           itemBuilder: (BuildContext context, int index) {
             return TextBubble(msg: widget.messages![index], sender: widget.senderId);
           }),
-      bottomNavigationBar: Row(children: <Widget>[
+      bottomNavigationBar: Container(
+        child: Row(
+        children: <Widget>[
         Expanded(
             child: TextField(
           controller: typed,
           decoration: InputDecoration(hintText: "Type message..."),
           onSubmitted: (text) {
             sendMessage(text);
-            typed.clear();
           },
-        ))
+        )),
+        SendButton(send: sendMessage, typedText: typed,)
       ]),
-    );
+    )));
   }
 }
 
+/// temoporary Message object wit the necessary information to process the object 
 class Message {
   const Message(this.sender, this.receiver, this.text);
 
@@ -73,6 +88,7 @@ class Message {
   final String text;
 }
 
+/// Displays a text bubble with the correct formatting based on who the sender of the message is
 class TextBubble extends StatelessWidget {
   const TextBubble({super.key, required this.msg, required this.sender});
 
@@ -103,5 +119,35 @@ class TextBubble extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+/// Widget representing the "send message" button
+class SendButton extends StatelessWidget {
+  SendButton({super.key, required this.send, required this.typedText});
+
+  final Function(String) send;
+  final TextEditingController typedText;
+  final File icon = File("/assets/images/sendButtonIcon.png");
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+          width: 48,
+          height: 48,
+          child: ElevatedButton(
+            onPressed: (){
+            send(typedText.text);
+          },
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll<Color>(Color(0xFF5C469C)),
+            padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
+      EdgeInsets.all(12), // Adjust padding to ensure proper centering
+    ),
+          ),
+          child: Center(
+            child: Icon(Icons.send, color: Colors.white,)
+      ),)
+        );
   }
 }
