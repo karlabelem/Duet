@@ -26,17 +26,21 @@ var _uuidGen = Uuid();
 class UserProfileData {
   final String _uuid;  // Private unique user ID
   String name, dob, location;
-  String aboutMe;
-  Map<String, int> rankings; // Stores rankings with user UUIDs
+  String imageUrl, bio;
+  List<String> likedUsers; // Stores liked users with user UUIDs
+  List<String> dislikedUsers; // Stores liked users with user UUIDs
 
   UserProfileData({
     required this.name,
     required this.dob,
     required this.location,
-    this.aboutMe = "",
-    Map<String, int>? rankings,
+    required this.imageUrl,
+    this.bio = "",
+    List<String>? likedUsers,
+    List<String>? dislikedUsers,
   })  : _uuid = _uuidGen.v4(),
-        rankings = rankings ?? {};
+        likedUsers = likedUsers ?? [],
+        dislikedUsers = dislikedUsers ?? [];
 
   // Convert to Firestore format
   Map<String, dynamic> toMap() {
@@ -45,19 +49,23 @@ class UserProfileData {
       'name': name,
       'dob': dob,
       'location': location,
-      'aboutMe': aboutMe,
-      'rankings': rankings,
+      'imageUrl': imageUrl,
+      'bio': bio,
+      'likedUsers': likedUsers,
+      'dislikedUsers': dislikedUsers,
     };
   }
 
   // Create an instance from Firestore data
   factory UserProfileData.fromMap(Map<String, dynamic> data) {
     return UserProfileData(
-      name: data['name'],
-      dob: data['dob'],
-      location: data['location'],
-      aboutMe: data['aboutMe'] ?? "",
-      rankings: Map<String, int>.from(data['rankings'] ?? {}),
+      name: data['name'] ?? '',
+      dob: data['dob'] ?? '',
+      location: data['location'] ?? '',
+      imageUrl: data['imageUrl'] ?? '',
+      bio: data['bio'] ?? '',
+      likedUsers: List<String>.from(data['likedUsers'] ?? []),
+      dislikedUsers: List<String>.from(data['dislikedUsers'] ?? []),
     );
   }
   // Getter for _uuid (to allow read access)
@@ -65,200 +73,102 @@ class UserProfileData {
 
   // Save user profile data to Firestore
   Future<void> saveToFirestore() async {
-    await FirebaseFirestore.instance.collection('users').doc(uuid).set(toMap());
+    await FirebaseFirestore.instance.collection('users').doc(uuid).set(toMap()); // creates users collection
   }
 
-  // Update ranking data in Firestore
-  Future<void> updateRanking(String rankedUserUuid, int rank) async {
-    rankings[rankedUserUuid] = rank;
-    await FirebaseFirestore.instance.collection('users').doc(uuid).update({'rankings': rankings});
-  }
-}
-
-// ------------------ User Profile Screen ------------------
-class UserProfileScreen extends StatefulWidget {
-  final UserProfileData userProfile;
-
-  UserProfileScreen({required this.userProfile});
-
-  @override
-  _UserProfileScreenState createState() => _UserProfileScreenState();
-}
-
-class _UserProfileScreenState extends State<UserProfileScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("User Profile")),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Name: ${widget.userProfile.name}", style: TextStyle(fontSize: 18)),
-            Text("DOB: ${widget.userProfile.dob}", style: TextStyle(fontSize: 18)),
-            Text("Location: ${widget.userProfile.location}", style: TextStyle(fontSize: 18)),
-            SizedBox(height: 20),
-            Text("About Me:"),
-            Text(widget.userProfile.aboutMe),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () async {
-                final updatedAboutMe = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditAboutMeScreen(aboutMe: widget.userProfile.aboutMe),
-                  ),
-                );
-                if (updatedAboutMe != null) {
-                  setState(() {
-                    widget.userProfile.aboutMe = updatedAboutMe;
-                  });
-                }
-              },
-              child: Text("Edit About Me"),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                final updatedProfile = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditProfileScreen(userProfile: widget.userProfile),
-                  ),
-                );
-                if (updatedProfile != null) {
-                  setState(() {
-                    widget.userProfile.name = updatedProfile['name'];
-                    widget.userProfile.dob = updatedProfile['dob'];
-                    widget.userProfile.location = updatedProfile['location'];
-                  });
-                }
-              },
-              child: Text("Edit Profile"),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ------------------ Ranking Management ------------------
-class RankingWidget extends StatelessWidget {
-  final UserProfileData userProfile;
-  final String rankedUserUuid;
-
-  RankingWidget({required this.userProfile, required this.rankedUserUuid});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        IconButton(
-          icon: Icon(Icons.thumb_up),
-          color: userProfile.rankings[rankedUserUuid] == 1 ? Colors.blue : Colors.grey,
-          onPressed: () async {
-            await userProfile.updateRanking(rankedUserUuid, 1);
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.thumb_down),
-          color: userProfile.rankings[rankedUserUuid] == -1 ? Colors.red : Colors.grey,
-          onPressed: () async {
-            await userProfile.updateRanking(rankedUserUuid, -1);
-          },
-        ),
-      ],
-    );
-  }
-}
-
-// ------------------ Edit About Me Screen ------------------
-class EditAboutMeScreen extends StatefulWidget {
-  final String aboutMe;
-  EditAboutMeScreen({required this.aboutMe});
-
-  @override
-  _EditAboutMeScreenState createState() => _EditAboutMeScreenState();
-}
-
-class _EditAboutMeScreenState extends State<EditAboutMeScreen> {
-  late TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController(text: widget.aboutMe);
+  // Method for getting UserProfile Snapshot shortcut
+  Future<UserProfileData?> getUserProfile(String userId) async {
+    final userRef = FirebaseFirestore.instance.collection('users').doc(userId); // fetch data from Firestore users collection
+    final userSnapshot = await userRef.get();
+    if (userSnapshot.exists) {
+      return UserProfileData.fromMap(userSnapshot.data()!);
+    }
+    return null;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Edit About Me")),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(controller: _controller, maxLines: 3),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context, _controller.text);
-              },
-              child: Text("Save"),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
+  // Swipe function to update userprofile
+  Future<void> swipeUser(String otherUuid, bool isLiked) async {
+    final userRef = FirebaseFirestore.instance.collection('users').doc(uuid); // fetch data from Firestore users collection
 
-// ------------------ Edit Profile Screen ------------------
-class EditProfileScreen extends StatefulWidget {
-  final UserProfileData userProfile;
-  EditProfileScreen({required this.userProfile});
+    // Transaction is for updating data in Firebase directly rather than updating on local class
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      // Access to user snapshot with transaction
+      final userTransaction = await transaction.get(userRef);
+      if (!userTransaction.exists) return;
 
-  @override
-  _EditProfileScreenState createState() => _EditProfileScreenState();
-}
+      // Get liked and disliked users data from the database map from Firestore transaction
+      final data = userTransaction.data() as Map<String, dynamic>;
+      likedUsers = List<String>.from(data['likedUsers'] ?? []);
+      dislikedUsers = List<String>.from(data['dislikedUsers'] ?? []);
 
-class _EditProfileScreenState extends State<EditProfileScreen> {
-  late TextEditingController _nameController, _dobController, _locationController;
+      // Update liked/disliked lists
+      if (isLiked) {
+        if (!likedUsers.contains(otherUuid)) {
+          likedUsers.add(otherUuid);
+        }
+        dislikedUsers.remove(otherUuid);
+      } else {
+        if (!dislikedUsers.contains(otherUuid)) {
+          dislikedUsers.add(otherUuid);
+        }
+        likedUsers.remove(otherUuid);
+      }
 
-  @override
-  void initState() {
-    super.initState();
-    _nameController = TextEditingController(text: widget.userProfile.name);
-    _dobController = TextEditingController(text: widget.userProfile.dob);
-    _locationController = TextEditingController(text: widget.userProfile.location);
+      // Add updated changes on transaction through Firestore
+      transaction.update(userRef, {
+        'likedUsers': likedUsers,
+        'dislikedUsers': dislikedUsers,
+      });
+    });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Edit Profile")),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(controller: _nameController, decoration: InputDecoration(labelText: "Name")),
-            TextField(controller: _dobController, decoration: InputDecoration(labelText: "DOB")),
-            TextField(controller: _locationController, decoration: InputDecoration(labelText: "Location")),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context, {
-                  'name': _nameController.text,
-                  'dob': _dobController.text,
-                  'location': _locationController.text,
-                });
-              },
-              child: Text("Save"),
-            )
-          ],
-        ),
-      ),
-    );
+  // Method to update bio info
+  Future<void> updateBio(String newBio) async {
+    final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
+
+    // Run a transaction to update the bio
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      final userTransaction = await transaction.get(userRef);
+      if (!userTransaction.exists) return;
+
+      // Update the bio directly in Firestore
+      transaction.update(userRef, {
+        'bio': newBio,
+      });
+    });
+  }
+
+  // Method to update profile details (name, dob, location)
+  Future<void> updateProfile(String newName, String newDob, String newLocation) async {
+    final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
+
+    // Run a transaction to update profile details
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      final userTransaction = await transaction.get(userRef);
+      if (!userTransaction.exists) return;
+
+      // Update profile details directly in Firestore
+      transaction.update(userRef, {
+        'name': newName,
+        'dob': newDob,
+        'location': newLocation,
+      });
+    });
+  }
+
+  // Method to update profile picture
+  Future<void> updateImage(String newImageUrl) async {
+    final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
+
+    // Run a transaction to update profile details
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      final userTransaction = await transaction.get(userRef);
+      if (!userTransaction.exists) return;
+
+      // Update profile details directly in Firestore
+      transaction.update(userRef, {
+        'imageUrl': newImageUrl,
+      });
+    });
   }
 }
