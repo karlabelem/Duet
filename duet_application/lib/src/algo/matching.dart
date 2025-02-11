@@ -95,3 +95,38 @@ void main() {
     print("Matched with ${match['user'].id} - Score: ${match['score'].toStringAsFixed(2)}");
   }
 }
+
+
+// Example usage
+/*
+void main() {
+  User userA = User(
+    id: "1",
+    favoriteArtists: {"Taylor Swift", "Drake"},
+    favoriteGenres: {"Pop", "Hip-Hop"},
+    audioFeatures: [0.8, 0.6, 0.7], // Example tempo, energy, danceability
+  );
+
+  User userB = User(
+    id: "2",
+    favoriteArtists: {"Drake", "Kanye West"},
+    favoriteGenres: {"Hip-Hop", "Rap"},
+    audioFeatures: [0.7, 0.6, 0.8],
+  );
+
+  User userC = User(
+    id: "3",
+    favoriteArtists: {"Billie Eilish", "Lorde"},
+    favoriteGenres: {"Indie Pop", "Alternative"},
+    audioFeatures: [0.5, 0.4, 0.6],
+  );
+
+  List<User> allUsers = [userB, userC];
+
+  List<Map<String, dynamic>> matches = findBestMatches(userA, allUsers);
+
+  for (var match in matches) {
+    print("Matched with ${match['user'].id} - Score: ${match['score'].toStringAsFixed(2)}");
+  }
+}
+*/
