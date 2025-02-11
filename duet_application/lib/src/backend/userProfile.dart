@@ -10,11 +10,10 @@
       - Ranked Profiles: Ranked profiles on the feed
   *
   * TODO:
-    Add Spotify userName/extend Spoify Class
+    Add Spotify data fetch method
   */
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
-import 'package:flutter/material.dart';
 
 // Create an instance of the Uuid class
 var _uuidGen = Uuid();
