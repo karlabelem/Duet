@@ -4,31 +4,56 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:cloud_firestore_mocks/cloud_firestore_mocks.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:your_project/models/user.dart'; // Adjust import paths
+import 'package:your_project/matching_algorithm.dart'; // Ensure `findBestMatches` is imported
+
 
 void main() {
-  test('Test Firestore query logic', () async {
+  test('Find best matches using Firestore mock', () async {
     final instance = MockFirestoreInstance();
 
-    // Add mock data
-    await instance.collection('users').add({
-      'name': 'Alice',
-      'age': 30,
+    // Create users in Firestore
+    await instance.collection('users').doc('1').set({
+      'id': "1",
+      'favoriteArtists': ["Taylor Swift", "Drake"],
+      'favoriteGenres': ["Pop", "Hip-Hop"],
+      'audioFeatures': [0.8, 0.6, 0.7],
     });
 
-    await instance.collection('users').add({
-      'name': 'Bob',
-      'age': 25,
+    await instance.collection('users').doc('2').set({
+      'id': "2",
+      'favoriteArtists': ["Drake", "Kanye West"],
+      'favoriteGenres': ["Hip-Hop", "Rap"],
+      'audioFeatures': [0.7, 0.6, 0.8],
     });
 
-    // Run Firestore query
-    final querySnapshot = await instance
-        .collection('users')
-        .where('age', isGreaterThan: 26)
-        .get();
+    await instance.collection('users').doc('3').set({
+      'id': "3",
+      'favoriteArtists': ["Billie Eilish", "Lorde"],
+      'favoriteGenres': ["Indie Pop", "Alternative"],
+      'audioFeatures': [0.5, 0.4, 0.6],
+    });
 
-    final results = querySnapshot.docs.map((doc) => doc['name']).toList();
+    // Fetch the user to match against
+    final userA = User.fromFirestore(
+        await instance.collection('users').doc('1').get());
 
-    // Verify results
-    expect(results, ['Alice']);
+    // Fetch all other users
+    final querySnapshot = await instance.collection('users').get();
+    final allUsers = querySnapshot.docs
+        .where((doc) => doc.id != userA.id) // Exclude the main user
+        .map((doc) => User.fromFirestore(doc))
+        .toList();
+
+    // Run match function
+    final matches = findBestMatches(userA, allUsers);
+
+    // Print and assert results
+    for (var match in matches) {
+      print(
+          "Matched with ${match['user'].id} - Score: ${match['score'].toStringAsFixed(2)}");
+    }
+
+    expect(matches.isNotEmpty, true); // Ensure we have at least one match
   });
 }
