@@ -5,22 +5,22 @@ import 'package:flutter/material.dart';
 /// Widget that displays teh conversation between two users
 class MessagingPage extends StatefulWidget {
   MessagingPage(
-      {super.key, required this.senderId, required this.receiverId, this.messages});
+      {super.key,
+      required this.senderId,
+      required this.receiverId,
+      this.messages});
 
   final String senderId;
   final String receiverId;
 
   /// temprorary implementation until backend is fully set up
-  late List<Message> ?messages;
-
+  late List<Message>? messages;
 
   @override
   State<MessagingPage> createState() => _MessaginPageState();
-
 }
 
 class _MessaginPageState extends State<MessagingPage> {
-
   final typed = TextEditingController();
 
   @override
@@ -38,7 +38,7 @@ class _MessaginPageState extends State<MessagingPage> {
   }
 
   void sendMessage(String text) {
-    if(typed.text == "") {
+    if (typed.text == "") {
       return;
     }
     typed.clear();
@@ -52,34 +52,37 @@ class _MessaginPageState extends State<MessagingPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-      appBar: AppBar(title: Text(widget.receiverId)),
-      body: ListView.builder(
-          scrollDirection: Axis.vertical,
-          itemCount: widget.messages!.length,
-          shrinkWrap: true,
-          padding: EdgeInsets.all(10),
-          itemBuilder: (BuildContext context, int index) {
-            return TextBubble(msg: widget.messages![index], sender: widget.senderId);
-          }),
-      bottomNavigationBar: Container(
-        child: Row(
-        children: <Widget>[
-        Expanded(
-            child: TextField(
-          controller: typed,
-          decoration: InputDecoration(hintText: "Type message..."),
-          onSubmitted: (text) {
-            sendMessage(text);
-          },
-        )),
-        SendButton(send: sendMessage, typedText: typed,)
-      ]),
-    )));
+        home: Scaffold(
+            appBar: AppBar(title: Text(widget.receiverId)),
+            body: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: widget.messages!.length,
+                shrinkWrap: true,
+                padding: EdgeInsets.all(10),
+                itemBuilder: (BuildContext context, int index) {
+                  return TextBubble(
+                      msg: widget.messages![index], sender: widget.senderId);
+                }),
+            bottomNavigationBar: Container(
+              child: Row(children: <Widget>[
+                Expanded(
+                    child: TextField(
+                  controller: typed,
+                  decoration: InputDecoration(hintText: "Type message..."),
+                  onSubmitted: (text) {
+                    sendMessage(text);
+                  },
+                )),
+                SendButton(
+                  send: sendMessage,
+                  typedText: typed,
+                )
+              ]),
+            )));
   }
 }
 
-/// temoporary Message object wit the necessary information to process the object 
+/// temoporary Message object wit the necessary information to process the object
 class Message {
   const Message(this.sender, this.receiver, this.text);
 
@@ -133,21 +136,23 @@ class SendButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-          width: 48,
-          height: 48,
-          child: ElevatedButton(
-            onPressed: (){
+        width: 48,
+        height: 48,
+        child: ElevatedButton(
+          onPressed: () {
             send(typedText.text);
           },
           style: ButtonStyle(
             backgroundColor: WidgetStatePropertyAll<Color>(Color(0xFF5C469C)),
             padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
-      EdgeInsets.all(12), // Adjust padding to ensure proper centering
-    ),
+              EdgeInsets.all(12), // Adjust padding to ensure proper centering
+            ),
           ),
           child: Center(
-            child: Icon(Icons.send, color: Colors.white,)
-      ),)
-        );
+              child: Icon(
+            Icons.send,
+            color: Colors.white,
+          )),
+        ));
   }
 }
