@@ -29,6 +29,7 @@ jobs:
         cache: true
 
     - name: Check Flutter version, get deoendencies, and build
+      working-directory: ./duet_application
       run: 
         flutter --version;
         flutter pub get;
