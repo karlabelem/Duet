@@ -1,225 +1,88 @@
 import 'package:flutter/material.dart';
 
-class Image extends StatelessWidget {
-  const Image({super.key});
+class ProfileCreationStep3 extends StatelessWidget {
+  const ProfileCreationStep3({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 1440,
-          height: 1024,
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(color: Colors.white),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Transform(
-                transform: Matrix4.identity()
-                  ..translate(0.0, 0.0)
-                  ..rotateZ(3.14),
-                child: Container(
-                  width: 1440,
-                  height: 1024,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image:
-                          NetworkImage("https://via.placeholder.com/1440x1024"),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          width: 1440,
-          height: 1024,
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(color: Color(0x3F111111)),
-        ),
-        Container(
-          width: 704,
-          height: 800,
-          clipBehavior: Clip.antiAlias,
-          decoration: ShapeDecoration(
+    return Scaffold(
+      backgroundColor:
+          const Color(0xFFE0CFF2), // Replace with the gradient background
+      body: Center(
+        child: Container(
+          width: MediaQuery.of(context).size.width *
+              0.5, // Reduce width to make the box smaller
+          // height: MediaQuery.of(context).size.width * 0.5,
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
             color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
-            ),
+            borderRadius: BorderRadius.circular(16.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10.0,
+                offset: Offset(0, 4),
+              ),
+            ],
           ),
-          child: Stack(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Positioned(
-                left: 88,
-                top: 48,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Opacity(
-                      opacity: 0,
-                      child: Container(
-                        width: 48,
-                        height: 48,
-                        decoration: ShapeDecoration(
-                          color: Color(0xFFC4C4C4),
-                          shape: OvalBorder(),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 56),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Where do you live?',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF111111),
-                                fontSize: 32,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              'Step 3 of 4',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFF333333),
-                                fontSize: 24,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 32),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 87,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 528,
-                                    padding: const EdgeInsets.only(
-                                        right: 415, bottom: 3),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Enter your city',
-                                          style: TextStyle(
-                                            color: Color(0xFF666666),
-                                            fontSize: 16,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 528,
-                                    height: 56,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: ShapeDecoration(
-                                      shape: RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            width: 1, color: Color(0x59666666)),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 32),
-                        Opacity(
-                          opacity: 0.25,
-                          child: Container(
-                            width: 528,
-                            height: 64,
-                            padding: const EdgeInsets.only(top: 15, bottom: 16),
-                            clipBehavior: Clip.antiAlias,
-                            decoration: ShapeDecoration(
-                              color: Color(0xFF111111),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Next',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 22,
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+              Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    // Handle close action
+                  },
                 ),
               ),
-              Positioned(
-                left: 32,
-                top: 32,
-                child: Container(
-                  width: 32,
-                  height: 32,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(),
-                  child: FlutterLogo(),
+              Text(
+                "Where do you live?",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8.0),
+              Text(
+                "Step 3 of 4",
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.black,
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              TextField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    hintText: "Enter your city"),
+              ),
+              const SizedBox(height: 24.0),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      Colors.grey, // Replace with the desired button color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24.0),
+                  ),
+                  minimumSize: Size(double.infinity, 48.0),
+                ),
+                onPressed: () {
+                  // Handle next action
+                },
+                child: Text(
+                  "Next",
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ],
           ),
         ),
-      ],
+      ),
     );
   }
 }
