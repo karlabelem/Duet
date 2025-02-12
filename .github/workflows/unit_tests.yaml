@@ -20,7 +20,9 @@ jobs:
         channel: stable
         flutter-version: ./duet_application/pubspec.yaml
         cache: true
-      run: flutter --version
-    
-    - name: Run Unit Tests
-      run: flutter test
+      
+    - name: Check flutter version and run Unit Tests 
+      working-directory: ./duet_application
+      run: 
+        flutter --version
+        flutter test
