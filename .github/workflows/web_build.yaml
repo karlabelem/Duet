@@ -3,7 +3,7 @@ name: Web Build Check
 on:
   push: 
     branches: [ "main" ]
-  pull request:
+  pull_request:
     branches: [ "main" ]
 
 jobs:
@@ -39,4 +39,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: web-release
-        path: ./duet_application/build/web
+        path: /duet_application/build/web

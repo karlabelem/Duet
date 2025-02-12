@@ -3,7 +3,7 @@ name: Unit Tests Check
 on:
   push: 
     branches: [ "main" ]
-  pull request:
+  pull_request:
     branches: [ "main" ]
 
 jobs:
