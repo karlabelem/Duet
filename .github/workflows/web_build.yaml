@@ -3,7 +3,7 @@ name: Web Build Check
 on:
   push: 
     branches: [ "main" ]
-  pull request:
+  pull_request:
     branches: [ "main" ]
 
 jobs:
@@ -25,18 +25,18 @@ jobs:
       uses: subosito/flutter-action@v2
       with: 
         channel: stable
-        flutter-version: /duet_application/pubspec.yaml
+        flutter-version: 3.27.3
         cache: true
-      run: flutter --version
-    
-    - name: Get Dependencies
-      run: flutter pub get
 
-    - name: Start Web Release Build
-      run: flutter build web --release
+    - name: Check Flutter version, get deoendencies, and build
+      working-directory: ./duet_application
+      run: 
+        flutter --version;
+        flutter pub get;
+        flutter build web --release;
     
     - name: Upload Web Build Files
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: web-release
-        path: ./duet_application/build/web
+        path: /duet_application/build/web
