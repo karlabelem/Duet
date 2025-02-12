@@ -30,12 +30,12 @@ jobs:
 
     - name: Check Flutter version, get deoendencies, and build
       run: 
-        flutter --version
-        flutter pub get
-        flutter build web --release
+        flutter --version;
+        flutter pub get;
+        flutter build web --release;
     
     - name: Upload Web Build Files
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: web-release
         path: /duet_application/build/web
