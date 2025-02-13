@@ -4,8 +4,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:cloud_firestore_mocks/cloud_firestore_mocks.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:your_project/models/user.dart'; // Adjust import paths
-import 'package:your_project/matching_algorithm.dart'; // Ensure `findBestMatches` is imported
+import 'package:duet_application/models/user.dart'; // Adjust import paths
+import 'package:duet_application/src/algo/matching.dart'; // Ensure `findBestMatches` is imported
 
 
 void main() {
