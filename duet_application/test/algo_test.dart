@@ -2,33 +2,28 @@
 // Run with `flutter test` command.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cloud_firestore_mocks/cloud_firestore_mocks.dart';
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:duet_application/src/algo/user.dart'; // Adjust import paths
-import 'package:duet_application/src/algo/matching.dart'; // Ensure `findBestMatches` is imported
-
+import 'package:duet_application/src/algo/matching.dart'; // Ensure `findBestMatches` is imported, and user profile
 
 void main() {
   test('Find best matches using Firestore mock', () async {
-    final instance = MockFirestoreInstance();
+    final instance = FakeFirebaseFirestore();
 
     // Create users in Firestore
     await instance.collection('users').doc('1').set({
-      'id': "1",
       'favoriteArtists': ["Taylor Swift", "Drake"],
       'favoriteGenres': ["Pop", "Hip-Hop"],
       'audioFeatures': [0.8, 0.6, 0.7],
     });
 
     await instance.collection('users').doc('2').set({
-      'id': "2",
       'favoriteArtists': ["Drake", "Kanye West"],
       'favoriteGenres': ["Hip-Hop", "Rap"],
       'audioFeatures': [0.7, 0.6, 0.8],
     });
 
     await instance.collection('users').doc('3').set({
-      'id': "3",
       'favoriteArtists': ["Billie Eilish", "Lorde"],
       'favoriteGenres': ["Indie Pop", "Alternative"],
       'audioFeatures': [0.5, 0.4, 0.6],
