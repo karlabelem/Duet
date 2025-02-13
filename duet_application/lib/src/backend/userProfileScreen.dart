@@ -22,6 +22,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Name: ${widget.userProfile.name}", style: TextStyle(fontSize: 18)),
+            Text("Email: ${widget.userProfile.email}", style: TextStyle(fontSize: 18)),
             Text("DOB: ${widget.userProfile.dob}", style: TextStyle(fontSize: 18)),
             Text("Location: ${widget.userProfile.location}", style: TextStyle(fontSize: 18)),
             SizedBox(height: 20),
@@ -58,11 +59,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   // Update profile details in Firestore when changed
                   await widget.userProfile.updateProfile(
                     updatedProfile['name'],
+                    updatedProfile['email'],
                     updatedProfile['dob'],
                     updatedProfile['location'],
                   );
                   setState(() {
                     widget.userProfile.name = updatedProfile['name'];
+                    widget.userProfile.email = updatedProfile['email'];
                     widget.userProfile.dob = updatedProfile['dob'];
                     widget.userProfile.location = updatedProfile['location'];
                   });
@@ -129,12 +132,13 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  late TextEditingController _nameController, _dobController, _locationController;
+  late TextEditingController _nameController, _emailController, _dobController, _locationController;
 
   @override
   void initState() {
     super.initState();
     _nameController = TextEditingController(text: widget.userProfile.name);
+    _emailController = TextEditingController(text: widget.userProfile.email);
     _dobController = TextEditingController(text: widget.userProfile.dob);
     _locationController = TextEditingController(text: widget.userProfile.location);
   }
@@ -148,6 +152,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         child: Column(
           children: [
             TextField(controller: _nameController, decoration: InputDecoration(labelText: "Name")),
+            TextField(controller: _emailController, decoration: InputDecoration(labelText: "Email")),
             TextField(controller: _dobController, decoration: InputDecoration(labelText: "DOB")),
             TextField(controller: _locationController, decoration: InputDecoration(labelText: "Location")),
             SizedBox(height: 10),
@@ -155,6 +160,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               onPressed: () {
                 Navigator.pop(context, {
                   'name': _nameController.text,
+                  'email': _emailController.text,
                   'dob': _dobController.text,
                   'location': _locationController.text,
                 });

@@ -24,13 +24,14 @@ var _uuidGen = Uuid();
 // Rankings can be dynamically updated via the `rankUser` method.
 class UserProfileData {
   final String _uuid;  // Private unique user ID
-  String name, dob, location;
+  String name, email, dob, location;
   String imageUrl, bio;
   List<String> likedUsers; // Stores liked users with user UUIDs
   List<String> dislikedUsers; // Stores liked users with user UUIDs
 
   UserProfileData({
     required this.name,
+    required this.email,
     required this.dob,
     required this.location,
     required this.imageUrl,
@@ -46,6 +47,7 @@ class UserProfileData {
     return {
       'uuid': uuid,
       'name': name,
+      'email': email,
       'dob': dob,
       'location': location,
       'imageUrl': imageUrl,
@@ -59,6 +61,7 @@ class UserProfileData {
   factory UserProfileData.fromMap(Map<String, dynamic> data) {
     return UserProfileData(
       name: data['name'] ?? '',
+      email: data['email'] ?? '',
       dob: data['dob'] ?? '',
       location: data['location'] ?? '',
       imageUrl: data['imageUrl'] ?? '',
@@ -138,7 +141,7 @@ class UserProfileData {
   }
 
   // Method to update profile details (name, dob, location)
-  Future<void> updateProfile(String newName, String newDob, String newLocation) async {
+  Future<void> updateProfile(String newName, String newEmail, String newDob, String newLocation) async {
     final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
 
     // Run a transaction to update profile details
@@ -149,6 +152,7 @@ class UserProfileData {
       // Update profile details directly in Firestore
       transaction.update(userRef, {
         'name': newName,
+        'email': newEmail,
         'dob': newDob,
         'location': newLocation,
       });
