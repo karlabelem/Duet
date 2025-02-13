@@ -1,12 +1,32 @@
-// Data Model
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class User {
-  String id;
-  Set<String> favoriteArtists;
-  Set<String> favoriteGenres;
-  List<double> audioFeatures; // e.g., tempo, energy, danceability
-  
-  User({required this.id, required this.favoriteArtists, required this.favoriteGenres, required this.audioFeatures});
+  final String id;
+  final Set<String> favoriteArtists;
+  final Set<String> favoriteGenres;
+  final List<double> audioFeatures;
+
+  User({
+    required this.id,
+    required this.favoriteArtists,
+    required this.favoriteGenres,
+    required this.audioFeatures,
+  });
+
+  // Add this method to create a User from a Firestore document
+  factory User.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return User(
+      id: doc.id,
+      favoriteArtists: Set<String>.from(data['favoriteArtists'] ?? []),
+      favoriteGenres: Set<String>.from(data['favoriteGenres'] ?? []),
+      audioFeatures: List<double>.from(data['audioFeatures'] ?? []),
+    );
+  }
 }
+
 
 // Similarity Algorithms
 double jaccardSimilarity(Set<String> set1, Set<String> set2) {
@@ -17,8 +37,6 @@ double jaccardSimilarity(Set<String> set1, Set<String> set2) {
 
   return intersectionSize / unionSize;
 }
-
-import 'dart:math';
 
 double cosineSimilarity(List<double> vec1, List<double> vec2) {
   if (vec1.length != vec2.length || vec1.isEmpty) return 0.0;
