@@ -122,7 +122,7 @@ Selim Saridede
   - User opens the app and navigates to the "Discover" section.
   - User listens to a new song or artist, and the system recommends similar music.
   - User matches with a new person and checks their favorites
-* Preconditions:
+* Preconditions: 
   - User is logged into their account.
   - The system has access to the user’s listening history or preferences.
   - The system has a recommendation algorithm based on user preferences.

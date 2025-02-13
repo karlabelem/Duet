@@ -10,10 +10,13 @@ environment:
   sdk: ^3.6.1
 
 dependencies:
+  cloud_firestore: ^5.6.3
+  firebase_core: ^3.11.0
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  uuid: ^4.5.1
 
 dev_dependencies:
   flutter_test:
