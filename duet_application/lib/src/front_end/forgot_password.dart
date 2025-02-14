@@ -23,6 +23,8 @@ class FigmaToCodeApp extends StatelessWidget {
 }
 
 class Image extends StatelessWidget {
+  const Image({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -75,7 +77,7 @@ class Image extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 width: double.infinity,
                 height: 419,
                 child: Column(
@@ -139,7 +141,7 @@ class Image extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 87,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -294,7 +296,7 @@ class Image extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 width: double.infinity,
                 height: 460,
                 child: Column(
@@ -302,7 +304,7 @@ class Image extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       width: double.infinity,
                       height: 380,
                       child: Column(
@@ -354,7 +356,7 @@ class Image extends StatelessWidget {
                             padding: const EdgeInsets.only(bottom: 8),
                           ),
                           const SizedBox(height: 40),
-                          Container(
+                          SizedBox(
                             width: 505,
                             height: 56,
                             child: Column(
@@ -521,7 +523,7 @@ class Image extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: double.infinity,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -584,7 +586,7 @@ class Image extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 87,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -636,7 +638,7 @@ class Image extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 87,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -802,7 +804,7 @@ class Image extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: double.infinity,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -865,7 +867,7 @@ class Image extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 87,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -917,7 +919,7 @@ class Image extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 87,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -1083,7 +1085,7 @@ class Image extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: double.infinity,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -1146,7 +1148,7 @@ class Image extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 87,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -1198,7 +1200,7 @@ class Image extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 87,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -1359,7 +1361,7 @@ class Image extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 width: double.infinity,
                 height: 419,
                 child: Column(
@@ -1423,7 +1425,7 @@ class Image extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 87,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -1475,7 +1477,7 @@ class Image extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 87,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -1641,7 +1643,7 @@ class Image extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: double.infinity,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -1704,7 +1706,7 @@ class Image extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 87,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -1756,7 +1758,7 @@ class Image extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 87,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -1922,7 +1924,7 @@ class Image extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: double.infinity,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -1985,7 +1987,7 @@ class Image extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 87,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -2037,7 +2039,7 @@ class Image extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 87,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -2203,7 +2205,7 @@ class Image extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: double.infinity,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -2266,7 +2268,7 @@ class Image extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 87,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -2318,7 +2320,7 @@ class Image extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         height: 87,
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
@@ -2484,7 +2486,7 @@ class Image extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: double.infinity,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
