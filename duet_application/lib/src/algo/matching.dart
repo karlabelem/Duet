@@ -1,12 +1,32 @@
-// Data Model
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class User {
-  String id;
-  Set<String> favoriteArtists;
-  Set<String> favoriteGenres;
-  List<double> audioFeatures; // e.g., tempo, energy, danceability
-  
-  User({required this.id, required this.favoriteArtists, required this.favoriteGenres, required this.audioFeatures});
+  final String id;
+  final Set<String> favoriteArtists;
+  final Set<String> favoriteGenres;
+  final List<double> audioFeatures;
+
+  User({
+    required this.id,
+    required this.favoriteArtists,
+    required this.favoriteGenres,
+    required this.audioFeatures,
+  });
+
+  // Add this method to create a User from a Firestore document
+  factory User.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return User(
+      id: doc.id,
+      favoriteArtists: Set<String>.from(data['favoriteArtists'] ?? []),
+      favoriteGenres: Set<String>.from(data['favoriteGenres'] ?? []),
+      audioFeatures: List<double>.from(data['audioFeatures'] ?? []),
+    );
+  }
 }
+
 
 // Similarity Algorithms
 double jaccardSimilarity(Set<String> set1, Set<String> set2) {
@@ -17,8 +37,6 @@ double jaccardSimilarity(Set<String> set1, Set<String> set2) {
 
   return intersectionSize / unionSize;
 }
-
-import 'dart:math';
 
 double cosineSimilarity(List<double> vec1, List<double> vec2) {
   if (vec1.length != vec2.length || vec1.isEmpty) return 0.0;
@@ -95,3 +113,38 @@ void main() {
     print("Matched with ${match['user'].id} - Score: ${match['score'].toStringAsFixed(2)}");
   }
 }
+
+
+// Example usage
+/*
+void main() {
+  User userA = User(
+    id: "1",
+    favoriteArtists: {"Taylor Swift", "Drake"},
+    favoriteGenres: {"Pop", "Hip-Hop"},
+    audioFeatures: [0.8, 0.6, 0.7], // Example tempo, energy, danceability
+  );
+
+  User userB = User(
+    id: "2",
+    favoriteArtists: {"Drake", "Kanye West"},
+    favoriteGenres: {"Hip-Hop", "Rap"},
+    audioFeatures: [0.7, 0.6, 0.8],
+  );
+
+  User userC = User(
+    id: "3",
+    favoriteArtists: {"Billie Eilish", "Lorde"},
+    favoriteGenres: {"Indie Pop", "Alternative"},
+    audioFeatures: [0.5, 0.4, 0.6],
+  );
+
+  List<User> allUsers = [userB, userC];
+
+  List<Map<String, dynamic>> matches = findBestMatches(userA, allUsers);
+
+  for (var match in matches) {
+    print("Matched with ${match['user'].id} - Score: ${match['score'].toStringAsFixed(2)}");
+  }
+}
+*/
