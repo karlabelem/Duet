@@ -24,12 +24,21 @@ class _MessaginPageState extends State<MessagingPage> {
   final typed = TextEditingController();
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
+    print("fetching messages");
+    getMessages().then((response) {
+      print(response);
+      widget.messages = response;
+    });
+  }
+
+  Future<Messagingbackend> getMessages() async {
     // get conversation if previous one exists
-    widget.messages = await getConversation(widget.senderId, widget.receiverId) ?? Messagingbackend(uuid1: widget.senderId, uuid2: widget.receiverId);
+    final msgs = await getConversation(widget.senderId, widget.receiverId) ?? Messagingbackend(uuid1: widget.senderId, uuid2: widget.receiverId);
     // save conversation in case a new one was created
     await widget.messages.saveToFirestore();
+    return msgs;
   }
 
   /// creates Message object and connects to firebase
