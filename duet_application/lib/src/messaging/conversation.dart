@@ -1,52 +1,41 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import '../backend/messaging_backend.dart';
 
 /// Widget that displays teh conversation between two users
 class MessagingPage extends StatefulWidget {
-  MessagingPage(
-      {super.key,
-      required this.senderId,
-      required this.receiverId,
-      this.messages});
+  MessagingPage({
+    super.key,
+    required this.senderId,
+    required this.receiverId,
+  });
 
   final String senderId;
   final String receiverId;
-
-  /// temprorary implementation until backend is fully set up
-  late List<Message>? messages;
+  late final Messagingbackend messages;
 
   @override
   State<MessagingPage> createState() => _MessaginPageState();
 }
 
+/// State for MessagingPage
 class _MessaginPageState extends State<MessagingPage> {
   final typed = TextEditingController();
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
-    widget.messages ??= [
-      Message(widget.senderId, widget.receiverId, "message 1"),
-      Message(widget.receiverId, widget.senderId, "message 2"),
-      Message(widget.senderId, widget.receiverId, "message 3"),
-      Message(widget.senderId, widget.receiverId, "message 4"),
-      Message(widget.receiverId, widget.senderId, "message 5"),
-      Message(widget.receiverId, widget.senderId, "message 6"),
-      Message(widget.senderId, widget.receiverId, "message 7"),
-    ];
+    // get conversation if previous one exists
+    widget.messages = await getConversation(widget.senderId, widget.receiverId) ?? Messagingbackend(uuid1: widget.senderId, uuid2: widget.receiverId);
+    // save conversation in case a new one was created
+    await widget.messages.saveToFirestore();
   }
 
-  void sendMessage(String text) {
-    if (typed.text == "") {
-      return;
-    }
-    typed.clear();
-    List<Message> newMessages = widget.messages!.sublist(0);
-    newMessages.add(Message(widget.senderId, widget.receiverId, text));
-    setState(() {
-      widget.messages = newMessages;
-    });
+  /// creates Message object and connects to firebase
+  void sendMessage(String text) async {
+    final msg = Message(widget.senderId, widget.receiverId, text);
+    await widget.messages.sendMessage(msg);
   }
 
   @override
@@ -56,12 +45,12 @@ class _MessaginPageState extends State<MessagingPage> {
             appBar: AppBar(title: Text(widget.receiverId)),
             body: ListView.builder(
                 scrollDirection: Axis.vertical,
-                itemCount: widget.messages!.length,
+                itemCount: widget.messages.conversation.length,
                 shrinkWrap: true,
                 padding: EdgeInsets.all(10),
                 itemBuilder: (BuildContext context, int index) {
                   return TextBubble(
-                      msg: widget.messages![index], sender: widget.senderId);
+                      msg: widget.messages.conversation[index], sender: widget.senderId);
                 }),
             bottomNavigationBar: Container(
               child: Row(children: <Widget>[
@@ -80,15 +69,6 @@ class _MessaginPageState extends State<MessagingPage> {
               ]),
             )));
   }
-}
-
-/// temoporary Message object wit the necessary information to process the object
-class Message {
-  const Message(this.sender, this.receiver, this.text);
-
-  final String sender;
-  final String receiver;
-  final String text;
 }
 
 /// Displays a text bubble with the correct formatting based on who the sender of the message is
