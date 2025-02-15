@@ -509,6 +509,94 @@ Interfaces
 * Testing the connections between client and server side
 * Testing transitions and communication between separate front-end pages
 * Testing communication and cohesion between data in the server
+ 
+## Continous Integration / Continuous Deployment
+
+### CI Service
+We chose GitHub as our CI service because it integrates well with GitHub, making it easy to automate our 
+workflow. It's straightforward to set up, has strong community support, and works well with Flutter. It also allows us 
+to automate builds, run tests, and deploy our application without needing additional tools.
+
+### Test Infrastructure
+For our test infrastructure, we selected Flutter’s built-in testing framework because it supports unit, widget, 
+and integration testing. Since we're using Flutter for development, its testing tools are a natural choice, helping 
+us make sure our app works correctly while keeping everything in one ecosystem.
+
+### Workflow
+##### What to test
+We will run unit tests and build the web-app to ensure tests pass and builds are successful. 
+##### When to test
+Tests will be run when a push or pull request is done on the "main" branch. 
+
+### Pros/Cons 
+Here’s a detailed comparison of three popular CI/CD services for integrating with GitHub: **GitHub Actions, GitLab CI/CD, and CircleCI**.  
+
+---
+
+### **1. GitHub Actions**
+#### **Pros**
+✅ **Seamless GitHub Integration** – Built into GitHub, requiring no external setup.  
+✅ **Fine-Grained Customization** – Uses YAML workflows, enabling flexible build/test/deployment pipelines.  
+✅ **Reusable Workflows** – Can define reusable workflows across multiple repositories.  
+✅ **Managed Runners & Self-Hosted Support** – Offers GitHub-hosted runners or self-hosted options for cost savings.  
+✅ **Large Community & Marketplace** – Extensive action library (prebuilt CI/CD modules).  
+✅ **Free Tier for Open-Source Projects** – Generous free usage on public repositories.  
+
+#### **Cons**
+❌ **Pricing for Private Repos** – Free tier is limited; paid plans charge per minute for additional usage.  
+❌ **Complex Debugging** – Logs can be difficult to sift through for failures.  
+❌ **Limited Control on GitHub-Hosted Runners** – Cannot customize the environment as much as with other CI/CD tools.  
+
+---
+
+### **2. GitLab CI/CD**
+#### **Pros**
+✅ **Tightly Integrated with GitLab** – If using GitLab, built-in CI/CD simplifies workflows.  
+✅ **Docker-Native** – Built-in Docker container support for easier environment control.  
+✅ **Auto DevOps** – Offers pre-configured pipelines, reducing setup effort.  
+✅ **Better Caching** – More efficient caching than GitHub Actions for speeding up builds.  
+✅ **Free Self-Hosting** – Can run an unlimited number of self-hosted jobs on your own servers.  
+
+#### **Cons**
+❌ **Weaker GitHub Support** – Though GitLab CI/CD can be used with GitHub, integration is not as seamless.  
+❌ **Slower Cloud Runners** – Shared GitLab-hosted runners can be slow compared to GitHub Actions.  
+❌ **Less Community Support** – Compared to GitHub Actions, fewer prebuilt community-maintained jobs exist.  
+
+---
+
+### **3. CircleCI**
+#### **Pros**
+✅ **Optimized for Speed** – Parallel execution and smart caching speed up build/test times.  
+✅ **Deep GitHub Integration** – First-class GitHub support for repository-based workflows.  
+✅ **Powerful Configurations** – YAML-based setup allows advanced workflow branching and conditions.  
+✅ **Great for Teams** – Fine-grained control over workflows and approvals.  
+✅ **Supports Self-Hosted Runners** – Flexibility for private cloud/on-prem execution.  
+
+#### **Cons**
+❌ **Steeper Learning Curve** – More complex to set up than GitHub Actions.  
+❌ **More Expensive at Scale** – Usage-based pricing can add up quickly for large teams.  
+❌ **Limited Free Plan** – Free tier is more restrictive than GitHub Actions or GitLab CI/CD.  
+
+---
+
+### **Comparison Table**
+| Feature          | GitHub Actions | GitLab CI/CD | CircleCI |
+|-----------------|---------------|-------------|----------|
+| **Integration with GitHub** | ✅ Native | ⚠️ Indirect | ✅ Deep |
+| **Ease of Setup** | ✅ Easy | ✅ Easy | ⚠️ Medium |
+| **Customization** | ✅ High | ✅ High | ✅ High |
+| **Parallel Execution** | ⚠️ Limited | ✅ Yes | ✅ Yes |
+| **Self-Hosting** | ✅ Yes | ✅ Yes | ✅ Yes |
+| **Free Tier** | ✅ Generous | ✅ Good | ⚠️ Limited |
+| **Cost for Scale** | ⚠️ Can be costly | ✅ Better | ❌ Expensive |
+
+### **Final Recommendation**
+- **If your code is on GitHub and you want the easiest setup:** **GitHub Actions** is the best choice.  
+- **If you are already using GitLab or want strong Docker support:** **GitLab CI/CD** is a great option.  
+- **If you prioritize speed and advanced CI/CD workflows for a larger team:** **CircleCI** is worth considering.  
+
+
+
 ### Documentation Plan
 1. User Documentation
 * In-App Help & FAQs – Tooltips, pop ups, and a web-based FAQ for common issues.
@@ -527,3 +615,4 @@ Interfaces
 * Admin Guide – User management, system monitoring, and security policies.
 * Deployment Docs – CI/CD setup, rollback procedures, and Firebase configuration.
 * Security & Privacy Docs – Data policies and compliance strategies.
+
