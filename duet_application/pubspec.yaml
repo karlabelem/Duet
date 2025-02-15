@@ -17,7 +17,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   uuid: ^4.5.1
-  cloud_firestore: ^4.15.3  # Use the latest version
   fake_cloud_firestore: ^2.5.2
 
 dev_dependencies:
