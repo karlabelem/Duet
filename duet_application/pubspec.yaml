@@ -10,21 +10,21 @@ environment:
   sdk: ^3.6.1
 
 dependencies:
+  cloud_firestore: ^5.6.3
+  firebase_core: ^3.11.0
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  cloud_firestore: ^4.15.3  # Use the latest version
-  fake_cloud_firestore: ^2.5.2
+  uuid: ^4.5.1
+  fake_cloud_firestore: ^3.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
   mockito: ^5.4.2
-  # cloud_firestore_mocks: ^0.9.0+1
-  fake_cloud_firestore: ^2.4.1  # Use the latest version
-
+  
 flutter:
   uses-material-design: true
 
