@@ -25,8 +25,10 @@ class _MessaginPageState extends State<MessagingPage> {
 
   @override
   void initState() {
+    print("initializing");
     super.initState();
     print("fetching messages");
+    widget.messages = Messagingbackend(uuid1: widget.senderId, uuid2: widget.receiverId);
     getMessages().then((response) {
       print(response);
       widget.messages = response;
