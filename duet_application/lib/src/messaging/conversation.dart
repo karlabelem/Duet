@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 
 class MessagingPage extends StatefulWidget {
-  const MessagingPage({
-    super.key, 
-    required this.senderId,
-    required this.receiverId
-  });
+  const MessagingPage(
+      {super.key, required this.senderId, required this.receiverId});
 
   final String senderId;
-  final String receiverId;  
+  final String receiverId;
 
   @override
   State<MessagingPage> createState() => _MessaginPageState();
-  
-} 
+}
 
 class _MessaginPageState extends State<MessagingPage> {
-
   final typed = TextEditingController();
   late List<Message> messages;
   @override
@@ -28,13 +23,13 @@ class _MessaginPageState extends State<MessagingPage> {
       Message(widget.senderId, widget.receiverId, "been chillin fsfs"),
       Message(widget.receiverId, widget.senderId, "fye"),
       Message(widget.senderId, widget.receiverId, "this is random text"),
-      Message(widget.receiverId, widget.senderId, "just testing some stuff for sure"),
+      Message(widget.receiverId, widget.senderId,
+          "just testing some stuff for sure"),
       Message(widget.senderId, widget.receiverId, "short"),
-      Message(widget.receiverId, widget.senderId, "boutta be a long message: kfbjshdbfhsdbfhabdfhbadfhbajhdbfakhjkfbcakjdb")
+      Message(widget.receiverId, widget.senderId,
+          "boutta be a long message: kfbjshdbfhsdbfhabdfhbadfhbajhdbfakhjkfbcakjdb")
     ];
   }
-
-
 
   void sendMessage(String text) {
     List<Message> newMessages = messages.sublist(0);
@@ -47,45 +42,32 @@ class _MessaginPageState extends State<MessagingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(title: Text(widget.receiverId)),
-
       body: ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: messages.length,
-        itemBuilder: (BuildContext context, int index){
-          Message m = messages[index];
-          if(m.sender == widget.senderId){
-            return Container(
-              alignment: Alignment.center,
-              color: Color(0xFF5C469C),
-              padding: const EdgeInsets.all(8.0),
-              transformAlignment: Alignment.topRight,
-              width: 5,
-              child: Row(
-                children: <Widget>[
-                  Flexible(child: Text(m.text))
-                ]
-              )
-            );
-          }
-          return TextBubble(isSent: m.sender == widget.senderId, msg: m.text);
-        }
-      
-      ),
-
+          scrollDirection: Axis.vertical,
+          itemCount: messages.length,
+          itemBuilder: (BuildContext context, int index) {
+            Message m = messages[index];
+            if (m.sender == widget.senderId) {
+              return Container(
+                  alignment: Alignment.center,
+                  color: Color(0xFF5C469C),
+                  padding: const EdgeInsets.all(8.0),
+                  transformAlignment: Alignment.topRight,
+                  width: 5,
+                  child:
+                      Row(children: <Widget>[Flexible(child: Text(m.text))]));
+            }
+            return TextBubble(isSent: m.sender == widget.senderId, msg: m.text);
+          }),
       bottomNavigationBar: TextField(
-
         controller: typed,
-
         decoration: InputDecoration(hintText: "Type message..."),
-
-        onSubmitted: (text) { 
+        onSubmitted: (text) {
           sendMessage(text);
           typed.clear();
         },
       ),
-
     );
   }
 }
@@ -99,11 +81,7 @@ class Message {
 }
 
 class TextBubble extends StatelessWidget {
-  const TextBubble({
-    super.key,
-    required this.isSent,
-    required this.msg
-  });
+  const TextBubble({super.key, required this.isSent, required this.msg});
 
   final bool isSent;
   final String msg;

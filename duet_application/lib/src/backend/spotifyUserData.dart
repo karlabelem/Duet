@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:convert';
 import 'package:flutter_web_auth/flutter_web_auth.dart'; // For OAuth handling
-import 'package:http/http.dart' as http;  // For HTTP requests
-import 'userProfile.dart';  // Assuming userProfile.dart contains the UserProfileData class
+import 'package:http/http.dart' as http; // For HTTP requests
+import 'userProfile.dart'; // Assuming userProfile.dart contains the UserProfileData class
 
 class SpotifyUserData {
   final String uuid;
@@ -52,13 +52,16 @@ class SpotifyUserData {
 
   // Save or update Spotify data in Firestore
   Future<void> save() async {
-    final userRef = FirebaseFirestore.instance.collection('spotify_users').doc(uuid);
-    await userRef.set(this.toMap(), SetOptions(merge: true));  // Merges the data, without overwriting
+    final userRef =
+        FirebaseFirestore.instance.collection('spotify_users').doc(uuid);
+    await userRef.set(this.toMap(),
+        SetOptions(merge: true)); // Merges the data, without overwriting
   }
 
   // Fetch Spotify data from Firestore
   static Future<SpotifyUserData?> fetch(String uuid) async {
-    final userRef = FirebaseFirestore.instance.collection('spotify_users').doc(uuid);
+    final userRef =
+        FirebaseFirestore.instance.collection('spotify_users').doc(uuid);
     final snapshot = await userRef.get();
     if (snapshot.exists) {
       return SpotifyUserData.fromFirestore(snapshot);
@@ -71,18 +74,18 @@ class SpotifyUserData {
     final clientId = 'YOUR_SPOTIFY_CLIENT_ID';
     final clientSecret = 'YOUR_SPOTIFY_CLIENT_SECRET';
     final redirectUri = 'yourapp://callback';
-    
+
     final authUrl = 'https://accounts.spotify.com/authorize'
         '?client_id=$clientId'
         '&response_type=code'
         '&redirect_uri=$redirectUri'
         '&scope=user-top-read';
-        
+
     final result = await FlutterWebAuth.authenticate(
         url: authUrl, callbackUrlScheme: 'yourapp');
-        
+
     final code = Uri.parse(result).queryParameters['code'];
-    
+
     final response = await http.post(
       Uri.parse('https://accounts.spotify.com/api/token'),
       body: {
@@ -93,7 +96,7 @@ class SpotifyUserData {
         'client_secret': clientSecret,
       },
     );
-    
+
     final Map<String, dynamic> tokenData = json.decode(response.body);
     return tokenData['access_token'];
   }
@@ -126,7 +129,8 @@ class SpotifyUserData {
 // Spotify service class
 class SpotifyService {
   Future<String> authenticate() async {
-    return await SpotifyUserData().authenticateSpotify();  // Handle Spotify authentication
+    return await SpotifyUserData()
+        .authenticateSpotify(); // Handle Spotify authentication
   }
 
   Future<List<dynamic>> getTopArtists(String accessToken) async {
@@ -141,17 +145,17 @@ class SpotifyService {
 // Updates user profile with Spotify data
 Future<void> updateSpotifyData(UserProfileData userProfile) async {
   final spotifyService = SpotifyService();
-  
+
   // Step 1: Authenticate and fetch Spotify data
   final accessToken = await spotifyService.authenticate();
   final topArtists = await spotifyService.getTopArtists(accessToken);
   final topTracks = await spotifyService.getTopTracks(accessToken);
-  
+
   // Step 2: Link the Spotify data to UserProfileData
   userProfile.spotifyAccessToken = accessToken;
   userProfile.favoriteArtists = topArtists;
   userProfile.favoriteTracks = topTracks;
-  
+
   // Step 3: Save updated profile data to Firestore
   await userProfile.saveToFirestore();
 }
