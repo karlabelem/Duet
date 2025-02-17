@@ -1,5 +1,8 @@
 import 'package:duet_application/src/backend/userProfile.dart';
 import 'package:flutter/material.dart';
+import 'package:duet_application/src/backend/spotifyUserData.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+//(when we have database configured) import 'package:firebase_auth/firebase_auth.dart'; 
 
 // ------------------ User Profile Screen ------------------
 class UserProfileScreen extends StatefulWidget {
@@ -12,6 +15,27 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  List<String> favoriteArtists = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTopArtists();
+  }
+
+  Future<void> _loadTopArtists() async {
+  // Replace with the actual UUID of the logged-in user
+  String userUuid = "user-uuid-goes-here"; // needs firebase data, because we have to manually insert UUID
+
+  SpotifyUserData userData = await SpotifyUserData.get(userUuid);
+  final artists = await userData.fetchArtists(limit: 5); // Get top 5 artists
+
+  setState(() {
+    favoriteArtists = artists.map((artist) => artist['name'] as String).toList();
+  });
+}
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,28 +47,30 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           Align(
               alignment: Alignment.topCenter,
               child: SingleChildScrollView(
-               child: Column(
-                verticalDirection: VerticalDirection.down,
-                children: [
-                Container(
-                  width: 1440,
-                  height: 80,
-                  decoration: BoxDecoration(color: Color(0xFF5C469C)),
-                ),
-                Center(
-                  child: Container(
-                    width: 200,
-                    height: 200,
-                    decoration: ShapeDecoration(
-                      shape: OvalBorder(
-                        side: BorderSide(width: 5, color: Color(0xFF5C469C)),
+                  child: Column(
+                      verticalDirection: VerticalDirection.down,
+                      children: [
+                    Container(
+                      width: 1440,
+                      height: 80,
+                      decoration: BoxDecoration(color: Color(0xFF5C469C)),
+                    ),
+                    Center(
+                      child: Container(
+                        width: 200,
+                        height: 200,
+                        decoration: ShapeDecoration(
+                          shape: OvalBorder(
+                            side:
+                                BorderSide(width: 5, color: Color(0xFF5C469C)),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                _buildProfileInfo(context),
-                _buildAboutMeSection(context)
-              ])))
+                    _buildProfileInfo(context),
+                    _buildAboutMeSection(context),
+                    _buildTopArtistsSection(), // Displays the top artists
+                  ])))
         ]));
   }
 
@@ -81,7 +107,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text("About Me:",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black)),
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(widget.userProfile.bio,
@@ -135,6 +164,29 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       ],
     );
   }
+  // display top five artists on profile page
+  Widget _buildTopArtistsSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Top Artists:",
+          style: TextStyle(
+              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+        ),
+        const SizedBox(height: 10),
+        favoriteArtists.isEmpty
+            ? const Text("No top artists available.",
+                style: TextStyle(fontSize: 16))
+            : Column(
+                children: favoriteArtists
+                    .map((artist) =>
+                        Text(artist, style: TextStyle(fontSize: 16)))
+                    .toList(),
+              ),
+      ],
+    );
+  }
 }
 
 // ------------------ Edit About Me Screen ------------------
@@ -152,7 +204,7 @@ class _EditAboutMeScreenState extends State<EditAboutMeScreen> {
   @override
   void initState() {
     super.initState();
-    _controller.text = widget.bio;  // Set initial value
+    _controller.text = widget.bio; // Set initial value
   }
 
   @override
