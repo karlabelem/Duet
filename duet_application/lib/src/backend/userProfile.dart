@@ -1,4 +1,4 @@
- /* This file is for user profile to keep track of information about users
+/* This file is for user profile to keep track of information about users
   *
   * UserProfileData class has the following informations about the user:
       - uuid: Unique User ID
@@ -14,6 +14,7 @@
   */
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
+import 'spotifyUserData.dart';
 
 // Create an instance of the Uuid class
 var _uuidGen = Uuid();
@@ -23,7 +24,7 @@ var _uuidGen = Uuid();
 // The `rankedProfiles` map stores user UUIDs with their ranking (-1, 0, 1).
 // Rankings can be dynamically updated via the `rankUser` method.
 class UserProfileData {
-  final String _uuid;  // Private unique user ID
+  final String _uuid; // Private unique user ID
   String name, email, dob, location;
   String imageUrl, bio;
   List<String> likedUsers; // Stores liked users with user UUIDs
@@ -75,12 +76,29 @@ class UserProfileData {
 
   // Save user profile data to Firestore
   Future<void> saveToFirestore() async {
-    await FirebaseFirestore.instance.collection('users').doc(uuid).set(toMap()); // creates users collection
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uuid)
+        .set(toMap()); // creates users collection
+  }
+
+  // Method to get Spotify User Data
+  Future<SpotifyUserData?> getSpotifyUserData() async {
+    final spotifyRef = FirebaseFirestore.instance
+        .collection('spotify_users')
+        .doc(uuid); // fetch Spotify data based on the user UUID
+    final spotifySnapshot = await spotifyRef.get();
+    if (spotifySnapshot.exists) {
+      return SpotifyUserData.fromMap(spotifySnapshot.data()!);
+    }
+    return null;
   }
 
   // Method for getting UserProfile Snapshot shortcut
   Future<UserProfileData?> getUserProfile(String userId) async {
-    final userRef = FirebaseFirestore.instance.collection('users').doc(userId); // fetch data from Firestore users collection
+    final userRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId); // fetch data from Firestore users collection
     final userSnapshot = await userRef.get();
     if (userSnapshot.exists) {
       return UserProfileData.fromMap(userSnapshot.data()!);
@@ -90,7 +108,9 @@ class UserProfileData {
 
   // Swipe function to update userprofile
   Future<void> swipeUser(String otherUuid, bool isLiked) async {
-    final userRef = FirebaseFirestore.instance.collection('users').doc(uuid); // fetch data from Firestore users collection
+    final userRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uuid); // fetch data from Firestore users collection
 
     // Transaction is for updating data in Firebase directly rather than updating on local class
     await FirebaseFirestore.instance.runTransaction((transaction) async {
@@ -141,7 +161,8 @@ class UserProfileData {
   }
 
   // Method to update profile details (name, dob, location)
-  Future<void> updateProfile(String newName, String newEmail, String newDob, String newLocation) async {
+  Future<void> updateProfile(String newName, String newEmail, String newDob,
+      String newLocation) async {
     final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
 
     // Run a transaction to update profile details
