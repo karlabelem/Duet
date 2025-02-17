@@ -18,7 +18,7 @@ class MessagingPage extends StatefulWidget {
   @override
   State<MessagingPage> createState() => _MessaginPageState();
 }
-}
+
 
 /// State for MessagingPage
 class _MessaginPageState extends State<MessagingPage> {
