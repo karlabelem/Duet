@@ -8,7 +8,7 @@ class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key, required this.userProfile});
 
   @override
-  _UserProfileScreenState createState() => _UserProfileScreenState();
+  State<UserProfileScreen> createState() => _UserProfileScreenState();
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
@@ -68,9 +68,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         children: [
           Text(label,
               style: const TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.black)),
+                  fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20, decoration: TextDecoration.none)),
           Text(value,
-              style: const TextStyle(fontSize: 16, color: Colors.black)),
+              style: const TextStyle(fontSize: 50, color: Colors.black, decoration: TextDecoration.none)),
         ],
       ),
     );
@@ -81,9 +81,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text("About Me:",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black)),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black, decoration: TextDecoration.none)),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.fromLTRB(0, 10, 0, 30),
           child: Text(widget.userProfile.bio,
               style: const TextStyle(fontSize: 16)),
         ),
