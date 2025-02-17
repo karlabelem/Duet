@@ -20,13 +20,13 @@ void main() async {
   // SettingsView.
   //runApp(MyApp(settingsController: settingsController));
 
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
-  // runApp(const MyApp(settingsController: settingsController));
-
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    demoProjectId: "demo-project-id",
+    options: DefaultFirebaseOptions.currentPlatform,
   );
+  runApp(MyApp(settingsController: settingsController));
+
+  // await Firebase.initializeApp(
+  //   demoProjectId: "demo-project-id",
+  // );
 }
