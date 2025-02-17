@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'userProfile.dart';
 
 class SpotifyUserData {
+  // TODO !!
+  // These should be unique per user not the same for everyone -> dynamic
   static const String _clientId = '4dbf19a959ff4c3bb0992c29ce581668';
   static const String _clientSecret = 'e4fa3a54db064be3bdae30d26bb33b12';
   static const String _redirectUri = 'https://api.spotify.com';
@@ -17,7 +19,7 @@ class SpotifyUserData {
   String email;
   String accessToken;
   String refreshToken;
-  List<dynamic>? favoriteArtists;
+  List<dynamic>? favoriteArtists; // IDK if we should limit these data structures
   List<dynamic>? favoriteTracks;
 
   SpotifyUserData({
@@ -30,6 +32,22 @@ class SpotifyUserData {
     this.favoriteTracks,
   });
 
+  /// Create and store a new Spotify profile in Firestore.
+  static Future<SpotifyUserData> createSpotifyProfile(String uuid) async {
+    final user = await SpotifyUserData.connectWithSpotify(uuid);
+    await user.save(); // Save user data in Firestore
+    return user;
+  }
+
+  /// Update the stored Spotify data when the user logs in.
+  Future<void> updateSpotifyData() async {
+    await refreshAccessToken(); // Ensure token is up-to-date
+    await fetchUserData(); // Get latest user details
+    favoriteArtists = await fetchArtists(); // Get latest artists
+    favoriteTracks = await fetchLibrary(); // Get latest tracks
+    await save(); // Save updated data in Firestore
+  }
+
   // Get user data from Firestore
   static Future<SpotifyUserData> get(String uuid) async {
     final doc = await FirebaseFirestore.instance
@@ -38,7 +56,9 @@ class SpotifyUserData {
         .get();
     return SpotifyUserData.fromMap(doc.data()!);
   }
-
+  
+  // TODO!!!
+  // should be authenticating with spotify page to get the data using username and email. !!!
   // Connect with Spotify OAuth flow
   static Future<SpotifyUserData> connectWithSpotify(String uuid) async {
     final result = await FlutterWebAuth.authenticate(
@@ -66,8 +86,8 @@ class SpotifyUserData {
       uuid: uuid,
       accessToken: tokenData['access_token'],
       refreshToken: tokenData['refresh_token'],
-      username: '',
-      email: '',
+      username: '', // TODO: username missing
+      email: '', // TODO: email missing 
     );
 
     await user.fetchUserData();
@@ -91,6 +111,11 @@ class SpotifyUserData {
     final data = jsonDecode(response.body);
     accessToken = data['access_token'];
   }
+
+  // TODO
+  // SETTER METHODS MISSING
+  
+  // GETTER METHODS
 
   // Fetch user profile data
   Future<void> fetchUserData() async {
