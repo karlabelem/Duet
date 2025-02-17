@@ -97,10 +97,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
             );
             if (updatedAboutMe != null) {
-              await widget.userProfile.updateBio(updatedAboutMe);
               setState(() {
                 widget.userProfile.bio = updatedAboutMe;
               });
+              await widget.userProfile.updateBio(updatedAboutMe);
             }
           },
           child: const Text("Edit About Me"),
@@ -116,18 +116,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
             );
             if (updatedProfile != null) {
-              await widget.userProfile.updateProfile(
-                updatedProfile['name'],
-                updatedProfile['email'],
-                updatedProfile['dob'],
-                updatedProfile['location'],
-              );
               setState(() {
                 widget.userProfile.name = updatedProfile['name'];
                 widget.userProfile.email = updatedProfile['email'];
                 widget.userProfile.dob = updatedProfile['dob'];
                 widget.userProfile.location = updatedProfile['location'];
               });
+              await widget.userProfile.updateProfile(
+                updatedProfile['name'],
+                updatedProfile['email'],
+                updatedProfile['dob'],
+                updatedProfile['location'],
+              );
             }
           },
           child: const Text("Edit Profile"),
@@ -147,12 +147,12 @@ class EditAboutMeScreen extends StatefulWidget {
 }
 
 class _EditAboutMeScreenState extends State<EditAboutMeScreen> {
-  late TextEditingController _controller;
+  TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.bio);
+    _controller.text = widget.bio;  // Set initial value
   }
 
   @override
