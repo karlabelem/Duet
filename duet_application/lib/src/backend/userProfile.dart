@@ -14,6 +14,7 @@
   */
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
+import 'spotifyUserData.dart';
 
 // Create an instance of the Uuid class
 var _uuidGen = Uuid();
@@ -79,6 +80,18 @@ class UserProfileData {
         .collection('users')
         .doc(uuid)
         .set(toMap()); // creates users collection
+  }
+
+  // Method to get Spotify User Data
+  Future<SpotifyUserData?> getSpotifyUserData() async {
+    final spotifyRef = FirebaseFirestore.instance
+        .collection('spotify_users')
+        .doc(uuid); // fetch Spotify data based on the user UUID
+    final spotifySnapshot = await spotifyRef.get();
+    if (spotifySnapshot.exists) {
+      return SpotifyUserData.fromMap(spotifySnapshot.data()!);
+    }
+    return null;
   }
 
   // Method for getting UserProfile Snapshot shortcut
