@@ -82,6 +82,30 @@ List<Map<String, dynamic>> findBestMatches(User targetUser, List<User> allUsers)
   return matches;
 }
 
+// Production-ready matching algo, connected to firebase.
+Future<List<Map<String, dynamic>>> fetchAndMatchUsers(String userId) async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  // Fetch the main user
+  DocumentSnapshot userDoc = await firestore.collection('users').doc(userId).get();
+  if (!userDoc.exists) {
+    throw Exception("User not found in Firestore");
+  }
+
+  User targetUser = User.fromFirestore(userDoc);
+
+  // Fetch all other users
+  QuerySnapshot userDocs = await firestore.collection('users').get();
+  List<User> allUsers = userDocs.docs
+      .where((doc) => doc.id != userId) // Exclude the target user
+      .map((doc) => User.fromFirestore(doc))
+      .toList();
+
+  // Run match function
+  return findBestMatches(targetUser, allUsers);
+}
+
+
 // Example usage
 void main() {
   User userA = User(
