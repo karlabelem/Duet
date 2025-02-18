@@ -1,17 +1,9 @@
+import 'package:duet_application/src/frontEnd/profile_creation_parent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'sample_feature/sample_item_details_view.dart';
-import 'sample_feature/sample_item_list_view.dart';
 import 'settings/settings_controller.dart';
-import 'settings/settings_view.dart';
-
-import 'frontEnd/account_registration.dart';
-import 'frontEnd/profile_creation_s1.dart';
-import 'frontEnd/profile_creation_s2.dart';
-import 'frontEnd/profile_creation_s3.dart';
-import 'frontEnd/profile_creation_s4.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -72,7 +64,7 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute<void>(
               settings: routeSettings,
               builder: (BuildContext context) {
-                return AccountRegistration();
+                return ProfileCreationParent();
               },
             );
           },
