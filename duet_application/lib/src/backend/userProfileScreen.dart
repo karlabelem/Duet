@@ -71,8 +71,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     _buildProfileInfo(context),
                     _buildAboutMeSection(context),
                     _buildTopArtistsSection(), // Displays the top artists
-                  ]))),
-        ]));
+                  ])))]));
   }
 
   Widget _buildProfileInfo(BuildContext context) {
@@ -111,8 +110,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black, 
-                decoration: TextDecoration.none)),
+                color: Colors.black)),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(widget.userProfile.bio,
@@ -205,11 +203,11 @@ class EditAboutMeScreen extends StatefulWidget {
   const EditAboutMeScreen({super.key, required this.bio});
 
   @override
-  State<EditAboutMeScreen> createState() => _EditAboutMeScreenState();
+  State<EditAboutMeScreen>  createState() => _EditAboutMeScreenState();
 }
 
 class _EditAboutMeScreenState extends State<EditAboutMeScreen> {
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
