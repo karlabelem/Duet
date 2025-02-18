@@ -74,32 +74,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     _buildProfileInfo(context),
                     _buildAboutMeSection(context),
                     _buildTopArtistsSection(), // Displays the top artists
-                  ])))
-                  child: Column(
-                      verticalDirection: VerticalDirection.down,
-                      children: [
-                    Container(
-                      width: 1440,
-                      height: 80,
-                      decoration: BoxDecoration(color: Color(0xFF5C469C)),
-                    ),
-                    Center(
-                      child: Container(
-                        width: 200,
-                        height: 200,
-                        decoration: ShapeDecoration(
-                          shape: OvalBorder(
-                            side:
-                                BorderSide(width: 5, color: Color(0xFF5C469C)),
-                          ),
-                        ),
-                      ),
-                    ),
-                    _buildProfileInfo(context),
-                    _buildAboutMeSection(context),
-                    _buildTopArtistsSection(), // Displays the top artists
-                  ])))
-        ]));
+                  ])))]));
   }
 
   Widget _buildProfileInfo(BuildContext context) {
@@ -135,10 +110,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text("About Me:",
-            style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black)),
             style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -239,7 +210,6 @@ class EditAboutMeScreen extends StatefulWidget {
 }
 
 class _EditAboutMeScreenState extends State<EditAboutMeScreen> {
-  TextEditingController _controller = TextEditingController();
   TextEditingController _controller = TextEditingController();
 
   @override
