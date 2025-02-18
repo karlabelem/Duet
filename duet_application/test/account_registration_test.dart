@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:duet_application/src/frontEnd/account_registration.dart';
+import 'package:duet_application/src/frontEnd/profile_creation_s0.dart';
 
 void main() {
   testWidgets('AccountRegistration widget test', (WidgetTester tester) async {

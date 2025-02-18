@@ -1,5 +1,5 @@
 import 'package:duet_application/src/backend/userProfile.dart';
-import 'package:duet_application/src/frontEnd/account_registration.dart';
+import 'package:duet_application/src/frontEnd/profile_creation_s0.dart';
 import 'package:duet_application/src/frontEnd/profile_creation_s1.dart';
 import 'package:duet_application/src/frontEnd/profile_creation_s2.dart';
 import 'package:duet_application/src/frontEnd/profile_creation_s3.dart';
