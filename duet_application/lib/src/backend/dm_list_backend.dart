@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DmListBackend {
+  /// The uuid of the user logged in
   final String uuid1;
+  /// List of conversations (ids of the conversations)
   List<String> conversations;
 
 

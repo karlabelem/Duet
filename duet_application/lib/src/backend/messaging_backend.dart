@@ -1,19 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Messagingbackend {
-  /// the 2 users involved in this conversation
-  final String uuid1, uuid2;
-
+/// the 2 users involved in this conversation
+    final String uuid1, uuid2;
+  
   /// list of messages between both users
   List<Message> conversation;
 
   /// unique conversation id composed of uuid1 appended with uuid2
   late final String cid;
 
-  Messagingbackend(
-      {required this.uuid1, required this.uuid2, List<Message>? conversation})
+  Messagingbackend(      {required this.uuid1, required this.uuid2, List<Message>? conversation})
       : conversation = conversation ?? [],
-        cid = uuid1 + uuid2;
+        cid = makeCid(uuid1, uuid2);
 
   /// Turns data into map format for firebase
   Map<String, dynamic> toMap() {
@@ -75,23 +74,26 @@ class Messagingbackend {
   }
 }
 
+String makeCid(String user1, String user2) {
+  if(user1.compareTo(user2) > 0) {
+    return "${user2}_$user1";
+  }
+  return "${user1}_$user2";
+}
+
 /// Get a conversation between 2 users from firestore
 Future<Messagingbackend?> getConversation(String user1, String user2) async {
   try {
-    // There are 2 possible cid for this conversation: user1+user2 || user2+user1
-    // attempt user1+user2
-    var convRef =
-        FirebaseFirestore.instance.collection('messages').doc(user1 + user2);
+    var convRef = FirebaseFirestore.instance.collection('messages').doc(makeCid(user1, user2));
     var convSnapshot = await convRef.get();
     if (convSnapshot.exists) {
+      print("Found conversation with ID: ${user1}_$user2");
       return Messagingbackend.fromMap(convSnapshot.data()!);
     }
-    // attempt user2+user1
-    convRef = FirebaseFirestore.instance.collection('messages').doc(user2 + user1);
-    convSnapshot = await convRef.get();
-    return Messagingbackend.fromMap(convSnapshot.data()!);
+    print("No conversation found for users: $user1 and $user2");
+    return null;
   } catch (e) {
-    print("Error $e");
+    print("Error in getConversation: $e");
     return null;
   }
 }

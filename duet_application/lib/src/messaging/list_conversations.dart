@@ -2,10 +2,11 @@ import 'package:duet_application/src/backend/dm_list_backend.dart';
 import 'package:flutter/material.dart';
 
 class ConversationList extends StatefulWidget {
-  ConversationList({super.key, required this.loggedInUser});
+  ConversationList({super.key, required this.loggedInUser, required this.onConversationSelected});
 
   final String loggedInUser;
   late final DmListBackend conversations; // List of conversations
+  final Function(String) onConversationSelected;
 
   @override
   State<ConversationList> createState() => _ConversationListState();
@@ -22,9 +23,19 @@ class _ConversationListState extends State<ConversationList> {
     _fetchConversations = _initializeConversations();
   }
 
+  /// Initialize the conversations from backend
   Future<void> _initializeConversations() async {
     await widget.conversations.getDocumentsWithUuidSubstring(widget.loggedInUser);
     await widget.conversations.saveToFirestore();
+  }
+
+  String extractOtherUser(String cid) {
+    List<String> users = cid.split("_");
+    if (users[0] == widget.loggedInUser) {
+      return users[1];
+    } else {
+      return users[0];
+    }
   }
 
   @override
@@ -55,7 +66,7 @@ class _ConversationListState extends State<ConversationList> {
                             style: TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF5C469C)), // Text color
+                                color: Color(0xFF5C469C)),
                           ),
                         ],
                       ),
@@ -67,29 +78,34 @@ class _ConversationListState extends State<ConversationList> {
                     shrinkWrap: true,
                     padding: EdgeInsets.all(10),
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
-                        padding: EdgeInsets.all(16),
-                        decoration: BoxDecoration(
+                        return GestureDetector(
+                        onTap: () {
+                          widget.onConversationSelected(extractOtherUser(widget.conversations.conversations[index]));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey,
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
+                            color: Colors.grey,
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
                             ),
                           ],
-                        ),
-                        child: Text(
-                          widget.conversations.conversations[index],
+                          ),
+                          child: Text(
+                          extractOtherUser(widget.conversations.conversations[index]),
                           style: TextStyle(
                             fontSize: 18,
                             color: Color(0xFF5C469C), // Text color
                           ),
+                          ),
                         ),
-                      );
+                        );
                     },
                   ),
                 ],
