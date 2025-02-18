@@ -23,28 +23,29 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           Align(
               alignment: Alignment.topCenter,
               child: SingleChildScrollView(
-               child: Column(
-                verticalDirection: VerticalDirection.down,
-                children: [
-                Container(
-                  width: 1440,
-                  height: 80,
-                  decoration: BoxDecoration(color: Color(0xFF5C469C)),
-                ),
-                Center(
-                  child: Container(
-                    width: 200,
-                    height: 200,
-                    decoration: ShapeDecoration(
-                      shape: OvalBorder(
-                        side: BorderSide(width: 5, color: Color(0xFF5C469C)),
+                  child: Column(
+                      verticalDirection: VerticalDirection.down,
+                      children: [
+                    Container(
+                      width: 1440,
+                      height: 80,
+                      decoration: BoxDecoration(color: Color(0xFF5C469C)),
+                    ),
+                    Center(
+                      child: Container(
+                        width: 200,
+                        height: 200,
+                        decoration: ShapeDecoration(
+                          shape: OvalBorder(
+                            side:
+                                BorderSide(width: 5, color: Color(0xFF5C469C)),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                _buildProfileInfo(context),
-                _buildAboutMeSection(context)
-              ])))
+                    _buildProfileInfo(context),
+                    _buildAboutMeSection(context)
+                  ])))
         ]));
   }
 
@@ -81,7 +82,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text("About Me:",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black)),
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(widget.userProfile.bio,
@@ -152,7 +156,7 @@ class _EditAboutMeScreenState extends State<EditAboutMeScreen> {
   @override
   void initState() {
     super.initState();
-    _controller.text = widget.bio;  // Set initial value
+    _controller.text = widget.bio; // Set initial value
   }
 
   @override

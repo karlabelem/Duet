@@ -96,7 +96,7 @@ class UserProfileData {
   // For UI
   Future<void> useSpotifyProfileData() async {
     final spotifyData = await getSpotifyUserData();
-    
+
     if (spotifyData == null) {
       // Spotify data does not exist, create a new profile
       await SpotifyUserData.createSpotifyProfile(uuid);

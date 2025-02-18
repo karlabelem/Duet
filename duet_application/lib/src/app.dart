@@ -1,5 +1,6 @@
 import 'package:duet_application/src/backend/userProfile.dart';
 import 'package:duet_application/src/backend/userProfileScreen.dart';
+import 'package:duet_application/src/messaging/conversation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -68,13 +69,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute<void>(
               settings: routeSettings,
               builder: (BuildContext context) {
-                return UserProfileScreen(
-                    userProfile: UserProfileData(
-                        name: "name",
-                        email: "email",
-                        dob: "dob",
-                        location: "location",
-                        imageUrl: "imageUrl"));
+                return MessagingPage(
+                    senderId: "senderId", receiverId: "receiverId");
               },
             );
           },

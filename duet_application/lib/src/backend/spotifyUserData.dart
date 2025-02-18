@@ -10,8 +10,10 @@ class SpotifyUserData {
   static const String _clientId = '4dbf19a959ff4c3bb0992c29ce581668';
   static const String _clientSecret = 'e4fa3a54db064be3bdae30d26bb33b12';
   static const String _redirectUri = 'https://api.spotify.com';
-  static const String _spotifyAuthUrl = 'https://accounts.spotify.com/authorize';
-  static const String _spotifyTokenUrl = 'https://accounts.spotify.com/api/token';
+  static const String _spotifyAuthUrl =
+      'https://accounts.spotify.com/authorize';
+  static const String _spotifyTokenUrl =
+      'https://accounts.spotify.com/api/token';
   static const String _spotifyApiUrl = 'https://api.spotify.com/v1';
 
   final String uuid;
@@ -19,7 +21,8 @@ class SpotifyUserData {
   String email;
   String accessToken;
   String refreshToken;
-  List<dynamic>? favoriteArtists; // IDK if we should limit these data structures
+  List<dynamic>?
+      favoriteArtists; // IDK if we should limit these data structures
   List<dynamic>? favoriteTracks;
 
   SpotifyUserData({
@@ -56,7 +59,7 @@ class SpotifyUserData {
         .get();
     return SpotifyUserData.fromMap(doc.data()!);
   }
-  
+
   // TODO!!!
   // should be authenticating with spotify page to get the data using username and email. !!!
   // Connect with Spotify OAuth flow
@@ -71,7 +74,8 @@ class SpotifyUserData {
     final tokenResponse = await http.post(
       Uri.parse(_spotifyTokenUrl),
       headers: {
-        'Authorization': 'Basic ${base64Encode(utf8.encode('$_clientId:$_clientSecret'))}',
+        'Authorization':
+            'Basic ${base64Encode(utf8.encode('$_clientId:$_clientSecret'))}',
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: {
@@ -87,7 +91,7 @@ class SpotifyUserData {
       accessToken: tokenData['access_token'],
       refreshToken: tokenData['refresh_token'],
       username: '', // TODO: username missing
-      email: '', // TODO: email missing 
+      email: '', // TODO: email missing
     );
 
     await user.fetchUserData();
@@ -99,7 +103,8 @@ class SpotifyUserData {
     final response = await http.post(
       Uri.parse(_spotifyTokenUrl),
       headers: {
-        'Authorization': 'Basic ${base64Encode(utf8.encode('$_clientId:$_clientSecret'))}',
+        'Authorization':
+            'Basic ${base64Encode(utf8.encode('$_clientId:$_clientSecret'))}',
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: {
@@ -114,7 +119,7 @@ class SpotifyUserData {
 
   // TODO
   // SETTER METHODS MISSING
-  
+
   // GETTER METHODS
 
   // Fetch user profile data
@@ -161,11 +166,11 @@ class SpotifyUserData {
   Future<List<String>> fetchGenre() async {
     final artists = await fetchArtists();
     final genres = <String>{};
-    
+
     for (final artist in artists) {
       genres.addAll((artist['genres'] as List).cast<String>());
     }
-    
+
     return genres.toList();
   }
 
