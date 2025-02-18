@@ -19,6 +19,9 @@ void main() {
     expect(find.text("Step 2 of 4"), findsOneWidget);
     expect(find.byType(TextField), findsNWidgets(3));
     expect(find.byType(ElevatedButton), findsOneWidget);
+
+    // Verify nextStep hasn't been called yet
+    expect(nextStepCalled, false);
   });
 
   testWidgets('Date validation works correctly', (WidgetTester tester) async {
