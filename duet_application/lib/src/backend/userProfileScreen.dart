@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:duet_application/src/backend/spotifyUserData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 //(when we have database configured) import 'package:firebase_auth/firebase_auth.dart'; 
-import 'package:duet_application/src/backend/spotifyUserData.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-//(when we have database configured) import 'package:firebase_auth/firebase_auth.dart';
 
 // ------------------ User Profile Screen ------------------
 class UserProfileScreen extends StatefulWidget {
@@ -14,7 +11,7 @@ class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key, required this.userProfile});
 
   @override
-  _UserProfileScreenState createState() => _UserProfileScreenState();
+  State<UserProfileScreen> createState() => _UserProfileScreenState();
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
@@ -74,31 +71,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     _buildProfileInfo(context),
                     _buildAboutMeSection(context),
                     _buildTopArtistsSection(), // Displays the top artists
-                  ])))
-                  child: Column(
-                      verticalDirection: VerticalDirection.down,
-                      children: [
-                    Container(
-                      width: 1440,
-                      height: 80,
-                      decoration: BoxDecoration(color: Color(0xFF5C469C)),
-                    ),
-                    Center(
-                      child: Container(
-                        width: 200,
-                        height: 200,
-                        decoration: ShapeDecoration(
-                          shape: OvalBorder(
-                            side:
-                                BorderSide(width: 5, color: Color(0xFF5C469C)),
-                          ),
-                        ),
-                      ),
-                    ),
-                    _buildProfileInfo(context),
-                    _buildAboutMeSection(context),
-                    _buildTopArtistsSection(), // Displays the top artists
-                  ])))
+                  ]))),
         ]));
   }
 
@@ -122,9 +95,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         children: [
           Text(label,
               style: const TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.black)),
+                  fontWeight: FontWeight.bold, color: Colors.black, decoration: TextDecoration.none)),
           Text(value,
-              style: const TextStyle(fontSize: 16, color: Colors.black)),
+              style: const TextStyle(fontSize: 16, color: Colors.black, decoration: TextDecoration.none)),
         ],
       ),
     );
@@ -138,11 +111,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black)),
-            style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black)),
+                color: Colors.black, 
+                decoration: TextDecoration.none)),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(widget.userProfile.bio,
@@ -212,12 +182,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         const Text(
           "Top Artists:",
           style: TextStyle(
-              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black, decoration: TextDecoration.none),
         ),
         const SizedBox(height: 10),
         favoriteArtists.isEmpty
             ? const Text("No top artists available.",
-                style: TextStyle(fontSize: 16))
+                style: TextStyle(fontSize: 16, decoration: TextDecoration.none))
             : Column(
                 children: favoriteArtists
                     .map((artist) =>
@@ -235,11 +205,10 @@ class EditAboutMeScreen extends StatefulWidget {
   const EditAboutMeScreen({super.key, required this.bio});
 
   @override
-  _EditAboutMeScreenState createState() => _EditAboutMeScreenState();
+  State<EditAboutMeScreen> createState() => _EditAboutMeScreenState();
 }
 
 class _EditAboutMeScreenState extends State<EditAboutMeScreen> {
-  TextEditingController _controller = TextEditingController();
   TextEditingController _controller = TextEditingController();
 
   @override
@@ -285,7 +254,7 @@ class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key, required this.userProfile});
 
   @override
-  _EditProfileScreenState createState() => _EditProfileScreenState();
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {

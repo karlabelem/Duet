@@ -68,13 +68,15 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute<void>(
               settings: routeSettings,
               builder: (BuildContext context) {
-                return UserProfileScreen(
-                    userProfile: UserProfileData(
+                final user = UserProfileData(
                         name: "name",
                         email: "email",
                         dob: "dob",
                         location: "location",
-                        imageUrl: "imageUrl"));
+                        imageUrl: "imageUrl");
+                  user.saveToFirestore();
+                return UserProfileScreen(
+                    userProfile: user);
               },
             );
           },

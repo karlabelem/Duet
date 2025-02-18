@@ -22,8 +22,8 @@ var _uuidGen = Uuid();
 // Rankings can be dynamically updated via the `rankUser` method.
 class UserProfileData {
   final String _uuid; // Private unique user ID
-  String name, email, dob, location;
-  String imageUrl, bio;
+  String name, email, dob, location, bio;
+  String? imageUrl;
   List<String> likedUsers; // Stores liked users with user UUIDs
   List<String> dislikedUsers; // Stores liked users with user UUIDs
 
@@ -32,7 +32,7 @@ class UserProfileData {
     required this.email,
     required this.dob,
     required this.location,
-    required this.imageUrl,
+    this.imageUrl,
     this.bio = "",
     List<String>? likedUsers,
     List<String>? dislikedUsers,
