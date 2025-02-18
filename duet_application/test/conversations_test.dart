@@ -65,7 +65,7 @@ void main() {
       final widget = MaterialApp(
         home: Scaffold(
           body: SendButton(
-            send: (text) {
+            send: () {
               wasPressed = true;
             },
             typedText: TextEditingController(),
@@ -87,7 +87,7 @@ void main() {
       final widget = MaterialApp(
         home: Scaffold(
           body: SendButton(
-            send: (text) {},
+            send: () {},
             typedText: TextEditingController(),
           ),
         ),
