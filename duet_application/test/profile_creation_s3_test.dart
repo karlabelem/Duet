@@ -25,6 +25,10 @@ void main() {
     expect(find.byType(TextField), findsOneWidget);
     expect(find.byType(ElevatedButton), findsOneWidget);
 
+    // Verify nextStep hasn't been called yet
+    expect(nextStepCalled, false);
+    expect(passedData, null);
+
     // Verify button is initially disabled (grey)
     final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
     final buttonStyle = button.style as ButtonStyle;
