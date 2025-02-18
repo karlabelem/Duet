@@ -1,19 +1,17 @@
 /* This file is for user profile to keep track of information about users
-  *
-  * UserProfileData class has the following informations about the user:
-      - uuid: Unique User ID
-      - name: Name of the user
-      - dob: Date of birth
-      - location: Current location of the user
-      - aboutMe: Users about me section to let them have a small text on the profile
-      - Spotify Data: Their connected spotify data??
-      - Ranked Profiles: Ranked profiles on the feed
-  *
-  * TODO:
-    Add Spotify data fetch method
-  */
+  UserProfileData class has the following informations about the user:
+    - uuid: Unique User ID
+    - name: Name of the user
+    - dob: Date of birth
+    - location: Current location of the user
+    - aboutMe: Users about me section to let them have a small text on the profile
+    - Spotify Data: Their connected spotify data??
+    - Ranked Profiles: Ranked profiles on the feed
+*/
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
+import 'spotifyUserData.dart';
 
 // Create an instance of the Uuid class
 var _uuidGen = Uuid();
@@ -81,7 +79,35 @@ class UserProfileData {
         .set(toMap()); // creates users collection
   }
 
+  // Method to get Spotify User Data
+  // For algorihtm
+  Future<SpotifyUserData?> getSpotifyUserData() async {
+    final spotifyRef = FirebaseFirestore.instance
+        .collection('spotify_users')
+        .doc(uuid); // fetch Spotify data based on the user UUID
+    final spotifySnapshot = await spotifyRef.get();
+    if (spotifySnapshot.exists) {
+      return SpotifyUserData.fromMap(spotifySnapshot.data()!);
+    }
+    return null;
+  }
+
+  // Create Spotify profile if it doesn't exist, or update it if it does
+  // For UI
+  Future<void> useSpotifyProfileData() async {
+    final spotifyData = await getSpotifyUserData();
+    
+    if (spotifyData == null) {
+      // Spotify data does not exist, create a new profile
+      await SpotifyUserData.createSpotifyProfile(uuid);
+    } else {
+      // Spotify data exists, update the existing profile
+      await spotifyData.updateSpotifyData();
+    }
+  }
+
   // Method for getting UserProfile Snapshot shortcut
+  // For Algorithm
   Future<UserProfileData?> getUserProfile(String userId) async {
     final userRef = FirebaseFirestore.instance
         .collection('users')
@@ -94,6 +120,7 @@ class UserProfileData {
   }
 
   // Swipe function to update userprofile
+  // For UI
   Future<void> swipeUser(String otherUuid, bool isLiked) async {
     final userRef = FirebaseFirestore.instance
         .collection('users')
@@ -132,6 +159,7 @@ class UserProfileData {
   }
 
   // Method to update bio info
+  // For UI
   Future<void> updateBio(String newBio) async {
     final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
 
@@ -148,6 +176,7 @@ class UserProfileData {
   }
 
   // Method to update profile details (name, dob, location)
+  // For UI
   Future<void> updateProfile(String newName, String newEmail, String newDob,
       String newLocation) async {
     final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
@@ -168,6 +197,7 @@ class UserProfileData {
   }
 
   // Method to update profile picture
+  // For UI
   Future<void> updateImage(String newImageUrl) async {
     final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
 
