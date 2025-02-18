@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
-class ProfileCreationStep3 extends StatelessWidget {
-  const ProfileCreationStep3({super.key});
+class ProfileCreationStep3 extends StatefulWidget {
+  const ProfileCreationStep3({super.key, required this.nextStep});
+  final Function nextStep;
+
+  @override
+  State<ProfileCreationStep3> createState() => _ProfileCreationStep3State();
+}
+
+class _ProfileCreationStep3State extends State<ProfileCreationStep3> {
+  final cityController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +36,6 @@ class ProfileCreationStep3 extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () {
-                    // Handle close action
-                  },
-                ),
-              ),
               Text(
                 "Where do you live?",
                 style: TextStyle(
@@ -55,24 +54,38 @@ class ProfileCreationStep3 extends StatelessWidget {
               ),
               const SizedBox(height: 16.0),
               TextField(
+                onChanged: (value) => setState(() {}),
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     hintText: "Enter your city"),
+                controller: cityController,
               ),
               const SizedBox(height: 24.0),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Colors.grey, // Replace with the desired button color
+                  backgroundColor: isValidCity() ? Colors.purple : Colors.grey,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24.0),
                   ),
                   minimumSize: Size(double.infinity, 48.0),
                 ),
                 onPressed: () {
-                  // Handle next action
+                  if (isValidCity()) {
+                    widget.nextStep(
+                      {
+                        'city': cityController.text,
+                      },
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please enter a valid city'),
+                      ),
+                    );
+                  }
                 },
                 child: Text(
                   "Next",
@@ -84,5 +97,9 @@ class ProfileCreationStep3 extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool isValidCity() {
+    return cityController.text.isNotEmpty;
   }
 }

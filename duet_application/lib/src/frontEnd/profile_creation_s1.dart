@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
-class ProfileCreationStep1 extends StatelessWidget {
-  const ProfileCreationStep1({super.key});
+class ProfileCreationStep1 extends StatefulWidget {
+  const ProfileCreationStep1({super.key, required this.nextStep});
+  final Function nextStep;
+
+  @override
+  State<ProfileCreationStep1> createState() => _ProfileCreationStep1State();
+}
+
+class _ProfileCreationStep1State extends State<ProfileCreationStep1> {
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +37,6 @@ class ProfileCreationStep1 extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () {
-                    // Handle close action
-                  },
-                ),
-              ),
               Text(
                 "What's Your Name?",
                 style: TextStyle(
@@ -55,33 +55,45 @@ class ProfileCreationStep1 extends StatelessWidget {
               ),
               const SizedBox(height: 16.0),
               TextField(
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     hintText: "First Name"),
+                controller: firstNameController,
+                onChanged: (value) => setState(() {}),
               ),
               const SizedBox(height: 16.0),
               TextField(
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     hintText: "Last Name"),
+                controller: lastNameController,
+                onChanged: (value) => setState(() {}),
               ),
               const SizedBox(height: 24.0),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Colors.grey, // Replace with the desired button color
+                  backgroundColor: isValidName() ? Colors.purple : Colors.grey,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24.0),
                   ),
                   minimumSize: Size(double.infinity, 48.0),
                 ),
-                onPressed: () {
-                  // Handle next action
-                },
+                onPressed: isValidName()
+                    ? () {
+                        widget.nextStep(
+                          {
+                            'firstName': firstNameController.text,
+                            'lastName': lastNameController.text,
+                          },
+                        );
+                      }
+                    : null,
                 child: Text(
                   "Next",
                   style: TextStyle(color: Colors.white),
@@ -92,5 +104,10 @@ class ProfileCreationStep1 extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool isValidName() {
+    return firstNameController.text.isNotEmpty &&
+        lastNameController.text.isNotEmpty;
   }
 }

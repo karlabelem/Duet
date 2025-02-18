@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 
-class AccountRegistration extends StatelessWidget {
-  const AccountRegistration({super.key});
+class AccountRegistration extends StatefulWidget {
+  const AccountRegistration({super.key, required this.nextStep});
+  final Function nextStep;
+
+  @override
+  State<AccountRegistration> createState() => _AccountRegistrationState();
+}
+
+class _AccountRegistrationState extends State<AccountRegistration> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +38,6 @@ class AccountRegistration extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () {
-                    // Handle close action
-                  },
-                ),
-              ),
               Text(
                 "Create Your Account",
                 style: TextStyle(
@@ -52,6 +53,8 @@ class AccountRegistration extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     hintText: "Email"),
+                controller: emailController,
+                style: TextStyle(color: Colors.black),
               ),
               const SizedBox(height: 16.0),
               TextField(
@@ -60,6 +63,10 @@ class AccountRegistration extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     hintText: "Password"),
+                controller: passwordController,
+                obscureText: true,
+                onChanged: (value) => setState(() {}),
+                style: TextStyle(color: Colors.black),
               ),
               const SizedBox(height: 16.0),
               TextField(
@@ -68,19 +75,36 @@ class AccountRegistration extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     hintText: "Confirm Password"),
+                controller: confirmPasswordController,
+                obscureText: true,
+                onChanged: (value) => setState(() {}),
+                style: TextStyle(color: Colors.black),
               ),
               const SizedBox(height: 24.0),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
-                      Colors.grey, // Replace with the desired button color
+                      isValidPassword() ? Colors.purple : Colors.grey,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24.0),
                   ),
                   minimumSize: Size(double.infinity, 48.0),
                 ),
                 onPressed: () {
-                  // Handle next action
+                  if (isValidPassword()) {
+                    widget.nextStep(
+                      {
+                        'email': emailController.text,
+                        'password': passwordController.text,
+                      },
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Passwords do not match'),
+                      ),
+                    );
+                  }
                 },
                 child: Text(
                   "Next",
@@ -92,5 +116,11 @@ class AccountRegistration extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool isValidPassword() {
+    return passwordController.text.isNotEmpty &&
+        confirmPasswordController.text.isNotEmpty &&
+        passwordController.text == confirmPasswordController.text;
   }
 }

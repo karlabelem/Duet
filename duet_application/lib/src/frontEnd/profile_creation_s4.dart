@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ProfileCreationStep4 extends StatelessWidget {
-  const ProfileCreationStep4({super.key});
+  const ProfileCreationStep4({super.key, required this.nextStep});
+  final Function nextStep;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +29,6 @@ class ProfileCreationStep4 extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () {
-                    // Handle close action
-                  },
-                ),
-              ),
               Text(
                 "Connect your Spotify",
                 style: TextStyle(
@@ -64,7 +56,7 @@ class ProfileCreationStep4 extends StatelessWidget {
                   minimumSize: Size(double.infinity, 48.0),
                 ),
                 onPressed: () {
-                  // Handle next action
+                  nextStep();
                 },
                 child: Text(
                   "Next",

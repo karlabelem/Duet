@@ -1,7 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class ProfileCreationStep2 extends StatelessWidget {
-  const ProfileCreationStep2({super.key});
+class ProfileCreationStep2 extends StatefulWidget {
+  const ProfileCreationStep2({super.key, required this.nextStep});
+  final Function nextStep;
+
+  @override
+  State<ProfileCreationStep2> createState() => _ProfileCreationStep2State();
+}
+
+class _ProfileCreationStep2State extends State<ProfileCreationStep2> {
+  final monthController = TextEditingController();
+  final dayController = TextEditingController();
+  final yearController = TextEditingController();
+
+  // Add these validation functions
+  String? validateMonth(String? value) {
+    if (value == null || value.isEmpty) return null;
+    final month = int.tryParse(value);
+    if (month == null || month < 1 || month > 12) return 'Invalid month';
+    return null;
+  }
+
+  String? validateDay(String? value) {
+    if (value == null || value.isEmpty) return null;
+    final day = int.tryParse(value);
+    if (day == null || day < 1 || day > 31) return 'Invalid day';
+    return null;
+  }
+
+  String? validateYear(String? value) {
+    if (value == null || value.isEmpty) return null;
+    final year = int.tryParse(value);
+    final currentYear = DateTime.now().year;
+    if (year == null || year > currentYear || year < currentYear - 120) {
+      return 'Invalid year';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +61,6 @@ class ProfileCreationStep2 extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-                    // Handle close action
-                  },
-                ),
-              ),
               Text(
                 "What's Your Date of Birth?",
                 style: TextStyle(
@@ -57,12 +84,26 @@ class ProfileCreationStep2 extends StatelessWidget {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                      child: SizedBox(
+                        height: 80,
+                        child: TextField(
+                          style: TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            hintText: "Month",
+                            errorText: validateMonth(monthController.text),
                           ),
-                          hintText: "Month",
+                          controller: monthController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(2),
+                          ],
+                          onChanged: (value) {
+                            setState(() {});
+                          },
                         ),
                       ),
                     ),
@@ -70,12 +111,26 @@ class ProfileCreationStep2 extends StatelessWidget {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                      child: SizedBox(
+                        height: 80,
+                        child: TextField(
+                          style: TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            hintText: "Day",
+                            errorText: validateDay(dayController.text),
                           ),
-                          hintText: "Day",
+                          controller: dayController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(2),
+                          ],
+                          onChanged: (value) {
+                            setState(() {});
+                          },
                         ),
                       ),
                     ),
@@ -83,12 +138,26 @@ class ProfileCreationStep2 extends StatelessWidget {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                      child: SizedBox(
+                        height: 80,
+                        child: TextField(
+                          style: TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            hintText: "Year",
+                            errorText: validateYear(yearController.text),
                           ),
-                          hintText: "Year",
+                          controller: yearController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(4),
+                          ],
+                          onChanged: (value) {
+                            setState(() {});
+                          },
                         ),
                       ),
                     ),
@@ -98,15 +167,21 @@ class ProfileCreationStep2 extends StatelessWidget {
               const SizedBox(height: 24.0),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey,
+                  backgroundColor: isValidDate() ? Colors.purple : Colors.grey,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24.0),
                   ),
                   minimumSize: const Size(double.infinity, 48.0),
                 ),
-                onPressed: () {
-                  // Handle next action
-                },
+                onPressed: isValidDate()
+                    ? () {
+                        widget.nextStep({
+                          'month': monthController.text,
+                          'day': dayController.text,
+                          'year': yearController.text,
+                        });
+                      }
+                    : null,
                 child: const Text(
                   "Next",
                   style: TextStyle(color: Colors.white),
@@ -117,5 +192,15 @@ class ProfileCreationStep2 extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Add this method to check if all fields are valid
+  bool isValidDate() {
+    return validateMonth(monthController.text) == null &&
+        validateDay(dayController.text) == null &&
+        validateYear(yearController.text) == null &&
+        monthController.text.isNotEmpty &&
+        dayController.text.isNotEmpty &&
+        yearController.text.isNotEmpty;
   }
 }
