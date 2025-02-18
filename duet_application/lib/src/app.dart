@@ -69,8 +69,7 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute<void>(
               settings: routeSettings,
               builder: (BuildContext context) {
-                return MessagingPage(
-                    senderId: "senderId", receiverId: "receiverId");
+                return Scaffold();
               },
             );
           },
