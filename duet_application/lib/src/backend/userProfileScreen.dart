@@ -14,7 +14,7 @@ class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key, required this.userProfile});
 
   @override
-  _UserProfileScreenState createState() => _UserProfileScreenState();
+  State<UserProfileScreen> createState() => _UserProfileScreenState();
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
@@ -206,11 +206,11 @@ class EditAboutMeScreen extends StatefulWidget {
   const EditAboutMeScreen({super.key, required this.bio});
 
   @override
-  _EditAboutMeScreenState createState() => _EditAboutMeScreenState();
+  State<EditAboutMeScreen>  createState() => _EditAboutMeScreenState();
 }
 
 class _EditAboutMeScreenState extends State<EditAboutMeScreen> {
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
@@ -255,7 +255,7 @@ class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key, required this.userProfile});
 
   @override
-  _EditProfileScreenState createState() => _EditProfileScreenState();
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
