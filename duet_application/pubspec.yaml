@@ -10,12 +10,10 @@ environment:
   sdk: ^3.6.1
 
 dependencies:
-  cloud_firestore: ^5.6.3
   firebase_core: ^3.11.0
   cloud_firestore: ^5.6.3
   firebase_app_check: ^0.3.2+2
   firebase_auth: ^5.4.2
-  firebase_core: ^3.11.0
   firebase_data_connect: ^0.1.2
   firebase_storage: ^12.4.2
   flutter:
