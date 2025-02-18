@@ -2,6 +2,9 @@ import 'package:duet_application/src/backend/userProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:duet_application/src/backend/spotifyUserData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+//(when we have database configured) import 'package:firebase_auth/firebase_auth.dart'; 
+import 'package:duet_application/src/backend/spotifyUserData.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 //(when we have database configured) import 'package:firebase_auth/firebase_auth.dart';
 
 // ------------------ User Profile Screen ------------------
@@ -72,6 +75,30 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     _buildAboutMeSection(context),
                     _buildTopArtistsSection(), // Displays the top artists
                   ])))
+                  child: Column(
+                      verticalDirection: VerticalDirection.down,
+                      children: [
+                    Container(
+                      width: 1440,
+                      height: 80,
+                      decoration: BoxDecoration(color: Color(0xFF5C469C)),
+                    ),
+                    Center(
+                      child: Container(
+                        width: 200,
+                        height: 200,
+                        decoration: ShapeDecoration(
+                          shape: OvalBorder(
+                            side:
+                                BorderSide(width: 5, color: Color(0xFF5C469C)),
+                          ),
+                        ),
+                      ),
+                    ),
+                    _buildProfileInfo(context),
+                    _buildAboutMeSection(context),
+                    _buildTopArtistsSection(), // Displays the top artists
+                  ])))
         ]));
   }
 
@@ -112,6 +139,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.black)),
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(widget.userProfile.bio,
@@ -130,6 +161,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               setState(() {
                 widget.userProfile.bio = updatedAboutMe;
               });
+              await widget.userProfile.updateBio(updatedAboutMe);
               await widget.userProfile.updateBio(updatedAboutMe);
             }
           },
@@ -152,6 +184,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 widget.userProfile.dob = updatedProfile['dob'];
                 widget.userProfile.location = updatedProfile['location'];
               });
+              await widget.userProfile.updateProfile(
+                updatedProfile['name'],
+                updatedProfile['email'],
+                updatedProfile['dob'],
+                updatedProfile['location'],
+              );
               await widget.userProfile.updateProfile(
                 updatedProfile['name'],
                 updatedProfile['email'],
@@ -202,10 +240,12 @@ class EditAboutMeScreen extends StatefulWidget {
 
 class _EditAboutMeScreenState extends State<EditAboutMeScreen> {
   TextEditingController _controller = TextEditingController();
+  TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _controller.text = widget.bio; // Set initial value
     _controller.text = widget.bio; // Set initial value
   }
 
