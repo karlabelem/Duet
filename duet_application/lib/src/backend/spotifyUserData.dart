@@ -61,17 +61,23 @@ class SpotifyUserData {
   // should be authenticating with spotify page to get the data using username and email. !!!
   // Connect with Spotify OAuth flow
   static Future<SpotifyUserData> connectWithSpotify(String uuid) async {
+  try {
+    // Start authentication flow
     final result = await FlutterWebAuth.authenticate(
       url:
-          '$_spotifyAuthUrl?response_type=code&client_id=$_clientId&redirect_uri=${Uri.encodeComponent(_redirectUri)}&scope=${Uri.encodeComponent("user-top-read user-library-read")}',
-      callbackUrlScheme: _redirectUri.split(':')[0], // "myapp"
+          '$_spotifyAuthUrl?response_type=code&client_id=$_clientId'
+          '&redirect_uri=${Uri.encodeComponent(_redirectUri)}'
+          '&scope=${Uri.encodeComponent("user-top-read user-library-read user-read-email user-read-private")}',
+      callbackUrlScheme: Uri.parse(_redirectUri).scheme,
     );
 
+    // Extract authorization code
     final code = Uri.parse(result).queryParameters['code'];
     if (code == null) {
       throw Exception("Failed to retrieve authorization code from Spotify");
     }
 
+    // Exchange code for tokens
     final tokenResponse = await http.post(
       Uri.parse(_spotifyTokenUrl),
       headers: {
@@ -85,11 +91,17 @@ class SpotifyUserData {
       },
     );
 
+    // Validate token response
     if (tokenResponse.statusCode != 200) {
       throw Exception('Failed to fetch access token: ${tokenResponse.body}');
     }
 
     final tokenData = jsonDecode(tokenResponse.body);
+    if (tokenData['access_token'] == null || tokenData['refresh_token'] == null) {
+      throw Exception('Invalid token response: ${tokenResponse.body}');
+    }
+
+    // Create user object
     final user = SpotifyUserData(
       uuid: uuid,
       accessToken: tokenData['access_token'],
@@ -98,9 +110,18 @@ class SpotifyUserData {
       email: '', // Will be set in fetchUserData()
     );
 
-    await user.fetchUserData(); // Retrieve and update username and email
+    // Fetch and update user data
+    try {
+      await user.fetchUserData();
+    } catch (e) {
+      throw Exception('Failed to fetch user data: $e');
+    }
+
     return user;
+  } catch (e) {
+    throw Exception('Spotify connection failed: $e');
   }
+}
 
   // Refresh access token
   Future<void> refreshAccessToken() async {
