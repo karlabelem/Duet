@@ -60,5 +60,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: web-release
-        path: /duet_application/build/web
->>>>>>> b330c96a2dd31076fc14c93b19833b1aaee1bb27
+        path: ./duet_application/build/web
