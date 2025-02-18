@@ -13,12 +13,11 @@ class MessagingPage extends StatefulWidget {
 
   final String senderId;
   final String receiverId;
-  late final Messagingbackend messages;
+  late Messagingbackend messages;
 
   @override
   State<MessagingPage> createState() => _MessaginPageState();
 }
-
 
 /// State for MessagingPage
 class _MessaginPageState extends State<MessagingPage> {
@@ -26,28 +25,47 @@ class _MessaginPageState extends State<MessagingPage> {
 
   @override
   void initState() {
-    print("initializing");
     super.initState();
-    print("fetching messages");
-    widget.messages = Messagingbackend(uuid1: widget.senderId, uuid2: widget.receiverId);
+    widget.messages =
+        Messagingbackend(uuid1: widget.senderId, uuid2: widget.receiverId);
     getMessages().then((response) {
-      print(response);
       widget.messages = response;
     });
   }
 
   Future<Messagingbackend> getMessages() async {
     // get conversation if previous one exists
-    final msgs = await getConversation(widget.senderId, widget.receiverId) ?? Messagingbackend(uuid1: widget.senderId, uuid2: widget.receiverId);
+    Messagingbackend? msgs = await getConversation(widget.senderId, widget.receiverId);
     // save conversation in case a new one was created
-    await widget.messages.saveToFirestore();
+    if(msgs == null) {
+      print("creating new conversation");
+      msgs = Messagingbackend(uuid1: widget.senderId, uuid2: widget.receiverId);
+      int exitCode = await msgs.saveToFirestore();
+      if (exitCode != 0) {
+        // ignore: avoid_print
+        print("Error saving conversation to firestore");
+      }
+    }
+    print(msgs.toMap().toString());
     return msgs;
   }
 
   /// creates Message object and connects to firebase
-  void sendMessage(String text) async {
+  Future<void> sendMessage(String text) async {
+    print("sending message enter");
     final msg = Message(widget.senderId, widget.receiverId, text);
-    await widget.messages.sendMessage(msg);
+    int exitCode = await widget.messages.sendMessage(msg);
+    if (exitCode != 0) {
+      // ignore: avoid_print
+      print("Error sending message");
+    }
+    print(widget.messages);
+    getMessages().then((response) {
+      setState(() {
+        widget.messages = response;
+      });
+    });
+    print("sending message exit");
   }
 
   @override
@@ -62,7 +80,8 @@ class _MessaginPageState extends State<MessagingPage> {
                 padding: EdgeInsets.all(10),
                 itemBuilder: (BuildContext context, int index) {
                   return TextBubble(
-                      msg: widget.messages.conversation[index], sender: widget.senderId);
+                      msg: widget.messages.conversation[index],
+                      sender: widget.senderId);
                 }),
             bottomNavigationBar: Container(
               child: Row(children: <Widget>[
@@ -70,12 +89,18 @@ class _MessaginPageState extends State<MessagingPage> {
                     child: TextField(
                   controller: typed,
                   decoration: InputDecoration(hintText: "Type message..."),
-                  onSubmitted: (text) {
-                    sendMessage(text);
+                  onSubmitted: (text) async {
+                    print("sending message");
+                    await sendMessage(text);
+                    typed.clear();
+                    print("done sending message: $text");
                   },
                 )),
                 SendButton(
-                  send: sendMessage,
+                  send: (s) async {
+                    await sendMessage(typed.text);
+                    typed.clear();
+                  },
                   typedText: typed,
                 )
               ]),
@@ -148,4 +173,3 @@ class SendButton extends StatelessWidget {
         ));
   }
 }
-
