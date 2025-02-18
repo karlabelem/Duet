@@ -43,8 +43,8 @@ class SpotifyUserData {
   Future<void> updateSpotifyData() async {
     await refreshAccessToken(); // Ensure token is up-to-date
     await fetchUserData(); // Get latest user details
-    favoriteArtists = await fetchArtists(); // Get latest artists
-    favoriteTracks = await fetchLibrary(); // Get latest tracks
+    setFavoriteArtists(await fetchArtists()); // Get latest artists and update via setter
+    setFavoriteTracks(await fetchLibrary()); // Get latest tracks and update via setter
     await save(); // Save updated data in Firestore
   }
 
@@ -63,11 +63,15 @@ class SpotifyUserData {
   static Future<SpotifyUserData> connectWithSpotify(String uuid) async {
     final result = await FlutterWebAuth.authenticate(
       url:
-          '$_spotifyAuthUrl?response_type=code&client_id=$_clientId&redirect_uri=$_redirectUri&scope=user-top-read user-library-read',
-      callbackUrlScheme: _redirectUri.split(':')[0],
+          '$_spotifyAuthUrl?response_type=code&client_id=$_clientId&redirect_uri=${Uri.encodeComponent(_redirectUri)}&scope=${Uri.encodeComponent("user-top-read user-library-read")}',
+      callbackUrlScheme: _redirectUri.split(':')[0], // "myapp"
     );
 
     final code = Uri.parse(result).queryParameters['code'];
+    if (code == null) {
+      throw Exception("Failed to retrieve authorization code from Spotify");
+    }
+
     final tokenResponse = await http.post(
       Uri.parse(_spotifyTokenUrl),
       headers: {
@@ -81,16 +85,20 @@ class SpotifyUserData {
       },
     );
 
+    if (tokenResponse.statusCode != 200) {
+      throw Exception('Failed to fetch access token: ${tokenResponse.body}');
+    }
+
     final tokenData = jsonDecode(tokenResponse.body);
     final user = SpotifyUserData(
       uuid: uuid,
       accessToken: tokenData['access_token'],
       refreshToken: tokenData['refresh_token'],
-      username: '', // TODO: username missing
-      email: '', // TODO: email missing 
+      username: '', // Will be set in fetchUserData()
+      email: '', // Will be set in fetchUserData()
     );
 
-    await user.fetchUserData();
+    await user.fetchUserData(); // Retrieve and update username and email
     return user;
   }
 
@@ -108,12 +116,40 @@ class SpotifyUserData {
       },
     );
 
-    final data = jsonDecode(response.body);
-    accessToken = data['access_token'];
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      setAccessToken(data['access_token']);
+    } else {
+      throw Exception('Failed to refresh access token: ${response.body}');
+    }
   }
 
   // TODO
   // SETTER METHODS MISSING
+
+   void setUsername(String newUsername) {
+    username = newUsername;
+  }
+
+  void setEmail(String newEmail) {
+    email = newEmail;
+  }
+
+  void setAccessToken(String newAccessToken) {
+    accessToken = newAccessToken;
+  }
+
+  void setRefreshToken(String newRefreshToken) {
+    refreshToken = newRefreshToken;
+  }
+
+  void setFavoriteArtists(List<dynamic> newFavoriteArtists) {
+    favoriteArtists = newFavoriteArtists;
+  }
+
+  void setFavoriteTracks(List<dynamic> newFavoriteTracks) {
+    favoriteTracks = newFavoriteTracks;
+  }
   
   // GETTER METHODS
 
@@ -129,7 +165,7 @@ class SpotifyUserData {
     final response = await _spotifyRequest(
       '$_spotifyApiUrl/me/top/artists?limit=$limit',
     );
-    favoriteArtists = response['items'];
+    setFavoriteArtists(response['items']);
     return favoriteArtists!;
   }
 
@@ -163,7 +199,9 @@ class SpotifyUserData {
     final genres = <String>{};
     
     for (final artist in artists) {
-      genres.addAll((artist['genres'] as List).cast<String>());
+      if (artist['genres'] != null) {
+        genres.addAll((artist['genres'] as List).cast<String>());
+      }
     }
     
     return genres.toList();
