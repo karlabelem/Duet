@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'userProfile.dart';
+import '../backend/userProfile.dart';
 
 class EditProfileImageScreen extends StatefulWidget {
   final UserProfileData userProfile;

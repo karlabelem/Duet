@@ -1,9 +1,9 @@
-import 'package:duet_application/src/frontEnd/profile_creation_parent.dart';
-import 'package:duet_application/src/frontEnd/profile_creation_s0.dart';
-import 'package:duet_application/src/frontEnd/profile_creation_s1.dart';
-import 'package:duet_application/src/frontEnd/profile_creation_s2.dart';
-import 'package:duet_application/src/frontEnd/profile_creation_s3.dart';
-import 'package:duet_application/src/frontEnd/profile_creation_s4.dart';
+import 'package:duet_application/src/frontEnd/profile_creation/profile_creation_parent.dart';
+import 'package:duet_application/src/frontEnd/profile_creation/profile_creation_s0.dart';
+import 'package:duet_application/src/frontEnd/profile_creation/profile_creation_s1.dart';
+import 'package:duet_application/src/frontEnd/profile_creation/profile_creation_s2.dart';
+import 'package:duet_application/src/frontEnd/profile_creation/profile_creation_s3.dart';
+import 'package:duet_application/src/frontEnd/profile_creation/profile_creation_s4.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:duet_application/src/front_end/forgot_password.dart';
+import 'package:duet_application/src/frontEnd/forgot_password/forgot_password.dart';
 
 void main() {
   testWidgets('forgot password clicking on buttons', (WidgetTester tester) async {

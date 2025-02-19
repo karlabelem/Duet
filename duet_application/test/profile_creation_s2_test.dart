@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:duet_application/src/frontEnd/profile_creation_s2.dart';
+import 'package:duet_application/src/frontEnd/profile_creation/profile_creation_s2.dart';
 
 void main() {
   testWidgets('ProfileCreationStep2 renders correctly',

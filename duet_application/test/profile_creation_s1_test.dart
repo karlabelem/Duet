@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:duet_application/src/frontEnd/profile_creation_s1.dart';
+import 'package:duet_application/src/frontEnd/profile_creation/profile_creation_s1.dart';
 
 void main() {
   testWidgets('ProfileCreationStep1 widget test', (WidgetTester tester) async {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:duet_application/src/backend/userProfileScreen.dart';
+import 'package:duet_application/src/frontEnd/userProfileScreen.dart';
 import 'package:duet_application/src/backend/userProfile.dart';
 
 void main() {

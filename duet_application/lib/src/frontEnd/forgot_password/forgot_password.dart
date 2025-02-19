@@ -1,7 +1,7 @@
-import 'package:duet_application/src/front_end/forgot_password_1.dart';
-import 'package:duet_application/src/front_end/forgot_password_2.dart';
-import 'package:duet_application/src/front_end/forgot_password_3.dart';
-import 'package:duet_application/src/front_end/forgot_password_4.dart';
+import 'package:duet_application/src/frontEnd/forgot_password/forgot_password_1.dart';
+import 'package:duet_application/src/frontEnd/forgot_password/forgot_password_2.dart';
+import 'package:duet_application/src/frontEnd/forgot_password/forgot_password_3.dart';
+import 'package:duet_application/src/frontEnd/forgot_password/forgot_password_4.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPassword extends StatefulWidget{

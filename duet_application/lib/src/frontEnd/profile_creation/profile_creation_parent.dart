@@ -1,11 +1,11 @@
 import 'package:duet_application/src/backend/spotifyUserData.dart';
 import 'package:duet_application/src/backend/userProfile.dart';
-import 'package:duet_application/src/frontEnd/profile_creation_s0.dart';
-import 'package:duet_application/src/frontEnd/profile_creation_s1.dart';
-import 'package:duet_application/src/frontEnd/profile_creation_s2.dart';
-import 'package:duet_application/src/frontEnd/profile_creation_s3.dart';
-import 'package:duet_application/src/frontEnd/profile_creation_s4.dart';
-import 'package:duet_application/src/frontEnd/user_registration_data.dart';
+import 'package:duet_application/src/frontEnd/profile_creation/profile_creation_s0.dart';
+import 'package:duet_application/src/frontEnd/profile_creation/profile_creation_s1.dart';
+import 'package:duet_application/src/frontEnd/profile_creation/profile_creation_s2.dart';
+import 'package:duet_application/src/frontEnd/profile_creation/profile_creation_s3.dart';
+import 'package:duet_application/src/frontEnd/profile_creation/profile_creation_s4.dart';
+import 'package:duet_application/src/frontEnd/profile_creation/user_registration_data.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

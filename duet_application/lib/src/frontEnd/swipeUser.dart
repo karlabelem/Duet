@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'userProfile.dart';
+import '../backend/userProfile.dart';
 
 // ------------------ Swipe User  ------------------
 class SwipeUserScreen extends StatefulWidget {
