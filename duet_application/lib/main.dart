@@ -29,14 +29,15 @@ void main() async {
   );
 
   if (kDebugMode) {
-    try {
-      FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-      await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-    } catch(e) {
-      print(e);
-    }
-  }
-  
+   try {
+     FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+     await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+   } catch (e) {
+     // ignore: avoid_print
+     print(e);
+   }
+ }
+ 
   runApp(MyApp(settingsController: settingsController));
 
   // await Firebase.initializeApp(

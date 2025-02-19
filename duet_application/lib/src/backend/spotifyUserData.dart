@@ -56,7 +56,7 @@ class SpotifyUserData {
         .get();
     return SpotifyUserData.fromMap(doc.data()!);
   }
-  
+
   // TODO!!!
   // should be authenticating with spotify page to get the data using username and email. !!!
   // Connect with Spotify OAuth flow
@@ -72,6 +72,8 @@ class SpotifyUserData {
       Uri.parse(_spotifyTokenUrl),
       headers: {
         'Authorization': 'Basic ${base64Encode(utf8.encode('$_clientId:$_clientSecret'))}',
+        'Authorization':
+            'Basic ${base64Encode(utf8.encode('$_clientId:$_clientSecret'))}',
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: {
@@ -87,7 +89,7 @@ class SpotifyUserData {
       accessToken: tokenData['access_token'],
       refreshToken: tokenData['refresh_token'],
       username: '', // TODO: username missing
-      email: '', // TODO: email missing 
+      email: '', // TODO: email missing
     );
 
     await user.fetchUserData();
@@ -114,7 +116,7 @@ class SpotifyUserData {
 
   // TODO
   // SETTER METHODS MISSING
-  
+
   // GETTER METHODS
 
   // Fetch user profile data
@@ -160,12 +162,10 @@ class SpotifyUserData {
   // Fetch genre based on top artists
   Future<List<String>> fetchGenre() async {
     final artists = await fetchArtists();
-    final genres = <String>{};
-    
+    final genres = <String>{};  
     for (final artist in artists) {
       genres.addAll((artist['genres'] as List).cast<String>());
     }
-    
     return genres.toList();
   }
 
@@ -225,3 +225,4 @@ class SpotifyUserData {
         .set(toMap());
   }
 }
+

@@ -7,6 +7,7 @@ import 'package:duet_application/src/backend/spotifyUserData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 //(when we have database configured) import 'package:firebase_auth/firebase_auth.dart';
 
+
 // ------------------ User Profile Screen ------------------
 class UserProfileScreen extends StatefulWidget {
   final UserProfileData userProfile;
@@ -359,6 +360,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   //     ),
   //   );
   // }
+
 }
 
 // ------------------ Edit About Me Screen ------------------
@@ -373,10 +375,10 @@ class EditAboutMeScreen extends StatefulWidget {
 class _EditAboutMeScreenState extends State<EditAboutMeScreen> {
   final TextEditingController _controller = TextEditingController();
 
+
   @override
   void initState() {
     super.initState();
-    _controller.text = widget.bio; // Set initial value
     _controller.text = widget.bio; // Set initial value
   }
 
