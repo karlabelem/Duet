@@ -1,32 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:duet_application/src/backend/userProfileScreen.dart';
 import 'package:duet_application/src/backend/userProfile.dart';
 
-// Generate mocks
-@GenerateMocks([FirebaseAuth, FirebaseFirestore])
-import 'user_profile_screen_test.mocks.dart';
-
 void main() {
-  late MockFirebaseAuth mockAuth;
-  late MockFirebaseFirestore mockFirestore;
-   setUpAll(() async {
-    // Initialize Firebase before tests run
-    TestWidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
-  });
-
-
-  setUp(() {
-    mockAuth = MockFirebaseAuth();
-    mockFirestore = MockFirebaseFirestore();
-  });
-
   testWidgets('Edit Profile screen navigation and update', (WidgetTester tester) async {
     // Mock UserProfileData
     final userProfile = UserProfileData(
