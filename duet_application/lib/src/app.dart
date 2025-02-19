@@ -1,15 +1,24 @@
 import 'package:duet_application/src/backend/userProfile.dart';
+import 'package:duet_application/src/frontEnd/login_screen.dart';
 import 'package:duet_application/src/frontEnd/userProfileScreen.dart';
-import 'package:duet_application/src/messaging/conversation.dart';
 import 'package:duet_application/src/frontEnd/profile_creation/profile_creation_parent.dart';
+import 'package:duet_application/src/messaging/messaging_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'settings/settings_controller.dart';
 
+enum AppState {
+  profileCreation,
+  userProfile,
+  conversation,
+  login
+  // Add other states as needed
+}
+
 /// The Widget that configures your application.
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({
     super.key,
     required this.settingsController,
@@ -18,13 +27,47 @@ class MyApp extends StatelessWidget {
   final SettingsController settingsController;
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  AppState appState = AppState.login;
+  UserProfileData? loggedInUser;
+
+  void openLoginScreen() {
+    setState(() {
+      appState = AppState.login;
+      loggedInUser = null;
+    });
+  }
+
+  void openProfileCreationScreen() {
+    setState(() {
+      appState = AppState.profileCreation;
+    });
+  }
+
+  void openUserProfileScreen(UserProfileData user) {
+    setState(() {
+      loggedInUser = user;
+      appState = AppState.userProfile;
+    });
+  }
+
+  void openConversationScreen() {
+    setState(() {
+      appState = AppState.conversation;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Glue the SettingsController to the MaterialApp.
     //
     // The ListenableBuilder Widget listens to the SettingsController for changes.
     // Whenever the user updates their settings, the MaterialApp is rebuilt.
     return ListenableBuilder(
-      listenable: settingsController,
+      listenable: widget.settingsController,
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
           // Providing a restorationScopeId allows the Navigator built by the
@@ -59,7 +102,7 @@ class MyApp extends StatelessWidget {
           // SettingsController to display the correct theme.
           theme: ThemeData(),
           darkTheme: ThemeData.dark(),
-          themeMode: settingsController.themeMode,
+          themeMode: widget.settingsController.themeMode,
 
           // Define a function to handle named routes in order to support
           // Flutter web url navigation and deep linking.
@@ -67,7 +110,55 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute<void>(
               settings: routeSettings,
               builder: (BuildContext context) {
-                return ProfileCreationParent();
+                if (loggedInUser == null) {
+                  switch (appState) {
+                    case AppState.profileCreation:
+                      return ProfileCreationParent(nextStep: openLoginScreen);
+                    case AppState.login:
+                      return LoginScreen(
+                          onRegister: openProfileCreationScreen,
+                          onLogin: openUserProfileScreen);
+                    default:
+                      return LoginScreen(
+                          onRegister: openProfileCreationScreen,
+                          onLogin: openUserProfileScreen);
+                  }
+                } else {
+                  return Scaffold(
+                    appBar: AppBar(
+                      title: Text(AppLocalizations.of(context)!.appTitle),
+                    ),
+                    body: IndexedStack(
+                      index: appState == AppState.userProfile ? 0 : 1,
+                      children: [
+                        UserProfileScreen(userProfile: loggedInUser!),
+                        MessagingPage(
+                          loggedInUser: loggedInUser!,
+                        ),
+                      ],
+                    ),
+                    bottomNavigationBar: BottomNavigationBar(
+                      currentIndex: appState == AppState.userProfile ? 0 : 1,
+                      onTap: (index) {
+                        if (index == 0) {
+                          openUserProfileScreen(loggedInUser!);
+                        } else {
+                          openConversationScreen();
+                        }
+                      },
+                      items: const [
+                        BottomNavigationBarItem(
+                          icon: Icon(Icons.person),
+                          label: 'Profile',
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Icon(Icons.message),
+                          label: 'Messages',
+                        ),
+                      ],
+                    ),
+                  );
+                }
               },
             );
           },
