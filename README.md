@@ -69,3 +69,11 @@ This project aims to connect people through shared musical interests, creating f
    To run the app on your desired platform (iOS/Android), execute the following command:
    ```bash
    flutter run
+
+### **Version Control and Tagging**
+
+To mark this release, we have created a Git tag for the Beta Release:
+
+```bash
+git tag -a v1.0.0-beta -m "Beta release of DUET"
+commit 9d0f1a99f03662c9b9e12878c3a7330b9ae95126 (HEAD, tag: v1.0.0-beta, origin/main, origin/HEAD, main)
