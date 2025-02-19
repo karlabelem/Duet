@@ -57,7 +57,7 @@ class SpotifyUserData {
   List<dynamic>?
       favoriteArtists; // IDK if we should limit these data structures
   List<dynamic>? favoriteTracks;
-  List<MusicGenre>? favoriteGenres;
+  List<dynamic>? favoriteGenres;
 
   SpotifyUserData({
     required this.uuid,
@@ -229,6 +229,7 @@ class SpotifyUserData {
 
   // Convert to Firestore map
   Map<String, dynamic> toMap() {
+
     return {
       'uuid': uuid,
       'accessToken': accessToken,

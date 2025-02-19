@@ -12,12 +12,15 @@ class ProfileCreationStep4 extends StatefulWidget {
 class _ProfileCreationStep4State extends State<ProfileCreationStep4> {
   List<MusicGenre> _selectedGenres = [];
 
+  List<dynamic> getSelectedGenresAsDynamic() {
+    return _selectedGenres.map((genre) => genre.toString().split('.').last).toList();
+  }
+
   void _navigateAndSelectGenres(BuildContext context) async {
     final selectedGenres = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SelectMusicGenres()),
     );
-    print(selectedGenres);
     if (selectedGenres != null) {
       setState(() {
         _selectedGenres = List<MusicGenre>.from(selectedGenres);
@@ -90,7 +93,7 @@ class _ProfileCreationStep4State extends State<ProfileCreationStep4> {
                   minimumSize: Size(double.infinity, 48.0),
                 ),
                 onPressed: () {
-                  widget.nextStep({'genres': _selectedGenres});
+                  widget.nextStep({'genres': getSelectedGenresAsDynamic()});
                 },
                 child: Text(
                   "Next",
