@@ -22,7 +22,7 @@ var _uuidGen = Uuid();
 // Rankings can be dynamically updated via the `rankUser` method.
 class UserProfileData {
   final String _uuid; // Private unique user ID
-  String name, email, dob, location, bio;
+  String name, email, dob, location, bio, password;
   String? imageUrl;
   List<String> likedUsers; // Stores liked users with user UUIDs
   List<String> dislikedUsers; // Stores liked users with user UUIDs
@@ -32,6 +32,7 @@ class UserProfileData {
     required this.email,
     required this.dob,
     required this.location,
+    required this.password,
     this.imageUrl,
     this.bio = "",
     List<String>? likedUsers,
@@ -47,6 +48,7 @@ class UserProfileData {
       'name': name,
       'email': email,
       'dob': dob,
+      'password': password,
       'location': location,
       'imageUrl': imageUrl,
       'bio': bio,
@@ -61,6 +63,7 @@ class UserProfileData {
       name: data['name'] ?? '',
       email: data['email'] ?? '',
       dob: data['dob'] ?? '',
+      password: data['password'] ?? '',
       location: data['location'] ?? '',
       imageUrl: data['imageUrl'] ?? '',
       bio: data['bio'] ?? '',
@@ -160,40 +163,41 @@ class UserProfileData {
 
   // Method to update bio info
   // For UI
-  Future<void> updateBio(String newBio) async {
-    final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
+  Future<int> updateBio(String newBio) async {
+    try {
+      final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
 
-    // Run a transaction to update the bio
-    await FirebaseFirestore.instance.runTransaction((transaction) async {
-      final userTransaction = await transaction.get(userRef);
-      if (!userTransaction.exists) return;
-
-      // Update the bio directly in Firestore
-      transaction.update(userRef, {
+      // Update the bio directly in Firestore without a transaction
+      await userRef.update({
         'bio': newBio,
       });
-    });
+      return 0;
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+      return 1;
+    }
   }
 
   // Method to update profile details (name, dob, location)
   // For UI
-  Future<void> updateProfile(String newName, String newEmail, String newDob,
-      String newLocation) async {
-    final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
+  Future<int> updateProfile(String newName, String newEmail, String newDob, String newLocation) async {
+    try {
+      final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
 
-    // Run a transaction to update profile details
-    await FirebaseFirestore.instance.runTransaction((transaction) async {
-      final userTransaction = await transaction.get(userRef);
-      if (!userTransaction.exists) return;
-
-      // Update profile details directly in Firestore
-      transaction.update(userRef, {
+      // Update profile details directly in Firestore without a transaction
+      await userRef.update({
         'name': newName,
         'email': newEmail,
         'dob': newDob,
         'location': newLocation,
       });
-    });
+      return 0;
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+      return 1;
+    }
   }
 
   // Method to update profile picture
@@ -212,4 +216,19 @@ class UserProfileData {
       });
     });
   }
+}
+
+// Method to get user profile based on email and password
+Future<UserProfileData?> getUserProfileByEmailAndPassword(dynamic email, dynamic password) async {
+  final userQuery = await FirebaseFirestore.instance
+      .collection('users')
+      .where('email', isEqualTo: email)
+      .where('password', isEqualTo: password)
+      .limit(1)
+      .get();
+  print(userQuery.docs.first.data());
+  if (userQuery.docs.isNotEmpty) {
+    return UserProfileData.fromMap(userQuery.docs.first.data());
+  }
+  return null;
 }
