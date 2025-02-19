@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:convert';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart'; // Updated import
 import 'package:http/http.dart' as http;
 import 'userProfile.dart';
 
@@ -64,7 +64,7 @@ class SpotifyUserData {
   // should be authenticating with spotify page to get the data using username and email. !!!
   // Connect with Spotify OAuth flow
   static Future<SpotifyUserData> connectWithSpotify(String uuid) async {
-    final result = await FlutterWebAuth.authenticate(
+    final result = await FlutterWebAuth2.authenticate(
       url:
           '$_spotifyAuthUrl?response_type=code&client_id=$_clientId&redirect_uri=$_redirectUri&scope=user-top-read user-library-read',
       callbackUrlScheme: _redirectUri.split(':')[0],

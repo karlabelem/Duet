@@ -1,3 +1,4 @@
+import 'package:duet_application/src/backend/spotifyUserData.dart';
 import 'package:duet_application/src/backend/userProfile.dart';
 import 'package:duet_application/src/frontEnd/profile_creation_s0.dart';
 import 'package:duet_application/src/frontEnd/profile_creation_s1.dart';
@@ -17,6 +18,7 @@ class ProfileCreationParent extends StatefulWidget {
 
 class ProfileCreationParentState extends State<ProfileCreationParent> {
   final UserRegistrationData userRegistrationData = UserRegistrationData();
+  late String uuid = ''; 
   int step = 0;
 
   void nextStep(Map<String, dynamic> data) {
@@ -38,6 +40,7 @@ class ProfileCreationParentState extends State<ProfileCreationParent> {
           break;
         case 4:
           _createUserProfile();
+          SpotifyUserData.createSpotifyProfile(uuid);
           break;
       }
       step = step + 1;
@@ -56,11 +59,11 @@ class ProfileCreationParentState extends State<ProfileCreationParent> {
       );
 
       await userProfile.saveToFirestore();
+      uuid = userProfile.uuid;
     } catch (e) {
       if (kDebugMode) {
         print('Error creating user profile: $e');
       }
-      // Handle error appropriately
     }
   }
 

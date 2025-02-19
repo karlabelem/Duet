@@ -55,8 +55,8 @@ class ProfileCreationStep4 extends StatelessWidget {
                   ),
                   minimumSize: Size(double.infinity, 48.0),
                 ),
-                onPressed: () {
-                  nextStep();
+                onPressed: (){
+                  nextStep({'none': 'none'});
                 },
                 child: Text(
                   "Next",
