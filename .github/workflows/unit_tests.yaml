@@ -3,7 +3,11 @@ name: Unit Tests Check
 on:
   push: 
     branches: [ "main" ]
+<<<<<<< HEAD
+  pull request:
+=======
   pull_request:
+>>>>>>> b330c96a2dd31076fc14c93b19833b1aaee1bb27
     branches: [ "main" ]
 
 jobs:
@@ -18,6 +22,14 @@ jobs:
       uses: subosito/flutter-action@v2
       with: 
         channel: stable
+<<<<<<< HEAD
+        flutter-version: ./duet_application/pubspec.yaml
+        cache: true
+      run: flutter --version
+    
+    - name: Run Unit Tests
+      run: flutter test
+=======
         flutter-version: 3.27.3
         cache: true
       
@@ -26,3 +38,4 @@ jobs:
       run: 
         flutter --version;
         flutter test;
+>>>>>>> b330c96a2dd31076fc14c93b19833b1aaee1bb27

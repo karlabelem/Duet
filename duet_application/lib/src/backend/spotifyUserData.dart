@@ -1,8 +1,41 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:convert';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'userProfile.dart';
+
+enum MusicGenre {
+  rock,
+  pop,
+  jazz,
+  classical,
+  hipHop,
+  electronic,
+  country,
+  reggae,
+  blues,
+  metal,
+  folk,
+  punk,
+  soul,
+  rnb,
+  latin,
+  disco,
+  funk,
+  techno,
+  house,
+  trance,
+  dubstep,
+  drumAndBass,
+  ambient,
+  indie,
+  alternative,
+  kpop,
+  jpop,
+  cpop,
+  world,
+  soundtrack,
+}
 
 class SpotifyUserData {
   // TODO !!
@@ -17,22 +50,24 @@ class SpotifyUserData {
   static const String _spotifyApiUrl = 'https://api.spotify.com/v1';
 
   final String uuid;
-  String username;
+  String? username;
   String email;
-  String accessToken;
-  String refreshToken;
+  String? accessToken;
+  String? refreshToken;
   List<dynamic>?
       favoriteArtists; // IDK if we should limit these data structures
   List<dynamic>? favoriteTracks;
+  List<dynamic>? favoriteGenres;
 
   SpotifyUserData({
     required this.uuid,
-    required this.accessToken,
-    required this.refreshToken,
-    required this.username,
+    this.accessToken,
+    this.refreshToken,
+    this.username,
     required this.email,
     this.favoriteArtists,
     this.favoriteTracks,
+    this.favoriteGenres,
   });
 
   /// Create and store a new Spotify profile in Firestore.
@@ -194,6 +229,7 @@ class SpotifyUserData {
 
   // Convert to Firestore map
   Map<String, dynamic> toMap() {
+
     return {
       'uuid': uuid,
       'accessToken': accessToken,
@@ -202,6 +238,7 @@ class SpotifyUserData {
       'email': email,
       'favoriteArtists': favoriteArtists,
       'favoriteTracks': favoriteTracks,
+      'favoriteGenres': favoriteGenres,
     };
   }
 
