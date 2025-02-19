@@ -21,8 +21,10 @@ jobs:
         flutter-version: 3.27.3
         cache: true
       
-    - name: Check flutter version and run Unit Tests 
+    - name: Check flutter version, get correct dependencies, and run Unit Tests 
       working-directory: ./duet_application
       run: 
         flutter --version;
+        rm pubspec.lock;
+        flutter pub get;
         flutter test;
