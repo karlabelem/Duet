@@ -31,7 +31,7 @@ void main() {
   }
 }
 */
-
+import 'dart:math';
 
 // Data structure
 class User {
@@ -54,8 +54,6 @@ double jaccardSimilarity(Set<String> set1, Set<String> set2) {
   return intersectionSize / unionSize;
 }
 
-// Another (for numerical)
-import 'dart:math';
 
 double cosineSimilarity(List<double> vec1, List<double> vec2) {
   if (vec1.length != vec2.length || vec1.isEmpty) return 0.0;
