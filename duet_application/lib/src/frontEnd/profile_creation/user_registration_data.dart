@@ -23,6 +23,7 @@ class UserRegistrationData {
       name: '$firstName $lastName',
       email: email,
       dob: dob,
+      password: password,
       location: location,
       imageUrl: '', // Default empty image URL
     );

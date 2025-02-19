@@ -76,7 +76,7 @@ class _ProfileCreationStep3State extends State<ProfileCreationStep3> {
                   if (isValidCity()) {
                     widget.nextStep(
                       {
-                        'city': cityController.text,
+                        'location': cityController.text,
                       },
                     );
                   } else {

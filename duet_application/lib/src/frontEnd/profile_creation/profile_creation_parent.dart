@@ -10,7 +10,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ProfileCreationParent extends StatefulWidget {
-  const ProfileCreationParent({super.key});
+  const ProfileCreationParent({super.key, required this.nextStep});
+
+  final Function nextStep;
 
   @override
   State<ProfileCreationParent> createState() => ProfileCreationParentState();
@@ -40,6 +42,7 @@ class ProfileCreationParentState extends State<ProfileCreationParent> {
           break;
         case 4:
           _createUserProfile(data);
+          widget.nextStep();
           break;
       }
       step = step + 1;
@@ -54,6 +57,7 @@ class ProfileCreationParentState extends State<ProfileCreationParent> {
         email: userRegistrationData.email,
         dob: userRegistrationData.dob,
         location: userRegistrationData.location,
+        password: userRegistrationData.password,
         imageUrl: '', // Default empty image URL
       );
 
