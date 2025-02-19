@@ -43,10 +43,8 @@ class SpotifyUserData {
   static const String _clientId = '4dbf19a959ff4c3bb0992c29ce581668';
   static const String _clientSecret = 'e4fa3a54db064be3bdae30d26bb33b12';
   static const String _redirectUri = 'https://api.spotify.com';
-  static const String _spotifyAuthUrl =
-      'https://accounts.spotify.com/authorize';
-  static const String _spotifyTokenUrl =
-      'https://accounts.spotify.com/api/token';
+  static const String _spotifyAuthUrl = 'https://accounts.spotify.com/authorize';
+  static const String _spotifyTokenUrl = 'https://accounts.spotify.com/api/token';
   static const String _spotifyApiUrl = 'https://api.spotify.com/v1';
 
   final String uuid;
@@ -109,6 +107,7 @@ class SpotifyUserData {
     final tokenResponse = await http.post(
       Uri.parse(_spotifyTokenUrl),
       headers: {
+        'Authorization': 'Basic ${base64Encode(utf8.encode('$_clientId:$_clientSecret'))}',
         'Authorization':
             'Basic ${base64Encode(utf8.encode('$_clientId:$_clientSecret'))}',
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -138,8 +137,7 @@ class SpotifyUserData {
     final response = await http.post(
       Uri.parse(_spotifyTokenUrl),
       headers: {
-        'Authorization':
-            'Basic ${base64Encode(utf8.encode('$_clientId:$_clientSecret'))}',
+        'Authorization': 'Basic ${base64Encode(utf8.encode('$_clientId:$_clientSecret'))}',
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: {
@@ -200,12 +198,10 @@ class SpotifyUserData {
   // Fetch genre based on top artists
   Future<List<String>> fetchGenre() async {
     final artists = await fetchArtists();
-    final genres = <String>{};
-
+    final genres = <String>{};  
     for (final artist in artists) {
       genres.addAll((artist['genres'] as List).cast<String>());
     }
-
     return genres.toList();
   }
 
@@ -267,3 +263,4 @@ class SpotifyUserData {
         .set(toMap());
   }
 }
+
