@@ -29,7 +29,7 @@ class _EditProfileImageScreenState extends State<EditProfileImageScreen> {
           children: [
             CircleAvatar(
               radius: 50,
-              backgroundImage: NetworkImage(widget.userProfile.imageUrl),
+              //backgroundImage: NetworkImage(widget.userProfile.imageUrl),
             ),
             SizedBox(height: 20),
             TextField(

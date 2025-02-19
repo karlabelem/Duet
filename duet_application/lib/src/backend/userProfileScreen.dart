@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:duet_application/src/backend/spotifyUserData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 //(when we have database configured) import 'package:firebase_auth/firebase_auth.dart'; 
-import 'package:duet_application/src/backend/spotifyUserData.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-//(when we have database configured) import 'package:firebase_auth/firebase_auth.dart';
 
 // ------------------ User Profile Screen ------------------
 class UserProfileScreen extends StatefulWidget {
@@ -189,106 +186,105 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               value,
               textAlign: TextAlign.right, // Keeps text aligned properly
               style: const TextStyle(
-                fontSize: 16, // Increased font size
-                color: Colors.black, // Ensures good contrast
-              ),
-              overflow: TextOverflow.ellipsis, // Prevents overflow issues
-              maxLines: 1,
-            ),
-          ),
+                  fontWeight: FontWeight.bold, color: Colors.black)),
+          Text(value,
+              style: const TextStyle(fontSize: 16, color: Colors.black)),
         ],
       ),
     );
   }
 
-  // About Me Card
-  Widget _buildAboutMeCard() {
-    return Container(
-      width: 300,
-      margin: const EdgeInsets.all(16.0),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 6.0,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),child: Padding(
-          padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text("About Me", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black)),
-            const SizedBox(height: 10),
-            Text(widget.userProfile.bio, textAlign: TextAlign.center, style: TextStyle(fontSize: 16, color: Colors.black)),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () async {
-                final updatedAboutMe = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        EditAboutMeScreen(bio: widget.userProfile.bio),
-                  ),
-                );
-                if (updatedAboutMe != null) {
-                  setState(() {
-                    widget.userProfile.bio = updatedAboutMe;
-                  });
-                  await widget.userProfile.updateBio(updatedAboutMe);
-                }
-              },
-              child: const Text("Edit", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
-            ),
-          ],
+  Widget _buildAboutMeSection(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text("About Me:",
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Text(widget.userProfile.bio,
+              style: const TextStyle(fontSize: 16)),
         ),
-      ),
+        ElevatedButton(
+          onPressed: () async {
+            final updatedAboutMe = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    EditAboutMeScreen(bio: widget.userProfile.bio),
+              ),
+            );
+            if (updatedAboutMe != null) {
+              setState(() {
+                widget.userProfile.bio = updatedAboutMe;
+              });
+              await widget.userProfile.updateBio(updatedAboutMe);
+              await widget.userProfile.updateBio(updatedAboutMe);
+            }
+          },
+          child: const Text("Edit About Me"),
+        ),
+        const SizedBox(height: 10),
+        ElevatedButton(
+          onPressed: () async {
+            final updatedProfile = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    EditProfileScreen(userProfile: widget.userProfile),
+              ),
+            );
+            if (updatedProfile != null) {
+              setState(() {
+                widget.userProfile.name = updatedProfile['name'];
+                widget.userProfile.email = updatedProfile['email'];
+                widget.userProfile.dob = updatedProfile['dob'];
+                widget.userProfile.location = updatedProfile['location'];
+              });
+              await widget.userProfile.updateProfile(
+                updatedProfile['name'],
+                updatedProfile['email'],
+                updatedProfile['dob'],
+                updatedProfile['location'],
+              );
+              await widget.userProfile.updateProfile(
+                updatedProfile['name'],
+                updatedProfile['email'],
+                updatedProfile['dob'],
+                updatedProfile['location'],
+              );
+            }
+          },
+          child: const Text("Edit Profile"),
+        ),
+      ],
     );
   }
 
-  // Top Artists Card
-  Widget _buildTopArtistsCard() {
-    return Container(
-      width: 300,
-      margin: const EdgeInsets.all(16.0),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 6.0,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                "Top Artists",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
-              ),
-              const SizedBox(height: 10),
-              favoriteArtists.isEmpty
-                  ? const Text("No top artists available.", 
-                      style: TextStyle(fontSize: 16, color: Colors.black54))
-                  : Column(
-                      children: favoriteArtists
-                          .take(5) // Ensure only top 5 artists are displayed
-                          .map((artist) => Text(artist, 
-                              style: const TextStyle(fontSize: 16, color: Colors.black)))
-                          .toList(),
-                    ),
-            ],
-          ),
+  // display top five artists on profile page
+  Widget _buildTopArtistsSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Top Artists:",
+          style: TextStyle(
+              fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
         ),
+        const SizedBox(height: 10),
+        favoriteArtists.isEmpty
+            ? const Text("No top artists available.",
+                style: TextStyle(fontSize: 16))
+            : Column(
+                children: favoriteArtists
+                    .map((artist) =>
+                        Text(artist, style: TextStyle(fontSize: 16)))
+                    .toList(),
+              ),
+      ],
     );
   }
 
