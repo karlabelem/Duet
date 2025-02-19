@@ -39,15 +39,14 @@ class ProfileCreationParentState extends State<ProfileCreationParent> {
           userRegistrationData.location = data['location'] ?? '';
           break;
         case 4:
-          _createUserProfile();
-          SpotifyUserData.createSpotifyProfile(uuid);
+          _createUserProfile(data);
           break;
       }
       step = step + 1;
     });
   }
 
-  Future<void> _createUserProfile() async {
+  Future<void> _createUserProfile(Map<String, dynamic> data) async {
     try {
       final userProfile = UserProfileData(
         name:
@@ -60,11 +59,21 @@ class ProfileCreationParentState extends State<ProfileCreationParent> {
 
       await userProfile.saveToFirestore();
       uuid = userProfile.uuid;
+      await _createSpotifyUserData(data);
     } catch (e) {
       if (kDebugMode) {
         print('Error creating user profile: $e');
       }
     }
+  }
+
+  Future<void> _createSpotifyUserData(Map<String, dynamic> data) async {
+    final spotifyUserData = SpotifyUserData(
+      uuid: uuid,
+      email: userRegistrationData.email,
+      favoriteGenres: data['genres'],
+    );
+    spotifyUserData.save();
   }
 
   @override
