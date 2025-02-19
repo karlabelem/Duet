@@ -20,10 +20,52 @@ This project aims to connect people through shared musical interests, creating f
   
 ### **Use Cases Operational**:
 
-- **User Profile Update**: Users can view and update their profile (e.g., bio, music preferences). Changes are stored in the backend and reflected on the user interface.
-- **Messaging**: Users can send and receive messages, and all conversations are updated in real-time.
+- **User Profile Update**: Users can view and update their profile (e.g., bio, profile). Changes are stored in the backend and reflected on the user interface.
 - **UI Integration**: The UI reflects changes from the backend, ensuring that user profiles and messages are updated seamlessly.
 
----
+### **Build System**
 
-This update reflects the current operational state of the DUET platform as of the Beta Release. Future releases will continue to build on these features with enhancements such as group chats, media sharing, and personalized concert recommendations.
+1. **Prerequisites**:
+   - Install Flutter from [flutter.dev](https://flutter.dev/docs/get-started/install).
+   - Install the latest version of Android Studio (for mobile development) or Visual Studio Code with the Flutter and Dart extensions for development.
+   - Install Firebase CLI and initialize Firebase for the project using [Firebase Setup](https://firebase.google.com/docs/flutter/setup).
+
+2. **Setup Firebase**:
+
+   - Install Firebase CLI globally:
+     ```bash
+     dart pub global activate flutterfire_cli
+     ```
+
+   - Edit your shell configuration file (`~/.zshrc` for zsh, or the appropriate file for your shell):
+     ```bash
+     nano ~/.zshrc
+     export PATH="$PATH":"$HOME/.pub-cache/bin"  # Save this to ~/.zshrc or the relevant shell config file
+     source ~/.zshrc
+     ```
+
+   - Run `flutterfire configure` to set up Firebase configuration:
+     ```bash
+     flutterfire configure
+     ```
+
+   - If you encounter issues with Xcode setup, install the necessary gem:
+     ```bash
+     sudo gem install xcodeproj
+     gem list xcodeproj
+     ```
+
+   - Add Firebase Core to your project:
+     ```bash
+     flutter pub add firebase_core
+     ```
+
+   - Add other Firebase plugins based on your needs (check the plugin names on the [FlutterFire website](https://firebase.flutter.dev/docs/overview)):
+     ```bash
+     flutter pub add PLUGIN_NAME  # Replace PLUGIN_NAME with the specific plugin you need
+     ```
+
+3. **Run the App**:
+   To run the app on your desired platform (iOS/Android), execute the following command:
+   ```bash
+   flutter run
