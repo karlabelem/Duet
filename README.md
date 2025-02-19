@@ -16,12 +16,12 @@ This project aims to connect people through shared musical interests, creating f
 - **Backend Data Storage**: Integration with Firebase Firestore for secure, real-time user data storage, including profiles and messages.
 - **Messaging System**: Real-time messaging class implemented, allowing users to communicate with each other seamlessly.
 - **User Profile Update**: Users can create and update their profiles, and any changes are saved to Firestore, reflecting on the user interface.
-- **User Screen UI**: The user interface is fully integrated, displaying real-time updates from the backend, including profile details and messages.
+- **User Screen UI**: The start of the user profile interface is integrated, displaying updates from the backend, including profile details.
   
 ### **Use Cases Operational**:
 
 - **User Profile Update**: Users can view and update their profile (e.g., bio, profile). Changes are stored in the backend and reflected on the user interface.
-- **UI Integration**: The UI reflects changes from the backend, ensuring that user profiles and messages are updated seamlessly.
+- **UI Integration**: The UI reflects changes from the backend, ensuring that user profile updated.
 
 ### **Build System**
 
