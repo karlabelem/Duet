@@ -53,7 +53,7 @@ Future<void> getDocumentsWithUuidSubstring(String uuid) async {
       // ignore: avoid_print
       print(e);
     }
-    conversations = (documentNames.isEmpty) ? conversations : documentNames;
+    conversations = documentNames;
 }
 
   

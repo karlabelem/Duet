@@ -1,11 +1,12 @@
+import 'package:duet_application/src/backend/userProfile.dart';
 import 'package:flutter/material.dart';
 import 'conversation.dart'; 
 import 'list_conversations.dart';
 
 class MessagingPage extends StatefulWidget {
-  const MessagingPage({super.key, required this.loggedInUser});
+  MessagingPage({super.key, required UserProfileData loggedInUser}): loggedInUserId = loggedInUser.uuid;
 
-  final String loggedInUser;
+  final String loggedInUserId;
 
   @override
   State<MessagingPage> createState() => _MessagingPageState();
@@ -31,7 +32,7 @@ class _MessagingPageState extends State<MessagingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _isDMListPage ? ConversationList(loggedInUser: widget.loggedInUser, onConversationSelected: _goToIndividualDMPage,) : IndividualDMPage(senderId: widget.loggedInUser, receiverId: _otherUser, goBack: _goToDMListPage,),
+      body: _isDMListPage ? ConversationList(loggedInUser: widget.loggedInUserId, onConversationSelected: _goToIndividualDMPage,) : IndividualDMPage(senderId: widget.loggedInUserId, receiverId: _otherUser, goBack: _goToDMListPage,),
     );
   }
 }
