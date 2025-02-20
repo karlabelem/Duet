@@ -2,35 +2,33 @@ import 'package:duet_application/src/backend/userProfile.dart';
 import 'package:flutter/material.dart';
 import 'package:duet_application/src/backend/spotifyUserData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-//(when we have database configured) import 'package:firebase_auth/firebase_auth.dart'; 
-import 'package:duet_application/src/backend/spotifyUserData.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-//(when we have database configured) import 'package:firebase_auth/firebase_auth.dart';
 
-
-// ------------------ User Profile Screen ------------------
 class UserProfileScreen extends StatefulWidget {
-  final UserProfileData userProfile;
+  final String userUuid;
 
-  const UserProfileScreen({super.key, required this.userProfile});
+  const UserProfileScreen({super.key, required this.userUuid});
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
+  late Future<UserProfileData?> _userProfileFuture;
   List<String> favoriteArtists = [];
 
   @override
   void initState() {
     super.initState();
-    _loadTopArtists();
+    _userProfileFuture = _fetchUserProfile();
+  }
+
+  Future<UserProfileData?> _fetchUserProfile() async {
+    return await UserProfileData.getUserProfile(widget.userUuid);
   }
 
   Future<void> _loadTopArtists() async {
     // Replace with the actual UUID of the logged-in user
-    String userUuid =
-        "user-uuid-goes-here"; // needs firebase data, because we have to manually insert UUID
+    String userUuid = widget.userUuid;
 
     SpotifyUserData userData = await SpotifyUserData.get(userUuid);
     final artists = await userData.fetchArtists(limit: 5); // Get top 5 artists
@@ -41,7 +39,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     });
   }
 
-  // Main build method
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,34 +71,39 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           },
         ),
       ),
-      body: Container(
-        color: const Color(0xFFE6E6FA), // Lilac background
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildProfileCard(), // Profile Card
-            const SizedBox(width: 16),
-            _buildAboutMeCard(), // About Me section next to Profile Card
-            const SizedBox(width: 16),
-            _buildTopArtistsCard(), // Music section next to About Me section
-            const SizedBox(width: 16),
-            // Expanded(
-            //   child: Column(
-            //     crossAxisAlignment: CrossAxisAlignment.center,
-            //     children: [
-            //       _buildTopArtistsSection(),
-            //     ],
-            //   ),
-            // ),
-          ],
-        ),
+      body: FutureBuilder<UserProfileData?>(
+        future: _userProfileFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data == null) {
+            return Center(child: Text('User profile not found.'));
+          } else {
+            final userProfile = snapshot.data!;
+            return Container(
+              color: const Color(0xFFE6E6FA), // Lilac background
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildProfileCard(userProfile), // Profile Card
+                  const SizedBox(width: 16),
+                  _buildAboutMeCard(userProfile), // About Me section next to Profile Card
+                  const SizedBox(width: 16),
+                  _buildTopArtistsCard(), // Music section next to About Me section
+                  const SizedBox(width: 16),
+                ],
+              ),
+            );
+          }
+        },
       ),
     );
   }
 
-  // User Profile Card
-  Widget _buildProfileCard() {
+  Widget _buildProfileCard(UserProfileData userProfile) {
     return Container(
       width: 300,
       margin: const EdgeInsets.all(16.0),
@@ -115,8 +118,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             offset: Offset(0, 2),
           ),
         ],
-      ),child: Padding(
-          padding: const EdgeInsets.all(16.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -127,14 +131,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
             const SizedBox(height: 10),
             Text(
-              widget.userProfile.name,
+              userProfile.name,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
             ),
             const SizedBox(height: 5),
-            _buildInfoRow("Name", widget.userProfile.name),
-            _buildInfoRow("Email", widget.userProfile.email),
-            _buildInfoRow("DOB", widget.userProfile.dob),
-            _buildInfoRow("Location", widget.userProfile.location),
+            _buildInfoRow("Name", userProfile.name),
+            _buildInfoRow("Email", userProfile.email),
+            _buildInfoRow("DOB", userProfile.dob),
+            _buildInfoRow("Location", userProfile.location),
             const SizedBox(height: 15),
             ElevatedButton(
               onPressed: () async {
@@ -142,19 +146,19 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        EditProfileScreen(userProfile: widget.userProfile),
+                        EditProfileScreen(userProfile: userProfile),
                   ),
                 );
 
                 if (updatedProfile != null) {
                   setState(() {
-                    widget.userProfile.name = updatedProfile['name'];
-                    widget.userProfile.email = updatedProfile['email'];
-                    widget.userProfile.dob = updatedProfile['dob'];
-                    widget.userProfile.location = updatedProfile['location'];
+                    userProfile.name = updatedProfile['name'];
+                    userProfile.email = updatedProfile['email'];
+                    userProfile.dob = updatedProfile['dob'];
+                    userProfile.location = updatedProfile['location'];
                   });
 
-                  await widget.userProfile.updateProfile(
+                  await userProfile.updateProfile(
                     updatedProfile['name'],
                     updatedProfile['email'],
                     updatedProfile['dob'],
@@ -166,14 +170,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
           ],
         ),
-      ), 
+      ),
     );
   }
 
-  // Info Print Method
   Widget _buildInfoRow(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6.0), // Slightly increased padding
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -181,19 +184,19 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             "$label:",
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 16, // Increased font size
-              color: Colors.black87, // Darker text color for better readability
+              fontSize: 16,
+              color: Colors.black87,
             ),
           ),
           Expanded(
             child: Text(
               value,
-              textAlign: TextAlign.right, // Keeps text aligned properly
+              textAlign: TextAlign.right,
               style: const TextStyle(
-                fontSize: 16, // Increased font size
-                color: Colors.black, // Ensures good contrast
+                fontSize: 16,
+                color: Colors.black,
               ),
-              overflow: TextOverflow.ellipsis, // Prevents overflow issues
+              overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
           ),
@@ -202,8 +205,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
-  // About Me Card
-  Widget _buildAboutMeCard() {
+  Widget _buildAboutMeCard(UserProfileData userProfile) {
     return Container(
       width: 300,
       margin: const EdgeInsets.all(16.0),
@@ -218,14 +220,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             offset: Offset(0, 2),
           ),
         ],
-      ),child: Padding(
-          padding: const EdgeInsets.all(16.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text("About Me", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black)),
             const SizedBox(height: 10),
-            Text(widget.userProfile.bio, textAlign: TextAlign.center, style: TextStyle(fontSize: 16, color: Colors.black)),
+            Text(userProfile.bio, textAlign: TextAlign.center, style: TextStyle(fontSize: 16, color: Colors.black)),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () async {
@@ -233,14 +236,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        EditAboutMeScreen(bio: widget.userProfile.bio),
+                        EditAboutMeScreen(bio: userProfile.bio),
                   ),
                 );
                 if (updatedAboutMe != null) {
                   setState(() {
-                    widget.userProfile.bio = updatedAboutMe;
+                    userProfile.bio = updatedAboutMe;
                   });
-                  await widget.userProfile.updateBio(updatedAboutMe);
+                  await userProfile.updateBio(updatedAboutMe);
                 }
               },
               child: const Text("Edit", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
@@ -251,7 +254,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
-  // Top Artists Card
   Widget _buildTopArtistsCard() {
     return Container(
       width: 300,
@@ -267,100 +269,32 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             offset: Offset(0, 2),
           ),
         ],
-      ),child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                "Top Artists",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
-              ),
-              const SizedBox(height: 10),
-              favoriteArtists.isEmpty
-                  ? const Text("No top artists available.", 
-                      style: TextStyle(fontSize: 16, color: Colors.black54))
-                  : Column(
-                      children: favoriteArtists
-                          .take(5) // Ensure only top 5 artists are displayed
-                          .map((artist) => Text(artist, 
-                              style: const TextStyle(fontSize: 16, color: Colors.black)))
-                          .toList(),
-                    ),
-            ],
-          ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              "Top Artists",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+            ),
+            const SizedBox(height: 10),
+            favoriteArtists.isEmpty
+                ? const Text("No top artists available.", 
+                    style: TextStyle(fontSize: 16, color: Colors.black54))
+                : Column(
+                    children: favoriteArtists
+                        .take(5) // Ensure only top 5 artists are displayed
+                        .map((artist) => Text(artist, 
+                            style: const TextStyle(fontSize: 16, color: Colors.black)))
+                        .toList(),
+                  ),
+          ],
         ),
+      ),
     );
   }
-
-  // // Top Genres Card
-  // Widget _buildTopGenresCard() {
-  //   return Card(
-  //     elevation: 6.0,
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.circular(12.0),
-  //     ),
-  //     margin: const EdgeInsets.all(16.0),
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(16.0),
-  //       child: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.center,
-  //         children: [
-  //           const Text(
-  //             "Top Genres",
-  //             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
-  //           ),
-  //           const SizedBox(height: 10),
-  //           favoriteGenres.isEmpty
-  //               ? const Text("No top genres available.", 
-  //                   style: TextStyle(fontSize: 16, color: Colors.black54))
-  //               : Column(
-  //                   children: favoriteGenres
-  //                       .take(5) // Ensure only top 5 genres are displayed
-  //                       .map((genre) => Text(genre, 
-  //                           style: const TextStyle(fontSize: 16, color: Colors.black)))
-  //                       .toList(),
-  //                 ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // // Top Songs Card
-  // Widget _buildTopSongsCard() {
-  //   return Card(
-  //     elevation: 6.0,
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.circular(12.0),
-  //     ),
-  //     margin: const EdgeInsets.all(16.0),
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(16.0),
-  //       child: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.center,
-  //         children: [
-  //           const Text(
-  //             "Top Songs",
-  //             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
-  //           ),
-  //           const SizedBox(height: 10),
-  //           favoriteSongs.isEmpty
-  //               ? const Text("No top songs available.", 
-  //                   style: TextStyle(fontSize: 16, color: Colors.black54))
-  //               : Column(
-  //                   children: favoriteSongs
-  //                       .take(5) // Ensure only top 5 songs are displayed
-  //                       .map((song) => Text(song, 
-  //                           style: const TextStyle(fontSize: 16, color: Colors.black)))
-  //                       .toList(),
-  //                 ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
 }
 
 // ------------------ Edit About Me Screen ------------------
@@ -374,7 +308,6 @@ class EditAboutMeScreen extends StatefulWidget {
 
 class _EditAboutMeScreenState extends State<EditAboutMeScreen> {
   final TextEditingController _controller = TextEditingController();
-
 
   @override
   void initState() {

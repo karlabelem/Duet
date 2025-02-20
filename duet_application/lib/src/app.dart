@@ -48,6 +48,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void openUserProfileScreen(UserProfileData user) {
+    print(user.toMap().toString());
     setState(() {
       loggedInUser = user;
       appState = AppState.userProfile;
@@ -131,7 +132,7 @@ class _MyAppState extends State<MyApp> {
                     body: IndexedStack(
                       index: appState == AppState.userProfile ? 0 : 1,
                       children: [
-                        UserProfileScreen(userProfile: loggedInUser!),
+                        UserProfileScreen(userUuid: loggedInUser!.uuid),
                         MessagingPage(
                           loggedInUser: loggedInUser!,
                         ),

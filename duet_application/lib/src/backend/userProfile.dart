@@ -28,6 +28,7 @@ class UserProfileData {
   List<String> dislikedUsers; // Stores liked users with user UUIDs
 
   UserProfileData({
+    uuid,
     required this.name,
     required this.email,
     required this.dob,
@@ -37,7 +38,7 @@ class UserProfileData {
     this.bio = "",
     List<String>? likedUsers,
     List<String>? dislikedUsers,
-  })  : _uuid = _uuidGen.v4(),
+  })  : _uuid = uuid ?? _uuidGen.v4(),
         likedUsers = likedUsers ?? [],
         dislikedUsers = dislikedUsers ?? [];
 
@@ -60,6 +61,7 @@ class UserProfileData {
   // Create an instance from Firestore data
   factory UserProfileData.fromMap(Map<String, dynamic> data) {
     return UserProfileData(
+      uuid: data['uuid'] ?? '',
       name: data['name'] ?? '',
       email: data['email'] ?? '',
       dob: data['dob'] ?? '',
@@ -111,7 +113,7 @@ class UserProfileData {
 
   // Method for getting UserProfile Snapshot shortcut
   // For Algorithm
-  Future<UserProfileData?> getUserProfile(String userId) async {
+  static Future<UserProfileData?> getUserProfile(String userId) async {
     final userRef = FirebaseFirestore.instance
         .collection('users')
         .doc(userId); // fetch data from Firestore users collection
@@ -183,6 +185,7 @@ class UserProfileData {
   // For UI
   Future<int> updateProfile(String newName, String newEmail, String newDob, String newLocation) async {
     try {
+      print(uuid);
       final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
 
       // Update profile details directly in Firestore without a transaction
@@ -226,7 +229,6 @@ Future<UserProfileData?> getUserProfileByEmailAndPassword(dynamic email, dynamic
       .where('password', isEqualTo: password)
       .limit(1)
       .get();
-  print(userQuery.docs.first.data());
   if (userQuery.docs.isNotEmpty) {
     return UserProfileData.fromMap(userQuery.docs.first.data());
   }
