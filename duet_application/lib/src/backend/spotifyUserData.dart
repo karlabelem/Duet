@@ -1,8 +1,41 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:convert';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'userProfile.dart';
+
+enum MusicGenre {
+  rock,
+  pop,
+  jazz,
+  classical,
+  hipHop,
+  electronic,
+  country,
+  reggae,
+  blues,
+  metal,
+  folk,
+  punk,
+  soul,
+  rnb,
+  latin,
+  disco,
+  funk,
+  techno,
+  house,
+  trance,
+  dubstep,
+  drumAndBass,
+  ambient,
+  indie,
+  alternative,
+  kpop,
+  jpop,
+  cpop,
+  world,
+  soundtrack,
+}
 
 class SpotifyUserData {
   // TODO !!
@@ -10,29 +43,29 @@ class SpotifyUserData {
   static const String _clientId = '4dbf19a959ff4c3bb0992c29ce581668';
   static const String _clientSecret = 'e4fa3a54db064be3bdae30d26bb33b12';
   static const String _redirectUri = 'https://api.spotify.com';
-  static const String _spotifyAuthUrl =
-      'https://accounts.spotify.com/authorize';
-  static const String _spotifyTokenUrl =
-      'https://accounts.spotify.com/api/token';
+  static const String _spotifyAuthUrl = 'https://accounts.spotify.com/authorize';
+  static const String _spotifyTokenUrl = 'https://accounts.spotify.com/api/token';
   static const String _spotifyApiUrl = 'https://api.spotify.com/v1';
 
   final String uuid;
-  String username;
+  String? username;
   String email;
-  String accessToken;
-  String refreshToken;
+  String? accessToken;
+  String? refreshToken;
   List<dynamic>?
       favoriteArtists; // IDK if we should limit these data structures
   List<dynamic>? favoriteTracks;
+  List<dynamic>? favoriteGenres;
 
   SpotifyUserData({
     required this.uuid,
-    required this.accessToken,
-    required this.refreshToken,
-    required this.username,
+    this.accessToken,
+    this.refreshToken,
+    this.username,
     required this.email,
     this.favoriteArtists,
     this.favoriteTracks,
+    this.favoriteGenres,
   });
 
   /// Create and store a new Spotify profile in Firestore.
@@ -74,6 +107,7 @@ class SpotifyUserData {
     final tokenResponse = await http.post(
       Uri.parse(_spotifyTokenUrl),
       headers: {
+        'Authorization': 'Basic ${base64Encode(utf8.encode('$_clientId:$_clientSecret'))}',
         'Authorization':
             'Basic ${base64Encode(utf8.encode('$_clientId:$_clientSecret'))}',
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -103,8 +137,7 @@ class SpotifyUserData {
     final response = await http.post(
       Uri.parse(_spotifyTokenUrl),
       headers: {
-        'Authorization':
-            'Basic ${base64Encode(utf8.encode('$_clientId:$_clientSecret'))}',
+        'Authorization': 'Basic ${base64Encode(utf8.encode('$_clientId:$_clientSecret'))}',
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: {
@@ -165,12 +198,10 @@ class SpotifyUserData {
   // Fetch genre based on top artists
   Future<List<String>> fetchGenre() async {
     final artists = await fetchArtists();
-    final genres = <String>{};
-
+    final genres = <String>{};  
     for (final artist in artists) {
       genres.addAll((artist['genres'] as List).cast<String>());
     }
-
     return genres.toList();
   }
 
@@ -194,6 +225,7 @@ class SpotifyUserData {
 
   // Convert to Firestore map
   Map<String, dynamic> toMap() {
+
     return {
       'uuid': uuid,
       'accessToken': accessToken,
@@ -202,6 +234,7 @@ class SpotifyUserData {
       'email': email,
       'favoriteArtists': favoriteArtists,
       'favoriteTracks': favoriteTracks,
+      'favoriteGenres': favoriteGenres,
     };
   }
 
@@ -229,4 +262,11 @@ class SpotifyUserData {
         .doc(uuid)
         .set(toMap());
   }
+
+  List<Map<String, dynamic>> getFavoriteGenres() {
+    // Fetch the favorite genres from Firestore or any other source
+    // Here, we assume that the genres are stored in the 'favoriteGenres' field
+    return favoriteGenres!.map((genre) => {'name': genre}).toList();
+  }
 }
+

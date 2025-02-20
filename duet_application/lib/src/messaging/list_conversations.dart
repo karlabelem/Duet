@@ -2,10 +2,11 @@ import 'package:duet_application/src/backend/dm_list_backend.dart';
 import 'package:flutter/material.dart';
 
 class ConversationList extends StatefulWidget {
-  ConversationList({super.key, required this.loggedInUser, required this.onConversationSelected});
+  ConversationList({super.key, required this.loggedInUser, required this.onConversationSelected})
+      : conversations = DmListBackend(uuid1: loggedInUser);
 
   final String loggedInUser;
-  late final DmListBackend conversations; // List of conversations
+  final DmListBackend conversations; // List of conversations
   final Function(String) onConversationSelected;
 
   @override
@@ -19,7 +20,6 @@ class _ConversationListState extends State<ConversationList> {
   @override
   void initState() {
     super.initState();
-    widget.conversations = DmListBackend(uuid1: widget.loggedInUser);
     _fetchConversations = _initializeConversations();
   }
 
@@ -78,7 +78,7 @@ class _ConversationListState extends State<ConversationList> {
                     shrinkWrap: true,
                     padding: EdgeInsets.all(10),
                     itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
+                      return GestureDetector(
                         onTap: () {
                           widget.onConversationSelected(extractOtherUser(widget.conversations.conversations[index]));
                         },
@@ -86,26 +86,26 @@ class _ConversationListState extends State<ConversationList> {
                           margin: EdgeInsets.symmetric(vertical: 5),
                           padding: EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                            color: Colors.grey,
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(0, 3),
-                            ),
-                          ],
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
                           ),
                           child: Text(
-                          extractOtherUser(widget.conversations.conversations[index]),
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Color(0xFF5C469C), // Text color
-                          ),
+                            extractOtherUser(widget.conversations.conversations[index]),
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Color(0xFF5C469C), // Text color
+                            ),
                           ),
                         ),
-                        );
+                      );
                     },
                   ),
                 ],
