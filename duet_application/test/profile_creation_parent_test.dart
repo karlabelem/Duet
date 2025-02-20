@@ -9,22 +9,19 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('ProfileCreationParent Widget Tests', () {
-    testWidgets('Initial state shows AccountRegistration',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(MaterialApp(home: ProfileCreationParent()));
+    testWidgets('Initial state shows AccountRegistration', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: ProfileCreationParent(nextStep: () {})));
       expect(find.byType(AccountRegistration), findsOneWidget);
     });
 
-    testWidgets('Navigation through steps works correctly',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(MaterialApp(home: ProfileCreationParent()));
+    testWidgets('Navigation through steps works correctly', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: ProfileCreationParent(nextStep: () {})));
 
       // Initial state - AccountRegistration
       expect(find.byType(AccountRegistration), findsOneWidget);
 
       // Move to Step 1
-      final state = tester.state<ProfileCreationParentState>(
-          find.byType(ProfileCreationParent));
+      final state = tester.state<ProfileCreationParentState>(find.byType(ProfileCreationParent));
       state.nextStep({'email': 'test@test.com', 'password': 'password123'});
       await tester.pump();
       expect(find.byType(ProfileCreationStep1), findsOneWidget);
@@ -45,12 +42,10 @@ void main() {
       expect(find.byType(ProfileCreationStep4), findsOneWidget);
     });
 
-    testWidgets('UserRegistrationData is updated correctly',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(MaterialApp(home: ProfileCreationParent()));
+    testWidgets('UserRegistrationData is updated correctly', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: ProfileCreationParent(nextStep: () {})));
 
-      final state = tester.state<ProfileCreationParentState>(
-          find.byType(ProfileCreationParent));
+      final state = tester.state<ProfileCreationParentState>(find.byType(ProfileCreationParent));
 
       // Test email and password update
       state.nextStep({'email': 'test@test.com', 'password': 'password123'});
