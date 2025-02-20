@@ -262,5 +262,11 @@ class SpotifyUserData {
         .doc(uuid)
         .set(toMap());
   }
+
+  List<Map<String, dynamic>> getFavoriteGenres() {
+    // Fetch the favorite genres from Firestore or any other source
+    // Here, we assume that the genres are stored in the 'favoriteGenres' field
+    return favoriteGenres!.map((genre) => {'name': genre}).toList();
+  }
 }
 

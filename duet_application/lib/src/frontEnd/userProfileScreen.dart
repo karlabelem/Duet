@@ -14,31 +14,27 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   late Future<UserProfileData?> _userProfileFuture;
-  List<String> favoriteArtists = [];
+  late Future<List<String>> _favoriteGenresFuture;
 
   @override
   void initState() {
     super.initState();
     _userProfileFuture = _fetchUserProfile();
+    _favoriteGenresFuture = _loadTopGenres();
   }
 
   Future<UserProfileData?> _fetchUserProfile() async {
     return await UserProfileData.getUserProfile(widget.userUuid);
   }
 
-  Future<void> _loadTopArtists() async {
+  Future<List<String>> _loadTopGenres() async {
     // Replace with the actual UUID of the logged-in user
     String userUuid = widget.userUuid;
 
-    SpotifyUserData userData = await SpotifyUserData.get(userUuid);
-    final artists = await userData.fetchArtists(limit: 5); // Get top 5 artists
-
-    setState(() {
-      favoriteArtists =
-          artists.map((artist) => artist['name'] as String).toList();
-    });
+    SpotifyUserData? userData = await SpotifyUserData.get(userUuid);
+    final genres = userData.getFavoriteGenres(); // Get top 5 genres
+    return genres.map((genre) => genre['name'] as String).toList();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +88,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   const SizedBox(width: 16),
                   _buildAboutMeCard(userProfile), // About Me section next to Profile Card
                   const SizedBox(width: 16),
-                  _buildTopArtistsCard(), // Music section next to About Me section
+                  _buildTopGenresCard(), // Music section next to About Me section
                   const SizedBox(width: 16),
                 ],
               ),
@@ -254,45 +250,56 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
-  Widget _buildTopArtistsCard() {
-    return Container(
-      width: 300,
-      margin: const EdgeInsets.all(16.0),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 6.0,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              "Top Artists",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+  Widget _buildTopGenresCard() {
+    return FutureBuilder<List<String>>(
+      future: _favoriteGenresFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No top genres available.'));
+        } else {
+          final favoriteGenres = snapshot.data!;
+          return Container(
+            width: 300,
+            margin: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 6.0,
+                  offset: Offset(0, 2),
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
-            favoriteArtists.isEmpty
-                ? const Text("No top artists available.", 
-                    style: TextStyle(fontSize: 16, color: Colors.black54))
-                : Column(
-                    children: favoriteArtists
-                        .take(5) // Ensure only top 5 artists are displayed
-                        .map((artist) => Text(artist, 
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Top Genres",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                  const SizedBox(height: 10),
+                  Column(
+                    children: favoriteGenres
+                        .take(5) // Ensure only top 5 genres are displayed
+                        .map((genre) => Text(genre, 
                             style: const TextStyle(fontSize: 16, color: Colors.black)))
                         .toList(),
                   ),
-          ],
-        ),
-      ),
+                ],
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }
