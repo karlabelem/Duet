@@ -15,6 +15,7 @@ class MessagingPage extends StatefulWidget {
 class _MessagingPageState extends State<MessagingPage> {
   bool _isDMListPage = true;
   String _otherUser = "";
+  String _otherUserName = "";
 
   void _goToDMListPage() {
     setState(() {
@@ -22,17 +23,19 @@ class _MessagingPageState extends State<MessagingPage> {
     });
   }
 
-  void _goToIndividualDMPage(String otherUser) {
+  void _goToIndividualDMPage(String otherUser, String otherUserName) {
     setState(() {
       _isDMListPage = false;
       _otherUser = otherUser;
+      _otherUserName = otherUserName;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.loggedInUserId);
     return Scaffold(
-      body: _isDMListPage ? ConversationList(loggedInUser: widget.loggedInUserId, onConversationSelected: _goToIndividualDMPage,) : IndividualDMPage(senderId: widget.loggedInUserId, receiverId: _otherUser, goBack: _goToDMListPage,),
+      body: _isDMListPage ? ConversationList(loggedInUser: widget.loggedInUserId, onConversationSelected: _goToIndividualDMPage,) : IndividualDMPage(loggedInUser: widget.loggedInUserId, otherUser: _otherUser, goBack: _goToDMListPage, otherUserName: _otherUserName,),
     );
   }
 }

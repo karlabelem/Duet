@@ -7,15 +7,17 @@ import '../backend/messaging_backend.dart';
 class IndividualDMPage extends StatefulWidget {
   IndividualDMPage({
     super.key,
-    required this.senderId,
-    required this.receiverId,
+    required this.loggedInUser,
+    required this.otherUser,
     required this.goBack,
+    required this.otherUserName,
   });
 
-  final String senderId;
-  final String receiverId;
+  final String loggedInUser;
+  final String otherUser;
   late Messagingbackend messages;
   final Function() goBack;
+  final otherUserName;
 
   @override
   State<IndividualDMPage> createState() => _IndividualDMPageState();
@@ -30,19 +32,19 @@ class _IndividualDMPageState extends State<IndividualDMPage> {
   @override
   void initState() {
     super.initState();
-    // widget.messages = Messagingbackend(uuid1: widget.senderId, uuid2: widget.receiverId);
+    // widget.messages = Messagingbackend(uuid1: widget.loggedInUser, uuid2: widget.otherUser,);
     _fetchMessages = getMessages();
   }
 
   /// gets conversation from firestore
   Future<Messagingbackend> getMessages() async {
     // get conversation if previous one exists
-    Messagingbackend? msgs = await getConversation(widget.senderId, widget.receiverId);
+    Messagingbackend? msgs = await getConversation(widget.loggedInUser, widget.otherUser,);
     
     // create and save conversation if a new one is needed
     if(msgs == null) {
       // create new conversation
-      msgs = Messagingbackend(uuid1: widget.senderId, uuid2: widget.receiverId);
+      msgs = Messagingbackend(uuid1: widget.loggedInUser, uuid2: widget.otherUser,);
       int exitCode = await msgs.saveToFirestore();
       if (exitCode != 0) {
         // ignore: avoid_print
@@ -54,7 +56,7 @@ class _IndividualDMPageState extends State<IndividualDMPage> {
 
   /// creates Message object and connects to firebase
   Future<void> sendMessage(String text) async {
-    final msg = Message(widget.senderId, widget.receiverId, text);
+    final msg = Message(widget.loggedInUser, widget.otherUser, text);
     int exitCode = await widget.messages.sendMessage(msg);
     if (exitCode != 0) {
       // ignore: avoid_print
@@ -73,7 +75,7 @@ class _IndividualDMPageState extends State<IndividualDMPage> {
         home: Scaffold(
             appBar: AppBar(
               title: Text(
-              widget.receiverId,
+              widget.otherUserName,
               style: TextStyle(color: Colors.white),
               ),
               backgroundColor: Color(0xFFD4ADFC),
@@ -98,7 +100,7 @@ class _IndividualDMPageState extends State<IndividualDMPage> {
                         itemBuilder: (BuildContext context, int index) {
                           return TextBubble(
                               msg: widget.messages.conversation[index],
-                              sender: widget.senderId);
+                              sender: widget.loggedInUser);
                         });
                   }
                 }),

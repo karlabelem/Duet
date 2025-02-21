@@ -2,12 +2,10 @@ import 'package:duet_application/src/backend/dm_list_backend.dart';
 import 'package:flutter/material.dart';
 
 class ConversationList extends StatefulWidget {
-  ConversationList({super.key, required this.loggedInUser, required this.onConversationSelected})
-      : conversations = DmListBackend(uuid1: loggedInUser);
+  ConversationList({super.key, required this.loggedInUser, required this.onConversationSelected});
 
   final String loggedInUser;
-  final DmListBackend conversations; // List of conversations
-  final Function(String) onConversationSelected;
+  final Function(String, String) onConversationSelected;
 
   @override
   State<ConversationList> createState() => _ConversationListState();
@@ -15,7 +13,7 @@ class ConversationList extends StatefulWidget {
 
 /// Widget that displays the list of conversations a user has
 class _ConversationListState extends State<ConversationList> {
-  late Future<void> _fetchConversations;
+  late Future<DmListBackend> _fetchConversations;
 
   @override
   void initState() {
@@ -24,9 +22,18 @@ class _ConversationListState extends State<ConversationList> {
   }
 
   /// Initialize the conversations from backend
-  Future<void> _initializeConversations() async {
-    await widget.conversations.getDocumentsWithUuidSubstring(widget.loggedInUser);
-    await widget.conversations.saveToFirestore();
+  Future<DmListBackend> _initializeConversations() async {
+    DmListBackend? convos = await getConversation(widget.loggedInUser);
+    if (convos == null) {
+      convos = DmListBackend(uuid1: widget.loggedInUser);
+      await convos.getDocumentsWithUuidSubstring(widget.loggedInUser);
+      await convos.saveToFirestore();
+      return convos;
+    }
+    else {
+      return convos;
+    }
+    
   }
 
   String extractOtherUser(String cid) {
@@ -42,7 +49,7 @@ class _ConversationListState extends State<ConversationList> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFD4ADFC), // Background color
-      body: FutureBuilder<void>(
+      body: FutureBuilder<DmListBackend>(
         future: _fetchConversations,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -50,6 +57,8 @@ class _ConversationListState extends State<ConversationList> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
+            DmListBackend dmlist = snapshot.data!;
+            print("made widget: ${dmlist.names}");
             return SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
@@ -74,13 +83,14 @@ class _ConversationListState extends State<ConversationList> {
                   ),
                   ListView.builder(
                     scrollDirection: Axis.vertical,
-                    itemCount: widget.conversations.conversations.length,
+                    itemCount: dmlist.conversations.length,
                     shrinkWrap: true,
                     padding: EdgeInsets.all(10),
                     itemBuilder: (BuildContext context, int index) {
+                      String otherUser = extractOtherUser(dmlist.conversations[index]);
                       return GestureDetector(
                         onTap: () {
-                          widget.onConversationSelected(extractOtherUser(widget.conversations.conversations[index]));
+                          widget.onConversationSelected(otherUser, dmlist.names[index][otherUser]!);
                         },
                         child: Container(
                           margin: EdgeInsets.symmetric(vertical: 5),
@@ -98,7 +108,7 @@ class _ConversationListState extends State<ConversationList> {
                             ],
                           ),
                           child: Text(
-                            extractOtherUser(widget.conversations.conversations[index]),
+                            dmlist.names[index][otherUser]!,
                             style: TextStyle(
                               fontSize: 18,
                               color: Color(0xFF5C469C), // Text color

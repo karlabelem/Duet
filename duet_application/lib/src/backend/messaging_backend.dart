@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:duet_application/src/backend/userProfile.dart';
+import 'package:duet_application/src/backend/userProfile.dart'; // Import the library that defines getUserProfile
 
 class Messagingbackend {
 /// the 2 users involved in this conversation
@@ -9,10 +11,12 @@ class Messagingbackend {
 
   /// unique conversation id composed of uuid1 appended with uuid2
   late final String cid;
+  late final String nameCid;
 
-  Messagingbackend(      {required this.uuid1, required this.uuid2, List<Message>? conversation})
+  Messagingbackend({required this.uuid1, required this.uuid2, List<Message>? conversation, String? nameCid})
       : conversation = conversation ?? [],
-        cid = makeCid(uuid1, uuid2);
+        cid = makeCid(uuid1, uuid2),
+        nameCid = nameCid ?? "";
 
   /// Turns data into map format for firebase
   Map<String, dynamic> toMap() {
@@ -20,7 +24,8 @@ class Messagingbackend {
       'cid': cid,
       'uuid1': uuid1,
       'uuid2': uuid2,
-      'conversation': conversation
+      'conversation': conversation,
+      'nameCid': nameCid,
     };
   }
 
@@ -33,12 +38,14 @@ class Messagingbackend {
     return Messagingbackend(
         uuid1: data['uuid1'],
         uuid2: data['uuid2'],
-        conversation: newConversation);
+        conversation: newConversation,
+        nameCid: data['nameCid']);
   }
 
   /// Save this conversation to firestore
   Future<int> saveToFirestore() async {
     try {
+      nameCid = await makeNameCid(uuid1, uuid2);
       await FirebaseFirestore.instance
           .collection('messages')
           .doc(cid)
@@ -79,6 +86,15 @@ String makeCid(String user1, String user2) {
     return "${user2}_$user1";
   }
   return "${user1}_$user2";
+}
+
+Future<String> makeNameCid(String user1, String user2) async {
+  UserProfileData? profile1 = await UserProfileData.getUserProfile(user1);
+  UserProfileData? profile2 = await UserProfileData.getUserProfile(user2);
+  if (user1.compareTo(user2) > 0) {
+    return "${profile2!.name}_${profile1!.name}";
+  }
+  return "${profile1!.name}_${profile2!.name}";
 }
 
 /// Get a conversation between 2 users from firestore
