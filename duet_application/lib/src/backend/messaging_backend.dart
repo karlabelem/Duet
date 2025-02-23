@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:duet_application/src/backend/userProfile.dart';
-import 'package:duet_application/src/backend/userProfile.dart'; // Import the library that defines getUserProfile
+import 'firestore_instance.dart';
 
 class Messagingbackend {
 /// the 2 users involved in this conversation
@@ -46,7 +46,7 @@ class Messagingbackend {
   Future<int> saveToFirestore() async {
     try {
       nameCid = await makeNameCid(uuid1, uuid2);
-      await FirebaseFirestore.instance
+      await firestoreInstance!.instance
           .collection('messages')
           .doc(cid)
           .set(toMap());
@@ -63,7 +63,7 @@ class Messagingbackend {
   Future<int> sendMessage(Message msg) async {
     try {
       // get current conversation
-      var convRef = FirebaseFirestore.instance.collection('messages').doc(cid);
+      var convRef = firestoreInstance!.instance.collection('messages').doc(cid);
 
       // update conversation on firestore
       conversation.add(msg);
@@ -100,7 +100,7 @@ Future<String> makeNameCid(String user1, String user2) async {
 /// Get a conversation between 2 users from firestore
 Future<Messagingbackend?> getConversation(String user1, String user2) async {
   try {
-    var convRef = FirebaseFirestore.instance.collection('messages').doc(makeCid(user1, user2));
+    var convRef = firestoreInstance!.instance.collection('messages').doc(makeCid(user1, user2));
     var convSnapshot = await convRef.get();
     if (convSnapshot.exists) {
       print("Found conversation with ID: ${user1}_$user2");

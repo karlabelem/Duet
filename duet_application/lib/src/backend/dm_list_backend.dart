@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:duet_application/src/backend/userProfile.dart';
+import 'firestore_instance.dart';
 
 class DmListBackend {
   /// The uuid of the user logged in
@@ -30,7 +31,7 @@ class DmListBackend {
 
   Future<int> saveToFirestore() async {
     try {
-      await FirebaseFirestore.instance
+      await firestoreInstance!.instance
           .collection('dm_list')
           .doc(uuid1)
           .set(toMap());
@@ -47,7 +48,7 @@ class DmListBackend {
     List<String> documentNames = [];
     List<Map<String, String>> userNames = [];
     try {
-      final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+      final QuerySnapshot querySnapshot = await firestoreInstance!.instance
           .collection('messages')
           .get();
       for (var doc in querySnapshot.docs) {
@@ -72,7 +73,7 @@ class DmListBackend {
   /// Fetch conversations from Firestore
   Future<void> fetchConversations() async {
     try {
-      final DocumentSnapshot doc = await FirebaseFirestore.instance
+      final DocumentSnapshot doc = await firestoreInstance!.instance
           .collection('dm_list')
           .doc(uuid1)
           .get();
@@ -90,7 +91,7 @@ class DmListBackend {
 /// Get the list of conversations a user has
 Future<DmListBackend?> getConversation(String uuid1) async {
   try {
-    final DocumentSnapshot doc = await FirebaseFirestore.instance
+    final DocumentSnapshot doc = await firestoreInstance!.instance
         .collection('dm_list')
         .doc(uuid1)
         .get();
