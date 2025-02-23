@@ -2,34 +2,38 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:duet_application/src/backend/userProfile.dart';
 import 'firestore_instance.dart';
 
+/// A class that manages the direct message (DM) conversations between two users.
 class Messagingbackend {
-/// the 2 users involved in this conversation
-    final String uuid1, uuid2;
-  
-  /// list of messages between both users
+  /// The UUIDs of the two users involved in this conversation.
+  final String uuid1, uuid2;
+
+  /// List of messages between both users.
   List<Message> conversation;
 
-  /// unique conversation id composed of uuid1 appended with uuid2
+  /// Unique conversation ID composed of uuid1 appended with uuid2.
   late final String cid;
+
+  /// Unique name-based conversation ID composed of the names of the two users.
   late final String nameCid;
 
+  /// Constructor that initializes the Messagingbackend with the given UUIDs and optional conversation and nameCid.
   Messagingbackend({required this.uuid1, required this.uuid2, List<Message>? conversation, String? nameCid})
       : conversation = conversation ?? [],
         cid = makeCid(uuid1, uuid2),
         nameCid = nameCid ?? "";
 
-  /// Turns data into map format for firebase
+  /// Converts the Messagingbackend instance to a map for Firestore.
   Map<String, dynamic> toMap() {
     return {
       'cid': cid,
       'uuid1': uuid1,
       'uuid2': uuid2,
-      'conversation': conversation,
+      'conversation': conversation.map((msg) => msg.toMap()).toList(),
       'nameCid': nameCid,
     };
   }
 
-  /// constructor from a map
+  /// Factory constructor that creates a Messagingbackend instance from a map.
   factory Messagingbackend.fromMap(Map<String, dynamic> data) {
     List<Message> newConversation = [];
     for (var msg in data['conversation']) {
@@ -42,7 +46,7 @@ class Messagingbackend {
         nameCid: data['nameCid']);
   }
 
-  /// Save this conversation to firestore
+  /// Saves this conversation to Firestore.
   Future<int> saveToFirestore() async {
     try {
       nameCid = await makeNameCid(uuid1, uuid2);
@@ -58,14 +62,14 @@ class Messagingbackend {
     }
   }
 
-  /// Update firestore on backend side when a user sends a message
-  /// Returns 0 if successful, 1 if not
+  /// Updates Firestore on the backend side when a user sends a message.
+  /// Returns 0 if successful, 1 if not.
   Future<int> sendMessage(Message msg) async {
     try {
-      // get current conversation
+      // Get current conversation.
       var convRef = firestoreInstance!.instance.collection('messages').doc(cid);
 
-      // update conversation on firestore
+      // Update conversation on Firestore.
       conversation.add(msg);
       List<dynamic> jsonConversation = [];
       for (var msg in conversation) {
@@ -81,13 +85,15 @@ class Messagingbackend {
   }
 }
 
+/// Generates a unique conversation ID based on the UUIDs of the two users.
 String makeCid(String user1, String user2) {
-  if(user1.compareTo(user2) > 0) {
+  if (user1.compareTo(user2) > 0) {
     return "${user2}_$user1";
   }
   return "${user1}_$user2";
 }
 
+/// Generates a unique name-based conversation ID based on the names of the two users.
 Future<String> makeNameCid(String user1, String user2) async {
   UserProfileData? profile1 = await UserProfileData.getUserProfile(user1);
   UserProfileData? profile2 = await UserProfileData.getUserProfile(user2);
@@ -97,7 +103,7 @@ Future<String> makeNameCid(String user1, String user2) async {
   return "${profile1!.name}_${profile2!.name}";
 }
 
-/// Get a conversation between 2 users from firestore
+/// Gets a conversation between two users from Firestore.
 Future<Messagingbackend?> getConversation(String user1, String user2) async {
   try {
     var convRef = firestoreInstance!.instance.collection('messages').doc(makeCid(user1, user2));
@@ -114,7 +120,7 @@ Future<Messagingbackend?> getConversation(String user1, String user2) async {
   }
 }
 
-/// Message object with the necessary information to process the object
+/// A class representing a message with the necessary information to process the object.
 class Message {
   const Message(this.sender, this.receiver, this.text);
 
@@ -122,10 +128,12 @@ class Message {
   final String receiver;
   final String text;
 
+  /// Factory constructor that creates a Message instance from a map.
   factory Message.fromMap(Map<String, dynamic> data) {
     return Message(data['sender'], data['receiver'], data['text']);
   }
 
+  /// Converts the Message instance to a map.
   Map<String, dynamic> toMap() {
     return {
       'sender': sender,
