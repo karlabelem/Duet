@@ -19,11 +19,6 @@ void main() async {
   // This prevents a sudden theme change when the app is first displayed.
   await settingsController.loadSettings();
 
-  // Run the app and pass in the SettingsController. The app listens to the
-  // SettingsController for changes, then passes it further down to the
-  // SettingsView.
-  //runApp(MyApp(settingsController: settingsController));
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -42,8 +37,4 @@ void main() async {
  makeFirestoreInstance(instance: FirebaseFirestore.instance);
  
   runApp(MyApp(settingsController: settingsController));
-
-  // await Firebase.initializeApp(
-  //   demoProjectId: "demo-project-id",
-  // );
 }
