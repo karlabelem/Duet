@@ -52,7 +52,7 @@ flutterfire configure
 # Install required gem for Xcode setup
 
 sudo gem install xcodeproj
-
+```
 
 ### Building the Application
 
