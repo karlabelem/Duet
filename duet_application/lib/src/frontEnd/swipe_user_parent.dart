@@ -25,6 +25,8 @@ class _SwipeUserParentState extends State<SwipeUserParent> {
   @override
   void initState() {
     super.initState();
+    // print('init Name: ${widget.currentUser.name}');
+    // print('init Email: ${widget.currentUser.email}');
     _loadDummyUsers();
     // _loadPotentialMatches();
   }
@@ -36,7 +38,7 @@ class _SwipeUserParentState extends State<SwipeUserParent> {
         uuid: "dummy1",
         name: "John Doe",
         email: "john@example.com",
-        dob: "1995-01-01",
+        dob: "01/01/1995",
         location: "New York",
         password: "dummy",
         bio: "I love music and concerts!",
@@ -45,7 +47,7 @@ class _SwipeUserParentState extends State<SwipeUserParent> {
         uuid: "dummy2",
         name: "Jane Smith",
         email: "jane@example.com",
-        dob: "1997-03-15",
+        dob: "03/15/1997",
         location: "Los Angeles",
         password: "dummy",
         bio: "Rock and indie music enthusiast",
@@ -54,10 +56,19 @@ class _SwipeUserParentState extends State<SwipeUserParent> {
         uuid: "dummy3",
         name: "Mike Johnson",
         email: "mike@example.com",
-        dob: "1993-07-22",
+        dob: "07/22/1993",
         location: "Chicago",
         password: "dummy",
         bio: "Jazz and blues lover",
+      ),
+      UserProfileData(
+        uuid: "dummy4",
+        name: "Gold Tooth",
+        email: "gt@inferno.com",
+        dob: "07/22/2001",
+        location: "Chicago",
+        password: "dummy",
+        bio: "Metal enjoyer",
       ),
     ];
 
@@ -71,7 +82,10 @@ class _SwipeUserParentState extends State<SwipeUserParent> {
     }
 
     // Filtering here, copy to real one too
-    final profileSubset = dummyMatching(dummyUsers);
+    print('AR Name: ${widget.currentUser.name}');
+    print('AR Email: ${widget.currentUser.email}');
+
+    final profileSubset = dummyMatching(dummyUsers, widget.currentUser);
     print('Filtered Users:');
     for (var user in profileSubset) {
       print('Name: ${user.name}');

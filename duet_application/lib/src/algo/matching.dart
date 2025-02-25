@@ -25,12 +25,30 @@ Eventually, updates tests with these. For now,
 
 // A matching algorithm that, given a list of UserProfileData, (1) removes users in a different city (2) ranks them by min age distance 
 
-List<UserProfileData> dummyMatching(List<UserProfileData> users) {
+List<UserProfileData> dummyMatching(List<UserProfileData> users, UserProfileData currentUser) {
   // Remove users in a different city
-  users.removeWhere((user) => user.location != "Chicago");
+  users.removeWhere((user) => user.location != currentUser.location);
 
-  // Rank users by min age distance
-  users.sort((a, b) => (DateTime.now().difference(DateTime.parse(a.dob)).inDays - DateTime.now().difference(DateTime.parse(b.dob)).inDays).abs());
+  // Rank users by min age distance from current user
+
+  // Assume M/D/YYYY format
+  users.sort((a, b) {
+    int ageA = DateTime.now().year - int.parse(a.dob.split('/')[2]);
+    int ageB = DateTime.now().year - int.parse(b.dob.split('/')[2]);
+    int ageDiffA = (ageA - int.parse(currentUser.dob.split('/')[2])).abs();
+    int ageDiffB = (ageB - int.parse(currentUser.dob.split('/')[2])).abs();
+    return ageDiffB.compareTo(ageDiffA);
+  });
+  
+  
+  // // YYYY-MM-DD format
+  // users.sort((a, b) {
+  //   int ageA = DateTime.now().year - int.parse(a.dob.split('-')[0]);
+  //   int ageB = DateTime.now().year - int.parse(b.dob.split('-')[0]);
+  //   int ageDiffA = (ageA - int.parse(currentUser.dob.split('-')[0])).abs();
+  //   int ageDiffB = (ageB - int.parse(currentUser.dob.split('-')[0])).abs();
+  //   return ageDiffA.compareTo(ageDiffB);
+  // });
 
   return users;
 }
