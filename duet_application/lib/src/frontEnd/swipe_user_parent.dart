@@ -24,7 +24,46 @@ class _SwipeUserParentState extends State<SwipeUserParent> {
   @override
   void initState() {
     super.initState();
-    _loadPotentialMatches();
+    _loadDummyUsers();
+    //_loadPotentialMatches();
+  }
+
+  void _loadDummyUsers() {
+    // Create dummy users for testing
+    final dummyUsers = [
+      UserProfileData(
+        uuid: "dummy1",
+        name: "John Doe",
+        email: "john@example.com",
+        dob: "1995-01-01",
+        location: "New York",
+        password: "dummy",
+        bio: "I love music and concerts!",
+      ),
+      UserProfileData(
+        uuid: "dummy2",
+        name: "Jane Smith",
+        email: "jane@example.com",
+        dob: "1997-03-15",
+        location: "Los Angeles",
+        password: "dummy",
+        bio: "Rock and indie music enthusiast",
+      ),
+      UserProfileData(
+        uuid: "dummy3",
+        name: "Mike Johnson",
+        email: "mike@example.com",
+        dob: "1993-07-22",
+        location: "Chicago",
+        password: "dummy",
+        bio: "Jazz and blues lover",
+      ),
+    ];
+
+    setState(() {
+      potentialMatches = dummyUsers;
+      isLoading = false;
+    });
   }
 
   Future<void> _loadPotentialMatches() async {
