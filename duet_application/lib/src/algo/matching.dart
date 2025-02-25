@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import '../backend/userProfile.dart';
 
 /*
 Well, Beta++ launches with dummy profiles. These look like 
@@ -22,6 +22,21 @@ Eventually, updates tests with these. For now,
 (4) compare data in Dummy to data in FireBase; update as needed
 
  */
+
+// A matching algorithm that, given a list of UserProfileData, (1) removes users in a different city (2) ranks them by min age distance 
+
+List<UserProfileData> dummyMatching(List<UserProfileData> users) {
+  // Remove users in a different city
+  users.removeWhere((user) => user.location != "Chicago");
+
+  // Rank users by min age distance
+  users.sort((a, b) => (DateTime.now().difference(DateTime.parse(a.dob)).inDays - DateTime.now().difference(DateTime.parse(b.dob)).inDays).abs());
+
+  return users;
+}
+
+
+
 
 class User {
   final String id;

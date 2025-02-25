@@ -71,10 +71,18 @@ class _SwipeUserParentState extends State<SwipeUserParent> {
     }
 
     // Filtering here, copy to real one too
-    final profileSubset = 
+    final profileSubset = dummyMatching(dummyUsers);
+    print('Filtered Users:');
+    for (var user in profileSubset) {
+      print('Name: ${user.name}');
+      print('Email: ${user.email}');
+      print('Location: ${user.location}');
+      print('Bio: ${user.bio}');
+      print('-------------------');
+    }
 
     setState(() {
-      potentialMatches = dummyUsers;
+      potentialMatches = profileSubset;
       isLoading = false;
     });
 
