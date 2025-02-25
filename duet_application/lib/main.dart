@@ -1,4 +1,6 @@
+import 'package:duet_application/src/backend/spotifyUserData.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'src/app.dart';
 import 'src/settings/settings_controller.dart';
@@ -24,7 +26,17 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp(settingsController: settingsController));
+
+  dotenv.load();
+
+  runApp(MaterialApp(
+    home: ElevatedButton(
+      onPressed: () async {
+        await SpotifyUserData.createSpotifyProfile("uuid");
+      },
+      child: Text("Create Spotify Profile"),
+    )
+  ));
 
   // await Firebase.initializeApp(
   //   demoProjectId: "demo-project-id",
