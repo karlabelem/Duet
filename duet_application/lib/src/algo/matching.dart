@@ -1,6 +1,60 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../backend/userProfile.dart';
+
+/*
+Well, Beta++ launches with dummy profiles. These look like 
+
+      UserProfileData(
+        uuid: "dummy3",
+        name: "Mike Johnson",
+        email: "mike@example.com",
+        dob: "1993-07-22",
+        location: "Chicago",
+        password: "dummy",
+        bio: "Jazz and blues lover",
+      ),
+
+Eventually, updates tests with these. For now, 
+(1) generate dummy set with expected behavior
+(2) write function to match them as expected
+(3) get confirmation from DUET member who can run frontend
+(4) compare data in Dummy to data in FireBase; update as needed
+
+ */
+
+// A matching algorithm that, given a list of UserProfileData, (1) removes users in a different city (2) ranks them by min age distance 
+
+List<UserProfileData> dummyMatching(List<UserProfileData> users, UserProfileData currentUser) {
+  // Remove users in a different city
+  users.removeWhere((user) => user.location != currentUser.location);
+
+  // Rank users by min age distance from current user
+
+  // Assume M/D/YYYY format
+  users.sort((a, b) {
+    int ageA = DateTime.now().year - int.parse(a.dob.split('/')[2]);
+    int ageB = DateTime.now().year - int.parse(b.dob.split('/')[2]);
+    int ageDiffA = (ageA - int.parse(currentUser.dob.split('/')[2])).abs();
+    int ageDiffB = (ageB - int.parse(currentUser.dob.split('/')[2])).abs();
+    return ageDiffB.compareTo(ageDiffA);
+  });
+  
+  
+  // // YYYY-MM-DD format
+  // users.sort((a, b) {
+  //   int ageA = DateTime.now().year - int.parse(a.dob.split('-')[0]);
+  //   int ageB = DateTime.now().year - int.parse(b.dob.split('-')[0]);
+  //   int ageDiffA = (ageA - int.parse(currentUser.dob.split('-')[0])).abs();
+  //   int ageDiffB = (ageB - int.parse(currentUser.dob.split('-')[0])).abs();
+  //   return ageDiffA.compareTo(ageDiffB);
+  // });
+
+  return users;
+}
+
+
+
 
 class User {
   final String id;

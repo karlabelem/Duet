@@ -1,12 +1,15 @@
 import 'package:duet_application/src/backend/userProfile.dart';
+import 'package:duet_application/src/frontEnd/swipe_user_parent.dart';
 import 'package:flutter/material.dart';
 import 'package:duet_application/src/backend/spotifyUserData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserProfileScreen extends StatefulWidget {
   final String userUuid;
+  final Function logOut;
 
-  const UserProfileScreen({super.key, required this.userUuid});
+  const UserProfileScreen(
+      {super.key, required this.userUuid, required this.logOut});
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -33,6 +36,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     SpotifyUserData? userData = await SpotifyUserData.get(userUuid);
     final genres = userData.getFavoriteGenres(); // Get top 5 genres
+    print(genres);
     return genres.map((genre) => genre['name'] as String).toList();
   }
 
@@ -48,7 +52,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             // Show the dropdown menu when the icon is pressed
             showMenu(
               context: context,
-              position: RelativeRect.fromLTRB(0, 60, 0, 0), // Adjust position of menu
+              position:
+                  RelativeRect.fromLTRB(0, 60, 0, 0), // Adjust position of menu
               items: <PopupMenuEntry>[
                 PopupMenuItem<String>(
                   value: 'HOME',
@@ -86,7 +91,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 children: [
                   _buildProfileCard(userProfile), // Profile Card
                   const SizedBox(width: 16),
-                  _buildAboutMeCard(userProfile), // About Me section next to Profile Card
+                  _buildAboutMeCard(
+                      userProfile), // About Me section next to Profile Card
                   const SizedBox(width: 16),
                   _buildTopGenresCard(), // Music section next to About Me section
                   const SizedBox(width: 16),
@@ -128,7 +134,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             const SizedBox(height: 10),
             Text(
               userProfile.name,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+              style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             const SizedBox(height: 5),
             _buildInfoRow("Name", userProfile.name),
@@ -163,6 +172,34 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 }
               },
               child: const Text("Edit Profile"),
+            ),
+            const SizedBox(height: 15),
+            ElevatedButton(
+              onPressed: () {
+                widget.logOut();
+              },
+              child: const Text("Log Out"),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF5C469C),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SwipeUserParent(
+                      currentUser: userProfile,
+                    ),
+                  ),
+                );
+              },
+              child: const Text(
+                'Start Swiping',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
@@ -222,9 +259,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("About Me", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black)),
+            Text("About Me",
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black)),
             const SizedBox(height: 10),
-            Text(userProfile.bio, textAlign: TextAlign.center, style: TextStyle(fontSize: 16, color: Colors.black)),
+            Text(userProfile.bio,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, color: Colors.black)),
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () async {
@@ -242,7 +285,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   await userProfile.updateBio(updatedAboutMe);
                 }
               },
-              child: const Text("Edit", style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
+              child: const Text("Edit",
+                  style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
             ),
           ],
         ),
@@ -284,14 +328,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 children: [
                   const Text(
                     "Top Genres",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
                   ),
                   const SizedBox(height: 10),
                   Column(
                     children: favoriteGenres
                         .take(5) // Ensure only top 5 genres are displayed
-                        .map((genre) => Text(genre, 
-                            style: const TextStyle(fontSize: 16, color: Colors.black)))
+                        .map((genre) => Text(genre,
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.black)))
                         .toList(),
                   ),
                 ],
@@ -310,7 +358,7 @@ class EditAboutMeScreen extends StatefulWidget {
   const EditAboutMeScreen({super.key, required this.bio});
 
   @override
-  State<EditAboutMeScreen>  createState() => _EditAboutMeScreenState();
+  State<EditAboutMeScreen> createState() => _EditAboutMeScreenState();
 }
 
 class _EditAboutMeScreenState extends State<EditAboutMeScreen> {
@@ -427,4 +475,3 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 }
-

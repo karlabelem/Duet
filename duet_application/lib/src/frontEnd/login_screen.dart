@@ -2,7 +2,8 @@ import 'package:duet_application/src/backend/userProfile.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key, required this.onLogin, required this.onRegister});
+  const LoginScreen(
+      {super.key, required this.onLogin, required this.onRegister});
 
   final Function(UserProfileData) onLogin;
   final Function onRegister;
@@ -101,22 +102,29 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.purple,
-                  shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24.0),
+              const SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't have an account? ",
+                    style: TextStyle(color: Colors.black87),
                   ),
-                  minimumSize: Size(double.infinity, 48.0),
-                ),
-                onPressed: () {
-                  widget.onRegister();
-                },
-                child: Text(
-                  "Register",
-                  style: TextStyle(color: Colors.white),
-                ),
-                ),
+                  TextButton(
+                    onPressed: () {
+                      widget.onRegister();
+                    },
+                    child: Text(
+                      "Register",
+                      style: TextStyle(
+                        color: Colors.purple,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
