@@ -12,6 +12,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 import 'spotifyUserData.dart';
+import 'firestore_instance.dart';
 
 // Create an instance of the Uuid class
 var _uuidGen = Uuid();
@@ -78,7 +79,7 @@ class UserProfileData {
 
   // Save user profile data to Firestore
   Future<void> saveToFirestore() async {
-    await FirebaseFirestore.instance
+    await firestoreInstance!.instance
         .collection('users')
         .doc(uuid)
         .set(toMap()); // creates users collection
@@ -87,7 +88,7 @@ class UserProfileData {
   // Method to get Spotify User Data
   // For algorihtm
   Future<SpotifyUserData?> getSpotifyUserData() async {
-    final spotifyRef = FirebaseFirestore.instance
+    final spotifyRef = firestoreInstance!.instance
         .collection('spotify_users')
         .doc(uuid); // fetch Spotify data based on the user UUID
     final spotifySnapshot = await spotifyRef.get();
@@ -114,7 +115,7 @@ class UserProfileData {
   // Method for getting UserProfile Snapshot shortcut
   // For Algorithm
   static Future<UserProfileData?> getUserProfile(String userId) async {
-    final userRef = FirebaseFirestore.instance
+    final userRef = firestoreInstance!.instance
         .collection('users')
         .doc(userId); // fetch data from Firestore users collection
     final userSnapshot = await userRef.get();
@@ -127,12 +128,12 @@ class UserProfileData {
   // Swipe function to update userprofile
   // For UI
   Future<void> swipeUser(String otherUuid, bool isLiked) async {
-    final userRef = FirebaseFirestore.instance
+    final userRef = firestoreInstance!.instance
         .collection('users')
         .doc(uuid); // fetch data from Firestore users collection
 
     // Transaction is for updating data in Firebase directly rather than updating on local class
-    await FirebaseFirestore.instance.runTransaction((transaction) async {
+    await firestoreInstance!.instance.runTransaction((transaction) async {
       // Access to user snapshot with transaction
       final userTransaction = await transaction.get(userRef);
       if (!userTransaction.exists) return;
@@ -167,7 +168,7 @@ class UserProfileData {
   // For UI
   Future<int> updateBio(String newBio) async {
     try {
-      final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
+      final userRef = firestoreInstance!.instance.collection('users').doc(uuid);
 
       // Update the bio directly in Firestore without a transaction
       await userRef.update({
@@ -186,7 +187,7 @@ class UserProfileData {
   Future<int> updateProfile(String newName, String newEmail, String newDob, String newLocation) async {
     try {
       print(uuid);
-      final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
+      final userRef = firestoreInstance!.instance.collection('users').doc(uuid);
 
       // Update profile details directly in Firestore without a transaction
       await userRef.update({
@@ -206,10 +207,10 @@ class UserProfileData {
   // Method to update profile picture
   // For UI
   Future<void> updateImage(String newImageUrl) async {
-    final userRef = FirebaseFirestore.instance.collection('users').doc(uuid);
+    final userRef = firestoreInstance!.instance.collection('users').doc(uuid);
 
     // Run a transaction to update profile details
-    await FirebaseFirestore.instance.runTransaction((transaction) async {
+    await firestoreInstance!.instance.runTransaction((transaction) async {
       final userTransaction = await transaction.get(userRef);
       if (!userTransaction.exists) return;
 
@@ -223,7 +224,7 @@ class UserProfileData {
 
 // Method to get user profile based on email and password
 Future<UserProfileData?> getUserProfileByEmailAndPassword(dynamic email, dynamic password) async {
-  final userQuery = await FirebaseFirestore.instance
+  final userQuery = await firestoreInstance!.instance
       .collection('users')
       .where('email', isEqualTo: email)
       .where('password', isEqualTo: password)

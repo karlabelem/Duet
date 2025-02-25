@@ -5,8 +5,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserProfileScreen extends StatefulWidget {
   final String userUuid;
+  final Function logOut;
 
-  const UserProfileScreen({super.key, required this.userUuid});
+  const UserProfileScreen({super.key, required this.userUuid, required this.logOut});
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -33,6 +34,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     SpotifyUserData? userData = await SpotifyUserData.get(userUuid);
     final genres = userData.getFavoriteGenres(); // Get top 5 genres
+    print(genres);
     return genres.map((genre) => genre['name'] as String).toList();
   }
 
@@ -163,6 +165,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 }
               },
               child: const Text("Edit Profile"),
+            ),
+            const SizedBox(height: 15),
+            ElevatedButton(
+              onPressed: () {
+              widget.logOut();
+              },
+              child: const Text("Log Out"),
             ),
           ],
         ),

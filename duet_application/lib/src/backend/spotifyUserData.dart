@@ -3,6 +3,7 @@ import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'userProfile.dart';
+import 'firestore_instance.dart';
 
 enum MusicGenre {
   rock,
@@ -86,7 +87,7 @@ class SpotifyUserData {
 
   // Get user data from Firestore
   static Future<SpotifyUserData> get(String uuid) async {
-    final doc = await FirebaseFirestore.instance
+    final doc = await firestoreInstance!.instance
         .collection('spotify_users')
         .doc(uuid)
         .get();
@@ -257,7 +258,7 @@ class SpotifyUserData {
 
   // Save to Firestore
   Future<void> save() async {
-    await FirebaseFirestore.instance
+    await firestoreInstance!.instance
         .collection('spotify_users')
         .doc(uuid)
         .set(toMap());
