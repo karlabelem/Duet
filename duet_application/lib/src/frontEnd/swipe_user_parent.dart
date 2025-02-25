@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../backend/userProfile.dart';
 import '../backend/spotifyUserData.dart';
 import 'swipeUser.dart';
+import '../algo/matching.dart';
 
 class SwipeUserParent extends StatefulWidget {
   final UserProfileData currentUser;
@@ -70,6 +71,7 @@ class _SwipeUserParentState extends State<SwipeUserParent> {
     }
 
     // Filtering here, copy to real one too
+    final profileSubset = 
 
     setState(() {
       potentialMatches = dummyUsers;

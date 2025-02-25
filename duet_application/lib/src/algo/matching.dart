@@ -1,6 +1,27 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+
+/*
+Well, Beta++ launches with dummy profiles. These look like 
+
+      UserProfileData(
+        uuid: "dummy3",
+        name: "Mike Johnson",
+        email: "mike@example.com",
+        dob: "1993-07-22",
+        location: "Chicago",
+        password: "dummy",
+        bio: "Jazz and blues lover",
+      ),
+
+Eventually, updates tests with these. For now, 
+(1) generate dummy set with expected behavior
+(2) write function to match them as expected
+(3) get confirmation from DUET member who can run frontend
+(4) compare data in Dummy to data in FireBase; update as needed
+
+ */
 
 class User {
   final String id;
