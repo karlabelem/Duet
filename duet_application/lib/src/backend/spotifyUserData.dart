@@ -41,8 +41,8 @@ enum MusicGenre {
 }
 
 class SpotifyUserData {
-  static const String _clientId = '4dbf19a959ff4c3bb0992c29ce581668';
-  static const String _clientSecret = 'e4fa3a54db064be3bdae30d26bb33b12';
+  static const String _clientId = '4dbf19a959ff4c3bb0992c29ce581668'; // String.fromEnvironment('SPOTIFY_CLIENT_ID')
+  static const String _clientSecret = 'e4fa3a54db064be3bdae30d26bb33b12'; // String.fromEnvironment('SPOTIFY_CLIENT_SECRET')
   static const String _redirectUri = 'http://localhost:8080/callback'; // Web redirect URI EDIT THIS TO OUR OWN
   static const String _spotifyAuthUrl = 'https://accounts.spotify.com/authorize';
   static const String _spotifyTokenUrl = 'https://accounts.spotify.com/api/token';
@@ -94,6 +94,48 @@ class SpotifyUserData {
     if (!doc.exists) throw Exception('User not found in Firestore');
     return SpotifyUserData.fromMap(doc.data()!);
   }
+
+  // // Connect with Spotify OAuth
+  // static Future<SpotifyUserData> connectWithSpotify(String uuid) async {
+  //   final authUrl = '$_spotifyAuthUrl?response_type=code&client_id=$_clientId'
+  //       '&redirect_uri=${Uri.encodeComponent(_redirectUri)}'
+  //       '&scope=${Uri.encodeComponent("user-top-read user-library-read user-read-email user-read-private")}';
+
+  //   final result = await FlutterWebAuth.authenticate(
+  //     url: authUrl,
+  //     callbackUrlScheme: "yourapp",
+  //   );
+
+  //   final code = Uri.parse(result).queryParameters['code'];
+  //   if (code == null) throw Exception('Authorization code not found');
+
+  //   final tokenResponse = await http.post(
+  //     Uri.parse(_spotifyTokenUrl),
+  //     headers: {
+  //       'Authorization': 'Basic ${base64Encode(utf8.encode('$_clientId:$_clientSecret'))}',
+  //       'Content-Type': 'application/x-www-form-urlencoded',
+  //     },
+  //     body: {
+  //       'grant_type': 'authorization_code',
+  //       'code': code,
+  //       'redirect_uri': _redirectUri,
+  //     },
+  //   );
+
+  //   if (tokenResponse.statusCode != 200) {
+  //     throw Exception('Failed to get token: ${tokenResponse.body}');
+  //   }
+
+  //   final tokenData = jsonDecode(tokenResponse.body);
+  //   final user = SpotifyUserData(
+  //     uuid: uuid,
+  //     accessToken: tokenData['access_token'],
+  //     refreshToken: tokenData['refresh_token'],
+  //   );
+
+  //   await user.fetchUserData();
+  //   return user;
+  // }
   
   // Connect with Spotify OAuth flow (web-only)
   static Future<SpotifyUserData> connectWithSpotify(String uuid) async {
