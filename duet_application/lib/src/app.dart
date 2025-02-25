@@ -3,6 +3,7 @@ import 'package:duet_application/src/frontEnd/login_screen.dart';
 import 'package:duet_application/src/frontEnd/userProfileScreen.dart';
 import 'package:duet_application/src/frontEnd/profile_creation/profile_creation_parent.dart';
 import 'package:duet_application/src/messaging/messaging_page.dart';
+import 'package:duet_application/src/frontEnd/swipe_user_parent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -13,7 +14,8 @@ enum AppState {
   profileCreation,
   userProfile,
   conversation,
-  login
+  login,
+  swipe,
   // Add other states as needed
 }
 
@@ -57,6 +59,12 @@ class _MyAppState extends State<MyApp> {
   void openConversationScreen() {
     setState(() {
       appState = AppState.conversation;
+    });
+  }
+
+  void openSwipeScreen() {
+    setState(() {
+      appState = AppState.swipe;
     });
   }
 
@@ -129,21 +137,36 @@ class _MyAppState extends State<MyApp> {
                       title: Text(AppLocalizations.of(context)!.appTitle),
                     ),
                     body: IndexedStack(
-                      index: appState == AppState.userProfile ? 0 : 1,
+                      index: appState == AppState.userProfile
+                          ? 0
+                          : appState == AppState.conversation
+                              ? 1
+                              : 2,
                       children: [
-                        UserProfileScreen(userUuid: loggedInUser!.uuid, logOut: openLoginScreen),
+                        UserProfileScreen(
+                            userUuid: loggedInUser!.uuid,
+                            logOut: openLoginScreen),
                         MessagingPage(
                           loggedInUser: loggedInUser!,
+                        ),
+                        SwipeUserParent(
+                          currentUser: loggedInUser!,
                         ),
                       ],
                     ),
                     bottomNavigationBar: BottomNavigationBar(
-                      currentIndex: appState == AppState.userProfile ? 0 : 1,
+                      currentIndex: appState == AppState.userProfile
+                          ? 0
+                          : appState == AppState.conversation
+                              ? 1
+                              : 2,
                       onTap: (index) {
                         if (index == 0) {
                           openUserProfileScreen(loggedInUser!);
-                        } else {
+                        } else if (index == 1) {
                           openConversationScreen();
+                        } else {
+                          openSwipeScreen();
                         }
                       },
                       items: const [
@@ -154,6 +177,10 @@ class _MyAppState extends State<MyApp> {
                         BottomNavigationBarItem(
                           icon: Icon(Icons.message),
                           label: 'Messages',
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Icon(Icons.favorite),
+                          label: 'Swipe',
                         ),
                       ],
                     ),
