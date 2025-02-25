@@ -18,13 +18,12 @@ DUET/
 ├── Status Reports/ # Weekly project status reports
 ├── proposal/ # Original project proposal and feedback
 ├── duet_application/ # Main Flutter application source code
-│ ├── lib/ # Core application code
+│ ├── lib/ # Core application code, in /src/
 │ ├── test/ # Test files
 │ ├── assets/ # Images, fonts, and other static files
 │ ├── android/ # Android-specific configurations
 │ ├── ios/ # iOS-specific configurations
 │ └── web/ # Web platform configurations
-└── data/ # Data files and resources
 ```
 
 
