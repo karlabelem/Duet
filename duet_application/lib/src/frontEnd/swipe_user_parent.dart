@@ -25,7 +25,7 @@ class _SwipeUserParentState extends State<SwipeUserParent> {
   void initState() {
     super.initState();
     _loadDummyUsers();
-    //_loadPotentialMatches();
+    // _loadPotentialMatches();
   }
 
   void _loadDummyUsers() {
@@ -60,10 +60,22 @@ class _SwipeUserParentState extends State<SwipeUserParent> {
       ),
     ];
 
+    print('Dummy Users:');
+    for (var user in dummyUsers) {
+      print('Name: ${user.name}');
+      print('Email: ${user.email}');
+      print('Location: ${user.location}');
+      print('Bio: ${user.bio}');
+      print('-------------------');
+    }
+
+    // Filtering here, copy to real one too
+
     setState(() {
       potentialMatches = dummyUsers;
       isLoading = false;
     });
+
   }
 
   Future<void> _loadPotentialMatches() async {
